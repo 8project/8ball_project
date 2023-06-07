@@ -1,5 +1,4 @@
-function market() {
+function Market() {
   return <div>sungyoon test commit</div>;
 }
-
-export default market;
+export default Market;

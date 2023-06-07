@@ -5,7 +5,6 @@ import Main from "./pages/main";
 function App() {
     return (
         <div>
-            hello
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="*" elememt={<NotFound />} />
