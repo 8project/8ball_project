@@ -1,4 +1,6 @@
+import { Box } from "@chakra-ui/react";
+
 function Market() {
-    return <div></div>;
+    return <Box>market page</Box>;
 }
 export default Market;

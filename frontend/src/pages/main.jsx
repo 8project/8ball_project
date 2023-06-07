@@ -1,20 +1,21 @@
+import { Box } from "@chakra-ui/react";
 import Footer from "../components/Footer";
 import Medium from "../components/Medium";
 import Top from "../components/Top";
 
 function Main() {
     return (
-        <div>
-            <div className="flex flex-col h-screen justify-center items-center">
+        <Box>
+            <Box className="flex flex-col h-screen justify-center items-center">
                 <Top />
-                <div className="flex-1 flex justify-center items-center">
-                    <div className="text-center">
+                <Box className="flex-1 flex justify-center items-center">
+                    <Box className="text-center">
                         <Medium />
-                    </div>
-                </div>
+                    </Box>
+                </Box>
                 <Footer />
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
 export default Main;
