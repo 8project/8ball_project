@@ -4,8 +4,8 @@ import { FaWallet } from "react-icons/fa";
 
 const Header = () => {
     return (
-        <Box className="max-w-[460px] min-w-[460px] bg-gray-200">
-            <Box className="flex justify-between  text-gray-800 gap-16 ml-4 mr-4 mt-2 mb-4">
+        <Box className="lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px]  bg-gray-200">
+            <Box className="flex justify-between  text-gray-800  py-4 px-6">
                 <Box>
                     <Image src={logo} boxSize="50px" />
                 </Box>
