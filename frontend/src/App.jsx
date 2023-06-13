@@ -4,7 +4,7 @@ import { Box } from "@chakra-ui/react";
 import NotFound from "./pages/notFound";
 import Main from "./pages/main";
 import Market from "./pages/market";
-import OwnerMarket from "./pages/ownerMarket";
+import PieceMarket from "./pages/pieceMarket";
 import Vote from "./pages/vote";
 import MyPage from "./pages/mypage";
 import Header from "./components/Header";
@@ -23,7 +23,7 @@ function App() {
                         <Route path="/" element={<Main />} />
                         <Route path="*" element={<NotFound />} />
                         <Route path="/market" element={<Market />} />
-                        <Route path="/ownermarket" element={<OwnerMarket />} />
+                        <Route path="/pieceMarket" element={<PieceMarket />} />
                         <Route path="/vote" element={<Vote />} />
                         <Route path="/mypage" element={<MyPage />} />
                     </Routes>

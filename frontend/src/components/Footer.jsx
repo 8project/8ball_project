@@ -19,10 +19,10 @@ const Footer = () => {
                         <Text className=" text-xs">Market</Text>
                     </Box>
                 </Link>
-                <Link to="/ownermarket">
+                <Link to="/pieceMarket">
                     <Box className="flex flex-col items-center hover:text-gray-300">
                         <BsShopWindow className="text-2xl" />
-                        <Text className="text-xs"> Owner Market</Text>
+                        <Text className="text-xs"> Piece Market</Text>
                     </Box>
                 </Link>
                 <Link to="/vote">
