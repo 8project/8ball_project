@@ -14,11 +14,11 @@ import Footer from "./components/Footer";
 function App() {
     const [account, setAccount] = useState("");
     return (
-        <Box className="flex justify-center">
+        <Box className="flex justify-center bg-gray-200 min-h-screen">
             <SideInfo />
-            <Box>
+            <Box className="relative">
                 <Header account={account} setAccount={setAccount} />
-                <Box className="flex justify-center lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px] border-l-2 border-r-2 min-h-[800px]">
+                <Box className="flex justify-center lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px]  min-h-screen bg-white">
                     <Routes>
                         <Route path="/" element={<Main />} />
                         <Route path="*" element={<NotFound />} />
