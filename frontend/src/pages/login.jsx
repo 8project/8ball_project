@@ -1,24 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { FaWallet } from "react-icons/fa";
 
 function Login() {
   const navigate = useNavigate();
 
-  // Function to handle successful wallet connection
   const handleWalletConnect = async () => {
     try {
       await window.ethereum.request({
         method: "eth_requestAccounts",
       });
 
+      localStorage.setItem("isLoggedIn", "true");
+
       navigate("/mypage");
     } catch (error) {
-      // Handle any errors that occur during the wallet connection process
       console.error("Wallet connection error:", error);
     }
   };
 
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn === "true") {
+      navigate("/mypage");
+    }
+  }, [navigate]);
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
       <Box className="text-center m-10 ">
