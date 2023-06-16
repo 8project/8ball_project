@@ -6,25 +6,21 @@ import { FaWallet } from "react-icons/fa";
 function Login() {
   const navigate = useNavigate();
 
-  // Function to handle successful wallet connection
   const handleWalletConnect = async () => {
     try {
       await window.ethereum.request({
         method: "eth_requestAccounts",
       });
 
-      // Save the login status to local storage
       localStorage.setItem("isLoggedIn", "true");
 
       navigate("/mypage");
     } catch (error) {
-      // Handle any errors that occur during the wallet connection process
       console.error("Wallet connection error:", error);
     }
   };
 
   useEffect(() => {
-    // Check if the user is already logged in
     const isLoggedIn = localStorage.getItem("isLoggedIn");
 
     if (isLoggedIn === "true") {
