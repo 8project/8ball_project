@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router-dom";
 function MyPage({ account }) {
   return (
     <Box>
@@ -17,19 +18,27 @@ function MyPage({ account }) {
       <div>
         <div className="border-b border-gray-400 flex justify-between items-center">
           <Box className="pb-2">My NFT</Box>
-          <IoIosArrowForward />
+          <Link to="/mypage/myNft">
+            <IoIosArrowForward />
+          </Link>
         </div>
         <div className="border-b border-gray-400 flex justify-between items-center">
           <Box className="pb-2">My Piece NFT</Box>
-          <IoIosArrowForward />
+          <Link to="/mypage/myPieceNft">
+            <IoIosArrowForward />
+          </Link>
         </div>
         <div className="border-b border-gray-400 flex justify-between items-center">
           <Box className="pb-2">In Progress</Box>
-          <IoIosArrowForward />
+          <Link to="/mypage/inProgress">
+            <IoIosArrowForward />
+          </Link>
         </div>
         <div className="border-b border-gray-400 flex justify-between items-center">
           <Box className="pb-2">On Sale</Box>
-          <IoIosArrowForward />
+          <Link to="/mypage/onSale">
+            <IoIosArrowForward />
+          </Link>
         </div>
       </div>
     </Box>
