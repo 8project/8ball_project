@@ -22,27 +22,27 @@ import nft20 from "../images/testFoloder/20220501000342_0-020.jpg";
 
 const Test = () => {
     return (
-        <Box className=" grid grid-cols-5 gap-1 mt-20">
-            <Image boxSize="50px" src={nft1} />
-            <Image boxSize="50px" src={nft2} />
-            <Image boxSize="50px" src={nft3} />
-            <Image boxSize="50px" src={nft4} />
-            <Image boxSize="50px" src={nft5} />
-            <Image boxSize="50px" src={nft6} />
-            <Image boxSize="50px" src={nft7} />
-            <Image boxSize="50px" src={nft8} />
-            <Image boxSize="50px" src={nft9} />
-            <Image boxSize="50px" src={nft10} />
-            <Image boxSize="50px" src={nft11} />
-            <Image boxSize="50px" src={nft12} />
-            <Image boxSize="50px" src={nft13} />
-            <Image boxSize="50px" src={nft14} />
-            <Image boxSize="50px" src={nft15} />
-            <Image boxSize="50px" src={nft16} />
-            <Image boxSize="50px" src={nft17} />
-            <Image boxSize="50px" src={nft18} />
-            <Image boxSize="50px" src={nft19} />
-            <Image boxSize="50px" src={nft20} />
+        <Box className=" grid grid-cols-5 gap-[2px] lg:w-[512px] w-[256px] border-2 border-white  rounded-t-md ">
+            <Image src={nft1} />
+            <Image src={nft2} />
+            <Image src={nft3} />
+            <Image src={nft4} />
+            <Image src={nft5} />
+            <Image src={nft6} />
+            <Image src={nft7} />
+            <Image src={nft8} />
+            <Image src={nft9} />
+            <Image src={nft10} />
+            <Image src={nft11} />
+            <Image src={nft12} />
+            <Image src={nft13} />
+            <Image src={nft14} />
+            <Image src={nft15} />
+            <Image src={nft16} />
+            <Image src={nft17} />
+            <Image src={nft18} />
+            <Image src={nft19} />
+            <Image src={nft20} />
         </Box>
     );
 };
