@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import NotFound from "./pages/notFound";
 import Main from "./pages/main";
-import Market from "./pages/market";
+import Market from "./pages/market/market";
 import PieceMarket from "./pages/pieceMarket";
 import Vote from "./pages/vote";
 import MyPage from "./pages/mypage";
