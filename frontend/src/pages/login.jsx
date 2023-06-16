@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { FaWallet } from "react-icons/fa";
 
 function Login() {
@@ -12,6 +13,9 @@ function Login() {
         method: "eth_requestAccounts",
       });
 
+      // Save the login status to local storage
+      localStorage.setItem("isLoggedIn", "true");
+
       navigate("/mypage");
     } catch (error) {
       // Handle any errors that occur during the wallet connection process
@@ -19,6 +23,14 @@ function Login() {
     }
   };
 
+  useEffect(() => {
+    // Check if the user is already logged in
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn === "true") {
+      navigate("/mypage");
+    }
+  }, [navigate]);
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
       <Box className="text-center m-10 ">
