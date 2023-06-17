@@ -9,7 +9,7 @@ import Vote from "./pages/vote";
 import MyPage from "./pages/mypage";
 import Header from "./components/Header";
 import SideInfo from "./components/SideInfo";
-import Footer from "./components/Footer";
+import BottomMenu from "./components/BottomMenu";
 import myNft from "./pages/myNft";
 import myPieceNft from "./pages/myPieceNft";
 import inProgress from "./pages/inProgress";
@@ -40,7 +40,7 @@ function App() {
                         <Route path="/mypage/onSale" element={<onSale />} />
                     </Routes>
                 </Box>
-                <Footer />
+                <BottomMenu />
             </Box>
         </Box>
     );

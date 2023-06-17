@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 
-const Footer = () => {
+const Faq = () => {
     return <Box></Box>;
 };
-export default Footer;
+
+export default Faq;
