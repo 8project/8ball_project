@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Footer = () => {
-    const [menu, setMenu] = useState("");
+    const [menu, setMenu] = useState("home");
 
     return (
         <Box className="fixed bottom-0 bg-gray-950  text-white lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px] font-mono">
