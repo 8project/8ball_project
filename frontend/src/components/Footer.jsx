@@ -14,7 +14,7 @@ const Footer = () => {
                     <Box
                         onClick={() => setMenu("home")}
                         className={`flex flex-col items-center  ${
-                            menu == "home" ? "text-gray-500" : "text-white"
+                            menu == "home" ? "text-white" : "text-gray-500"
                         }`}
                     >
                         <FaHome className="text-2xl" />
@@ -25,7 +25,7 @@ const Footer = () => {
                     <Box
                         onClick={() => setMenu("market")}
                         className={`flex flex-col items-center  ${
-                            menu == "market" ? "text-gray-500" : "text-white"
+                            menu == "market" ? "text-white0" : "text-gray-500"
                         }`}
                     >
                         <BsShop className="text-2xl " />
@@ -36,7 +36,7 @@ const Footer = () => {
                     <Box
                         onClick={() => setMenu("piceMarket")}
                         className={`flex flex-col items-center  ${
-                            menu == "piceMarket" ? "text-gray-500" : "text-white"
+                            menu == "piceMarket" ? "text-white" : "text-gray-500"
                         }`}
                     >
                         <BsShopWindow className="text-2xl" />
@@ -47,7 +47,7 @@ const Footer = () => {
                     <Box
                         onClick={() => setMenu("vote")}
                         className={`flex flex-col items-center  ${
-                            menu == "vote" ? "text-gray-500" : "text-white"
+                            menu == "vote" ? "text-white" : "text-gray-500"
                         }`}
                     >
                         <FaVoteYea className="text-2xl" />
@@ -58,7 +58,7 @@ const Footer = () => {
                     <Box
                         onClick={() => setMenu("login")}
                         className={`flex flex-col items-center  ${
-                            menu == "login" ? "text-gray-500" : "text-white"
+                            menu == "login" ? "text-white" : "text-gray-500"
                         }`}
                     >
                         <FaUserCircle className="text-2xl" />
