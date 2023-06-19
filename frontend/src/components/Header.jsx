@@ -15,7 +15,7 @@ const Header = ({ account, setAccount }) => {
     }
   };
   return (
-    <Box className="fixed top-0 lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px] bg-white">
+    <Box className="fixed top-0 lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px] bg-white z-50">
       <Box className="flex justify-between  text-gray-800  py-4 px-6">
         <Box>
           <Image src={logo} boxSize="50px" />
