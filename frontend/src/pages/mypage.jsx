@@ -7,7 +7,12 @@ import { Link } from "react-router-dom";
 function MyPage({ account }) {
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] w-[100%]">
-      <Box display="flex" flexDirection="column" alignItems="center">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        className="pb-6"
+      >
         <Box className="mt-[82px]  text-center ">
           <Box fontWeight="bold" color="gray.400" className="pb-5">
             UserWallet
@@ -30,7 +35,7 @@ function MyPage({ account }) {
             <Box className="pl-2">My NFT</Box>
           </Box>
           <Link to="/mypage/myNft">
-            <IoIosArrowForward />
+            <IoIosArrowForward className=" text-gray-300" />
           </Link>
         </Box>
         <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
@@ -39,7 +44,7 @@ function MyPage({ account }) {
             <Box className="pl-2">My Piece NFT</Box>
           </Box>
           <Link to="/mypage/myPieceNft">
-            <IoIosArrowForward />
+            <IoIosArrowForward className=" text-gray-300" />
           </Link>
         </Box>
         <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
@@ -48,7 +53,7 @@ function MyPage({ account }) {
             <Box className="pl-1">In Progress</Box>
           </Box>
           <Link to="/mypage/inProgress">
-            <IoIosArrowForward />
+            <IoIosArrowForward className=" text-gray-300" />
           </Link>
         </Box>
         <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
@@ -57,7 +62,7 @@ function MyPage({ account }) {
             <Box className="pl-1">On Sale</Box>
           </Box>
           <Link to="/mypage/onSale">
-            <IoIosArrowForward />
+            <IoIosArrowForward className=" text-gray-300" />
           </Link>
         </Box>
       </Box>
