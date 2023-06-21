@@ -48,7 +48,7 @@ function PieceMarket() {
                             per piece: <span className="font-bold">0.05 ETH</span>
                         </Text>
                     </Box>
-                    <Box className="flex flex-col justify-end items-end">
+                    <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
                         <Text className="font-semibold">Sales list</Text>
                         <Text>14/20</Text>
                     </Box>
