@@ -3,7 +3,7 @@ import logo from "../images/8ball.png";
 
 function SideInfo() {
     return (
-        <Box className="fixed center hidden xl:inline-block mr-20 mt-40">
+        <Box className="fixed center hidden xl:inline-block ml-10 mr-20 mt-40">
             <Image src={logo} boxSize={300} />
             <Text className="-mt-14 ml-6 font-mono font-extrabold">
                 진짜 조각 투자, 오직 8ball에서!
