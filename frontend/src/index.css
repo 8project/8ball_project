@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.option-button {
+  width: 20px; /* Set the width to the desired value */
+  height: 20px; /* Set the height to the same value as the width */
+  border: 1px solid #000000; /* Black border */
+  background-color: #ffffff; /* White background */
+  cursor: pointer;
+}
+
+.option-button.selected {
+  background-color: #00ff00; /* Green background when selected */
+  color: #ffffff; /* White text color when selected */
+}
