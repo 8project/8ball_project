@@ -3,118 +3,89 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract eBallMarket {
+contract market is ERC721 {
+
+// Token name
+string private _name;
+
+// Token symbol
+string private _symbol;
+
+// NFT마다 name을 설정해야 하기 때문에 constructor로 설정하지 않는다.
+function setName(string name_) public {
+    _name = name_; // name 설정
+    name(); // name 확인
+}
+
+// name 확인
+function name() override public view returns(string memory _name) {}
+
+// NFT마다 symbol이 있기 때문에 constructor로 설정하지 않는다.
+function setSymbol(string symbol_) public {
+    _symbol = symbol_; // symbol 설정
+    symbol(); // symbol 확인
+}
+
+// symbol 확인
+function symbol() override public view returns(string memory _symbol) {}
+
+// Mapping from token ID to owner address
+mapping(uint256 => address) private _owners;
+
+// Mapping owner address to token count
+mapping(address => uint256) private _balances;
+
+// Mapping from token ID to approved address
+mapping(uint256 => address) private _tokenApprovals;
+
+// Mapping from owner to operator approvals
+mapping(address => mapping(address => bool)) private _operatorApprovals;
+
+
 // B - 판매자(market)
-
-    /* // 판매자 및 NFT 관리 - 수정 해야 함
-    // Mapping from token ID to owner address
-    mapping(uint256 => address) private _owners;
-
-    // Mapping owner address to token count
-    mapping(address => uint256) private _balances;
-
-    // Mapping from token ID to approved address
-    mapping(uint256 => address) private _tokenApprovals;
-
-    // Mapping from owner to operator approvals
-    mapping(address => mapping(address => bool)) private _operatorApprovals;
-
-    // setapporvals 랑 mapping에 정보 저장 함수 만들어야함
-    */
-
-  // funding or offer 둘 중에 가능한 것이 무엇인지 알아야 하기 때문에 상태 표시를 해준다.
-  enum ListingStatus {
-        Funding,
-        Offer,
-        // Cancelled
+    // 판매자 정보의 구조
+    struct OGlisting {
+    address seller; // 구매자 EOA
+    uint price; // 판매 가격
   }
 
-  // 판매 목록 - List for sale (CA를 적은 이유는 어느 컨트랙트에서 발행했는지 알기 위함이다.)
-  struct Listing {
-    ListingStatus Status;
-    address seller;
-    address CA;
-    uint tokenId;
-    uint price;
-    uint buyTimes;//20조각이라서 
-  }
+// 판매자 정보 관리
+mapping (address => OGlisting) OGlistings;
 
-  uint private _listingId = 1; // _listings 매핑에 index 순서대로 저장
-  mapping(uint => Listing) private _listings; // listing 목록을 mapping으로 관리
+// 판매 목록 관리 - 판매자가 등록을 한 NFT가 몇번째 등록했는지 알려준다. 
+// 투자자들이 펀딩을 했을경우 어떤 NFT를 샀는지 알아야 하기 때문이다.
+mapping (address => uint) inOder; 
 
-    // NFT 등록 - 판매자가 NFT를 발행한 컨트랙트 주소, 토큰번호, 판매가격을 적어서 submit
-    // 판매를 등록하게 되면 기본적인 상태는 Funding 상태이다.
-    // mapping에 저장할 값 변수에 넣기, mapping에 판매 목록 저장
-  function listToken(address _CA, uint _tokenId, uint _price, uint _buyTimes) public {
-    _listings[_listingId++] = Listing(ListingStatus.Funding, msg.sender, _CA, _tokenId, _price, _buyTimes); 
-  }
+event Bid(address bidder); // web3.js or ethers.js를 이용해서 로그정보로 투자자 정보 받아온다.
 
-  // 상속받은 컨트랙트에서 사용가능하도록 함
-  function getListings(uint _listingNum) internal view returns(Listing memory) {
-    return _listings[_listingNum];
-  }
+// NFT 등록 - NFT이미지는 프론트에서 사용자가 CA,tokenId를 입력하게 한다.
+// 이후 web3.js or ethers.js를 이용해서 tokenURI 함수를 실행시켜서 IPFS 주소를 받아와서 띄운다.
+function listForSale(uint _price) public {
+    OGlistings[msg.sender] = OGlisting(msg.sender, _price);
+} 
 
-// C - 조각 구매 신청자(market) 
-  // 투자자 정보 
-  struct Investor {
-     address buyer;
-     uint pTokenId;
-     uint limitbuyTimes;
-   }
+// C - 조각 구매 신청자
+function bidForPiece() public payable {
+ // require(msg.value == 특정금액);
+     address _bidder = msg.sender;
+     emit Bid(_bidder);
 
-  uint private _investorId = 1; // _investors 매핑에 index 순서대로 저장
-  mapping(uint => Investor) private _investors; // 투자자 목록을 mapping으로 관리
-
-  // 투자자 정보 등록
-  function listInvestor(uint _pTokenId) public {
-    Investor memory investing = Investor(msg.sender, _pTokenId, 1); // mapping에 저장할 값 변수에 넣기
-    _investors[_investorId++] = investing;  //mapping에 투자자 목록 저장
-  }
-
-  // 조각가격은 20으로 나눈 것이다. - Funding 중임
-  function buyPieceToken(uint _listingNum) external payable {
-    require(_listings[_listingNum].Status == ListingStatus.Funding, "You don't buy, not Funding"); // 구매할 수 있는 상태여야 함
-    uint piecePrice;
-    piecePrice = _listings[_listingNum].price/20;
-    require(msg.value == piecePrice); // 컨트랙트에 조각금액에 맞게 입금 되게 함
-    _listings[_listingNum].buyTimes++;
-    if(_listings[_listingNum].buyTimes++ == 20) {
-      _listings[_listingNum].Status = ListingStatus.Offer;
+// if ()
     }
-  }
-  
-  // 상속받은 컨트랙트에서 사용가능하도록 함
-  function getInvestors(uint _investorsNum) internal view returns(Investor memory) {
-    return _investors[_investorsNum];
-  }
+
+uint bidCount = 0;
+// C - 20조각 투자자에게 나눠주기
+function distribute() public {
+    // if(bidCount == 20) {
+    //     _mint(신청자들주소, 토큰아이디)  // 랜덤 - 민서강사님
+    // }
+}
 }
 
-// C - 조각 구매 신청자(market) - 펀딩이 완료, 투자자들에게 조각NFT 배분
-contract MarketInvestor is eBallMarket, ERC721{
-receive() external payable{}
-
-  // uri 입력(20조각으로 나눈 그림 올라가 있는 주소)
-  string public baseUri;
-  uint public totalNft;
-
-  constructor(string memory _tokenURI, uint _totalNft) ERC721("8Ball", "Infinity") {
-      baseUri = _tokenURI;
-      totalNft = _totalNft;
-  }
-
-  // address owner; owner 설정하기
-
-  // 20조각 투자자에게 나눠주기 - Funding 완료
-  function mintNFT(uint _listingNum) public {
-      require(eBallMarket.getListings(_listingNum).Status == eBallMarket.ListingStatus.Offer , "Status is not the Offer");
-      for (uint i=1; i<=20 ; i++) {
-        //require(msg.sender == owner, "You are not the owner"); owner가 정해지면 설정
-        _mint(eBallMarket.getInvestors(i).buyer, i); // 뒤의 i는 랜덤으로 변경해야 함
-        }
-    }
-}
-
-  // A - 오퍼(market)
-  // D - 조각 판매자(piece market)
-  // E - 조각 구매자(piece market)
-  // F - 투표
+// 처음 uint는 tokenId, 두번째는 조각난 NFT중 1개 소유자 EOA
+mapping(uint => mapping(address => bool)) // 검증 갖고 있는지
+// 초기에는 1번을 A가 소유
+// Offer에서 제안 받은 금액에 팔지 결정되지 않은 상태(3일 경과 전)
+// piece 마켓에서 서로 거래 가능
+// 이때 A가 Z에게 팔음(소유자를 변경해주는 함수)
+// offer 받은 금액에 팔지 말지 투표해야함(3일 경과 후 최고금액에 팔지 투표해야 함)
