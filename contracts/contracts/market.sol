@@ -26,7 +26,7 @@ contract eBallMarket {
   enum ListingStatus {
         Funding,
         Offer,
-        Cancelled
+        // Cancelled
   }
 
   // 판매 목록 - List for sale (CA를 적은 이유는 어느 컨트랙트에서 발행했는지 알기 위함이다.)
@@ -36,7 +36,7 @@ contract eBallMarket {
     address CA;
     uint tokenId;
     uint price;
-    uint buyTimes;
+    uint buyTimes;//20조각이라서 
   }
 
   uint private _listingId = 1; // _listings 매핑에 index 순서대로 저장
