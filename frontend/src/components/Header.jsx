@@ -38,7 +38,7 @@ const Header = ({ account, setAccount }) => {
             <MdOutlineWallet />
             <div className="ml-2">{account.substring(0, 4)}</div>
             <div className="h-4 border-l border-gray-300 mx-2"></div>
-            <div>{balance && balance.substring(0, 6)} eth</div>
+            <div>{balance && balance.substring(0, 6)} Eth</div>
           </div>
         ) : (
           <button className="flex hover:text-gray-400" onClick={onClickAccount}>
