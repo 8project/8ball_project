@@ -18,7 +18,6 @@ contract buyPiece {
   struct listPiece {
     pieceStatus status;
     address seller;
-    address token; //token contract
     uint tokenId;
     uint price;
   }
@@ -27,19 +26,19 @@ contract buyPiece {
 
   uint private listingId = 0; //아이디가 증가하기만하는데 팔리면 그 번호에 다음 번호가 담기게할 수 있나
 
-  function listPieceToken(address token, uint tokenId, uint price) external {
+  function listPieceToken( uint tokenId, uint price) external {
     
     //(transfer nft) import는 했는데 아직 함수 가져와서 쓰는법을 모름 < 인스턴스 화 시켜서 사용해야함, 컨트랙트 주소가 필요한 이유 찾기 
     // transferFrom(msg.sender, address(this),tokenId);
 
-    listPiece memory listingPiece = listPiece(pieceStatus.Active, msg.sender, token, tokenId, price);
+    listPiece memory listingPiece = listPiece(pieceStatus.Active, msg.sender, tokenId, price);
 
     listOfPiece[listingId] = listingPiece;
 
     listingId++;
   }
 
-  function buyPieceToken(uint listingId) external payable {
+  function buyPieceToken(uint listingId/*유저가 해당 목록 클릭하겠죠? */) external payable {
     require(listOfPiece[listingId].status != pieceStatus.Sold, "This NFT is already sold");
     listPiece storage listingPiece = listOfPiece[listingId];
 
