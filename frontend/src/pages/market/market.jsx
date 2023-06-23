@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
-import Funding from "./Funding";
-import Offer from "./Offer";
+import Funding from "./funding/Funding";
+import Offer from "./offer/Offer";
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaCartArrowDown } from "react-icons/fa";
 
