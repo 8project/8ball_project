@@ -62,7 +62,7 @@ const FundingModal = ({ isOpen, onClose }) => {
                         <Button colorScheme="blue" mr={2}>
                             Funding now
                         </Button>
-                        <Button colorScheme="gray" onClick={onClose}>
+                        <Button colorScheme="teal" onClick={onClose}>
                             Close
                         </Button>
                     </ModalFooter>
