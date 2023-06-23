@@ -33,8 +33,8 @@ const FundingNft = () => {
             <Box className="bg-gray-100 w-full px-4 py-1">
                 <Box className="flex justify-between">
                     <Text>Kongz #7332</Text>
-                    <Text className=" bg-blue-400 cursor-default px-2 py-1 text-sm font-semibold text-white rounded-lg">
-                        모집중
+                    <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
+                        Inprogress
                     </Text>
                 </Box>
                 <Text className="text-blue-400 text-sm mt-1">1 piece</Text>
