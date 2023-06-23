@@ -3,7 +3,9 @@ import { Box, Image } from "@chakra-ui/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import test1 from "../../images/8ball.png";
+import crypto from "../../images/crypto.png";
+import kongz from "../../images/kongz.png";
+import bayc from "../../images/bayc.png";
 
 const MainSlider = () => {
     const settings = {
@@ -19,9 +21,9 @@ const MainSlider = () => {
     return (
         <Box className="lg:w-max[800px] w-max-[460px] max-h-[300px] text-center">
             <Slider {...settings}>
-                <Box className="flex justify-center bg-red-100 h-[300px]"></Box>
-                <Box className="flex justify-center bg-blue-100 h-[300px]"></Box>
-                <Box className="flex justify-center bg-green-100 h-[300px]"></Box>
+                <Image src={kongz} height={"300px"} />
+                <Image src={crypto} height={"300px"} />
+                <Image src={bayc} height={"300px"} />
             </Slider>
         </Box>
     );
