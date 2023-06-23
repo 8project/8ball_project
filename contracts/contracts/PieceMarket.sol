@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-/*
-추가 목록 : emit ierc21에서 가져오는법
-*/
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract buyPiece {
+//내가 쓴 transferFrom이 맞는지 확인 필요.
+contract buyPiece is ERC721 {
+    constructor(string memory name, string memory symbol) ERC721(name,symbol) {}
 
-
-  enum pieceStatus {
-    Active,
-    Sold,
-    Cancelled
-  }
+    enum pieceStatus {
+        Active,
+        Sold,
+        Cancelled
+    }
 
   struct listPiece {
     pieceStatus status;
@@ -21,46 +19,54 @@ contract buyPiece {
     uint tokenId;
     uint price;
   }
+  /*
+  EVENT
+  */
+  event ListToken(address sender, uint tokenId);
+  event MoneyReceived(address sender, uint amount);
+  event CancelSale(address sender, uint tokenId);
 
-  mapping(uint => listPiece) listOfPiece;
+  mapping(uint => listPiece) public listOfPiece; // uint = tokenId 
 
-  uint private listingId = 0; //아이디가 증가하기만하는데 팔리면 그 번호에 다음 번호가 담기게할 수 있나
+  uint private listingId = 0; 
+    /*
+    토큰 등록 
+    */
+  function listPieceToken(/*address _tokenContract,*/ uint _tokenId, uint _price) external {
+      //require(token주인인지)
+      transferFrom(msg.sender, address(this), _tokenId);
+      listOfPiece[listingId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
+      listingId++;
+      emit ListToken(msg.sender, _tokenId);
+    }
 
-  function listPieceToken( uint tokenId, uint price) external {
+    /*
+    토큰구매
+    */
+  function buyPieceToken(uint  _listingNum) external payable {
+      require(listOfPiece[ _listingNum].status == pieceStatus.Active, "This NFT is not available");
+      require(msg.sender != listOfPiece[ _listingNum].seller, "Seller cannot buy");
+      require(msg.value >= listOfPiece[ _listingNum].price,"Insufficient payment");    
+      //1. 돈받기
+      msg.value;
     
-    //(transfer nft) import는 했는데 아직 함수 가져와서 쓰는법을 모름 < 인스턴스 화 시켜서 사용해야함, 컨트랙트 주소가 필요한 이유 찾기 
-    // transferFrom(msg.sender, address(this),tokenId);
+      //2. nft주기
+      transferFrom(address(this), msg.sender,listOfPiece[ _listingNum].tokenId);
 
-    listPiece memory listingPiece = listPiece(pieceStatus.Active, msg.sender, tokenId, price);
+      listOfPiece[ _listingNum].status == pieceStatus.Sold;
+      emit MoneyReceived(msg.sender, msg.value);
+    }
 
-    listOfPiece[listingId] = listingPiece;
-
-    listingId++;
-  }
-
-  function buyPieceToken(uint listingId/*유저가 해당 목록 클릭하겠죠? */) external payable {
-    require(listOfPiece[listingId].status != pieceStatus.Sold, "This NFT is already sold");
-    listPiece storage listingPiece = listOfPiece[listingId];
-
-    require(msg.sender != listingPiece.seller, "Seller cannot buy");
-    require(listingPiece.status == pieceStatus.Active, "Invalid list of NFT");
-    require(msg.value >= listingPiece.price,"Insufficient payment");
-
-
-    payable(listingPiece.seller).transfer(listingPiece.price);
-     //(transfer nft)
-     listingPiece.status == pieceStatus.Sold; 
-  }
-  
-  function cancelOfSale(uint listingId) public {
-    listPiece storage listingPiece = listOfPiece[listingId];
-
-    require(listingPiece.status != pieceStatus.Active, "This Piece NFT is not on sale");
-    require(listingPiece.status == pieceStatus.Active, "Only seller can cancel list");
-
-    listingPiece.status = pieceStatus.Cancelled;
-
-    // IERC721(listing.token).transferFrom(address(this), msg.sender, listing.tokenId); 
+    /*
+    nft 판매 취소 
+    */
+function cancelOfSale(uint _listingNum) public {
+    require(listOfPiece[_listingNum].seller == msg.sender, "Only seller can cancel list");
+    require(listOfPiece[_listingNum].status != pieceStatus.Active, "This Piece NFT is not on sale");
     
+    listOfPiece[_listingNum].status = pieceStatus.Cancelled;
+
+    transferFrom(address(this), msg.sender, listOfPiece[_listingNum].tokenId);
+    emit CancelSale(msg.sender, listOfPiece[_listingNum].tokenId);
   }
 }
