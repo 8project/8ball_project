@@ -19,11 +19,11 @@ const MainSlider = () => {
         centerPadding: "0px", // 0px 하면 슬라이드 끝쪽 이미지가 안잘림
     };
     return (
-        <Box className="lg:w-max[800px] w-max-[460px] max-h-[300px] text-center">
+        <Box className="lg:w-max[800px] w-max-[460px] text-center">
             <Slider {...settings}>
-                <Image src={kongz} height={"300px"} />
-                <Image src={crypto} height={"300px"} />
-                <Image src={bayc} height={"300px"} />
+                <Image src={kongz} className="lg:h-[300px] h-[200px]" />
+                <Image src={crypto} className="lg:h-[300px] h-[200px]" />
+                <Image src={bayc} className="lg:h-[300px] h-[200px]" />
             </Slider>
         </Box>
     );
