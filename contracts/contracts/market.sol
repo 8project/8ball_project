@@ -82,11 +82,24 @@ contract BallmarketB is ERC721Enumerable {
 // C - 조각 구매 신청자 - 펀딩이 완료된 상태
   // event확인 후 20조각 투자자에게 나눠주기 - 관리자가 해줘야 한다.
   // ipfs에 조각난 이미지 올려야 하는데 자동화 방법이 있을까?? IPFS 서비스 해주는 사이트 - API키
+
+  uint totalCompleteFunding = 0;
   function Piece_Mint(uint _n) public { // _n은 OGNFT의 등록순번이다.
     require (manager == msg.sender && OGNfts[_n].buyer.length == 20, "Invalid");
-    for(uint i=20*_n - 19 ; i<20*_n ; i++) { // 범위의 단위 20이다.
+    for(uint i=20*_n - 19 ; i<=20*_n ; i++) { // 범위의 단위 20이다.
         _mint(OGNfts[_n].buyer[i-1],i);  // 뒤에 i는 랜덤으로 변경 - 박민서강사님
       }
+    totalCompleteFunding++;
+  }
+
+  // 이건 그냥 생각나서 적어 봤어요
+  // 내 조각난 NFT가 몇번쨰로 등록된 OGNft인지 알려줌 이걸 통해서 원본 이미지가 뭐였는지 확인 가능함
+  function piece_OGnftTokenId(uint _pieceTokenId) public view returns(uint) {
+    for (uint i=1; i<=totalCompleteFunding ; i++) {
+      if(20*i - 19 <= _pieceTokenId && _pieceTokenId <= 20*i) {
+        return 20*i/20;
+      } 
+    }
   }
  
   function tokenURI(uint _tokenId) override public view returns(string memory) {
@@ -129,7 +142,7 @@ contract BallmarketB is ERC721Enumerable {
 
   // 판매하기로 결정 되었으면 조각난 20개 NFT를 없애야 한다 
   function burn20Piece(uint _n)  public { // _n은 OGNFT의 등록순번이다.
-    for(uint i=20*_n - 19 ; i<20*_n ; i++) {
+    for(uint i=20*_n - 19 ; i<=20*_n ; i++) {
       _burn(_n);
     }
   }
