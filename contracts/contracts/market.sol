@@ -49,6 +49,7 @@ contract BallmarketB is ERC721Enumerable {
     _inOrder++;
   }
 
+  // 등록 취소
   // 펀딩완료되기전(판매등록기간 만료 전도 포함)에 취소할 경우이다 프론트에서 취소버튼 만들기
   function cancelListForSale(uint _n) public { // _n은 OGNFT의 등록순번이다.
     for (uint i; i<OGNfts[_n].buyer.length ; i++) {
