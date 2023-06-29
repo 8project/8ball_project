@@ -10,6 +10,7 @@ import bayc from "../../images/bayc.png";
 const MainSlider = () => {
     const settings = {
         arrows: false,
+        autoplay: true,
         dots: true, // 슬라이드 밑에 점 보이게
         infinite: true, // 무한으로 반복
         speed: 500, // 넘어가는 속도
