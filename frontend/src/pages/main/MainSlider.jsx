@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import crypto from "../../images/crypto.png";
-import kongz from "../../images/kongz.png";
+import h662 from "../../images/h662.png";
 import bayc from "../../images/bayc.png";
 
 const MainSlider = () => {
@@ -22,7 +22,7 @@ const MainSlider = () => {
     return (
         <Box className="lg:w-max[800px] w-max-[460px] text-center">
             <Slider {...settings}>
-                <Image src={kongz} className="lg:h-[300px] h-[200px]" />
+                <Image src={h662} className="lg:h-[300px] h-[200px]" />
                 <Image src={crypto} className="lg:h-[300px] h-[200px]" />
                 <Image src={bayc} className="lg:h-[300px] h-[200px]" />
             </Slider>
