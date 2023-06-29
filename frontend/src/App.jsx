@@ -5,15 +5,15 @@ import NotFound from "./pages/notFound";
 import Main from "./pages/main/main";
 import Market from "./pages/market/market";
 import PieceMarket from "./pages/pieceMarket/pieceMarket";
-import Vote from "./pages/myPage/vote";
+import Vote from "./pages/vote/vote";
 import MyPage from "./pages/myPage/mypage";
 import Header from "./components/Header";
 import SideInfo from "./components/SideInfo";
 import BottomMenu from "./components/BottomMenu";
-import myNft from "./pages/myPage/myNft";
-import myPieceNft from "./pages/myPage/myPieceNft";
-import inProgress from "./pages/myPage/inProgress";
-import onSale from "./pages/myPage/onSale";
+import MyNft from "./pages/myPage/myNft";
+import MyPieceNft from "./pages/myPage/myPieceNft";
+import InProgress from "./pages/myPage/inProgress";
+import OnSale from "./pages/myPage/onSale";
 import Login from "./pages/myPage/login";
 
 function App() {
@@ -34,10 +34,10 @@ function App() {
             <Route path="/vote" element={<Vote />} />
             <Route path="/login" element={<Login account={account} />} />
             <Route path="/mypage" element={<MyPage account={account} />} />
-            <Route path="/mypage/myNft" element={<myNft />} />
-            <Route path="/mypage/myPieceNft" element={<myPieceNft />} />
-            <Route path="/mypage/inProgress" element={<inProgress />} />
-            <Route path="/mypage/onSale" element={<onSale />} />
+            <Route path="/mypage/myNft" element={<MyNft />} />
+            <Route path="/mypage/myPieceNft" element={<MyPieceNft />} />
+            <Route path="/mypage/inProgress" element={<InProgress />} />
+            <Route path="/mypage/onSale" element={<OnSale />} />
           </Routes>
         </Box>
         <BottomMenu />
