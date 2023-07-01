@@ -14,6 +14,15 @@ const myNft = () => {
           </div>
         </Box>
       </Box>
+      <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+        <Image src={testImg} className="w-[256px] rounded-t-md " />
+        <Box className="bg-gray-100 w-full px-4 py-1">
+          <Text>Kongz #7332</Text>
+          <div className="bg-blue-300 justify-center text-center p-4">
+            List for sell
+          </div>
+        </Box>
+      </Box>
     </Box>
   );
 };
