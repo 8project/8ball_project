@@ -46,6 +46,10 @@ contract Market is ERC721Enumerable {
         return OGNftList[_index].buyer;
     }
 
+    function getOGNftList(uint _index) public view returns(address, address, uint, uint) {
+        return (OGNftList[_index].seller, OGNftList[_index].OGContractAddress, OGNftList[_index].OGTokenId, OGNftList[_index].price);
+    }
+
     /*
     기간만료
     (나누기 실패)
@@ -65,13 +69,15 @@ contract Market is ERC721Enumerable {
     */
     function OGFunding(uint _index) public payable { 
         require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-         require(msg.value >= OGNftList[_index].price/20);
+         require(msg.value >= OGNftList[_index].price/20 + OGNftList[_index].price/200);
 
          OGNftList[_index].buyer.push(msg.sender); 
 
          if (OGNftList[_index].buyer.length == 20) {
          emit FUNDING("Financing is complete", _index);
-         //+ pieceNFT 배분
+         distributePiece(_index);
+         FundingPriceToSeller(_index);
+         payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투자자에게 수수료의 일부분 지급
         }
     }
    
@@ -94,13 +100,19 @@ contract Market is ERC721Enumerable {
     */
     function distributePiece(uint _index) public { 
         //  require (manager == msg.sender,"Invalid");
-        for (uint i=0; i<OGNftList[_index].buyer.length; i++) {
+        for (uint i=1; i<OGNftList[_index].buyer.length + 1; i++) {
             _mint(OGNftList[_index].buyer[i], i);
         }
         currentPolls[_index].OGNFT_index = _index;
     }
+
+    function OGTokenURI(uint _index) public view returns(string memory) {
+        // require(OG.ownerOf(_index) == msg.sender);
+        return OG.tokenURI(_index);
+    }
     
     function tokenURI(uint _tokenId) override public view returns(string memory) {
+        // require(ownerOf(_tokenId) == msg.sender);
        // return string(abi.encodePacked(URI,'/',Strings.toString(_tokenId),'.json'));
     }
 
@@ -153,7 +165,7 @@ contract Market is ERC721Enumerable {
 
     //가격 제안 
     function offering(uint _index, uint _amount) public payable {
-        require(OGNftList[_index].buyer.length == 20);
+        require(OGNftList[_index].buyer.length == 20 && currentPolls[_index].OGNFT_index != 0);
         require(_amount >= msg.value);
         offerList[_index].Offer_Status = offerStatus.onGoing;
         offerList[_index].OGNFT_index = _index;
@@ -198,7 +210,12 @@ contract Market is ERC721Enumerable {
         return count;
     }
 
+    function setMarketApprovalForAll() public {
+        _setApprovalForAll(_msgSender(), address(this), true);
+    }
+
     function startVote(uint _index, bool _vote) public {
+        require(isApprovedForAll(msg.sender, address(this)) == true);
         require(OGNftList[_index].buyer.length == 20, "Financing is complete."); // 펀딩이 완료된 상품만 투표 가능
         require(checkVoteAddressList(_index,msg.sender) == 0, "already voted"); //require() 투표를 하지 않았어야함
         require(currentPolls[_index].by != address(0)); // currentPoll.by 설정된 후에 시작할 수 있도록
@@ -208,13 +225,20 @@ contract Market is ERC721Enumerable {
         } else if(_vote == false) {
             currentPolls[_index].cons++;
         }
-    }
-    
-    function voteResult(uint _index,uint _OGTokenId) public {
-        //찬성되면 nft는 currentpoll의 by에게 전달되고 돈은 홀더들에게 전달
-        if(currentPolls[_index].pros >= 10) {
 
-            OG.transferFrom(address(this), currentPolls[_index].by, _OGTokenId);
+        if (currentPolls[_index].pros++ + currentPolls[_index].cons++ == 20) {
+            emit VOTING("Voting is complete", _index);
+            payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투표자에게 수수료의 일부분 지급
+        }
+    }
+
+    event VOTING(string funding, uint OGNftList_index);
+    
+    function voteResult(uint _index) public {
+        //찬성되면 nft는 currentpoll의 by에게 전달되고 돈은 홀더들에게 전달
+        if(currentPolls[_index].pros > 10) {
+
+            OG.transferFrom(address(this), currentPolls[_index].by, OGNftList[_index].OGTokenId);
             // 홀더들에게 나눠주기
             for(uint i=0; i<20; i++){
                 payable(ownerOf(i)).transfer((currentPolls[_index].bestOfferPrice)/20);
@@ -235,9 +259,4 @@ contract Market is ERC721Enumerable {
     function Offer_StatusOnGoing(uint _index) public {
         offerList[_index].Offer_Status = offerStatus.onGoing;
     }
-
-    function TestMint(uint _tokenId) public {
-        _mint(msg.sender, _tokenId);
-    }
-
 }
