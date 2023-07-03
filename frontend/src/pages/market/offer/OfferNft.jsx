@@ -1,6 +1,5 @@
 import { Box, Text, Image, Button, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-import testImg from "../../../images/testFoloder/20220501000342_0.jpg";
 import Nfts from "../../../components/Nfts";
 import OfferModal from "./OfferModal";
 
@@ -17,7 +16,10 @@ const OfferNft = () => {
                         setShow(false);
                     }}
                 >
-                    <Image src={testImg} className="w-[256px] rounded-t-md " />
+                    <Image
+                        src={"https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"}
+                        className="w-[256px] rounded-t-md "
+                    />
                 </Box>
             ) : (
                 <Box

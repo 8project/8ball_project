@@ -101,7 +101,7 @@ contract Market is ERC721Enumerable {
     function distributePiece(uint _index) public { 
         //  require (manager == msg.sender,"Invalid");
         for (uint i=1; i<OGNftList[_index].buyer.length + 1; i++) {
-            _mint(OGNftList[_index].buyer[i], i);
+            _mint(OGNftList[_index].buyer[i-1], i);
         }
         currentPolls[_index].OGNFT_index = _index;
     }
@@ -159,9 +159,16 @@ contract Market is ERC721Enumerable {
     */
     mapping(uint => offer) public offerList;
 
-    function getOfferStatus(uint _index) public view returns(uint8) {
-        return uint8(offerList[_index].Offer_Status);
+    function getOfferStatus(uint _index) public view returns(offerStatus) {
+        return offerList[_index].Offer_Status;
     }
+
+    function getOfferStatus_onGoing() public pure returns(offerStatus) {
+        offerStatus a;
+        a = offerStatus.onGoing;
+        return a;
+    }
+
 
     //가격 제안 
     function offering(uint _index, uint _amount) public payable {
@@ -195,7 +202,7 @@ contract Market is ERC721Enumerable {
     } 
 
     function giveBackOfferAmount(uint _index) public {
-        for(uint i=1; i<offerList[_index].account.length ; i++) {
+        for(uint i=0; i<offerList[_index].account.length ; i++) {
             payable(offerList[_index].account[i]).transfer(offerList[_index].amount[i]);
         }
     }
@@ -240,11 +247,11 @@ contract Market is ERC721Enumerable {
 
             OG.transferFrom(address(this), currentPolls[_index].by, OGNftList[_index].OGTokenId);
             // 홀더들에게 나눠주기
-            for(uint i=0; i<20; i++){
+            for(uint i=1; i<21; i++){
                 payable(ownerOf(i)).transfer((currentPolls[_index].bestOfferPrice)/20);
                 delete currentPolls[_index];
                 delete offerList[_index];
-
+                _burn(i);
             } 
         } else {
             //_by에게 돈은 돌려주기 
@@ -252,7 +259,7 @@ contract Market is ERC721Enumerable {
             delete currentPolls[_index];
             delete offerList[_index];
             
-            Offer_StatusOnGoing(_index);
+            Offer_StatusOnGoing(_index); // Piece Market에서 거래할 수 있게 함.
         }
     }
 

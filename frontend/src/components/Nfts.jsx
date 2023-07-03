@@ -29,7 +29,7 @@ const Test = () => {
                 return (
                     <Image
                         className="w-[256px] "
-                        src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmPsBmzU2FEpd1aVWR6w6kDYqRaBrUkDAPFN7TvxxXNsqz/20220501000342_0-0${num}.jpg`}
+                        src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmWhCTPeGQRgAzeaQsNLbuvqedTDhUvcSeDeFbxMitQgQA/5895-0${num}.png`}
                     />
                 );
             })}

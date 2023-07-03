@@ -51,7 +51,7 @@ contract PieceMarket is ERC721Enumerable {
     function listPieceToken(uint _tokenId, uint _price) public {
         // require(Market2.ownerOf(_tokenId) == msg.sender);
         uint j = checkOfferList_index(_tokenId);
-        require(Market2.getOfferStatus(j) == 0); // 투표가 시작되기 전까지만 거래할 수 있도록 제한함
+        require(Market2.getOfferStatus(j) == Market2.getOfferStatus_onGoing()); // 투표가 시작되기 전까지만 거래할 수 있도록 제한함
         listOfPiece[_tokenId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
     }
 
@@ -90,10 +90,6 @@ contract PieceMarket is ERC721Enumerable {
         delete listOfPiece[_tokenId];
 
         emit CancelSale(msg.sender, listOfPiece[_tokenId].tokenId);
-    }
-
-    function TestMint(uint _tokenId) public {
-        _mint(msg.sender, _tokenId);
     }
 
 }
