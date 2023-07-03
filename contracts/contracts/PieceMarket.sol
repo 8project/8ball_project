@@ -26,9 +26,8 @@ contract PieceMarket is ERC721Enumerable {
     /*
     EVENT
     */
-    event ListToken(address sender, uint tokenId);
-    event MoneyReceived(address sender, uint amount);
-    event CancelSale(address sender, uint tokenId);
+    event LISTTOKEN(address sender, uint tokenId, uint price);
+    
 
     mapping(uint => listPiece) public listOfPiece; 
     
@@ -53,6 +52,8 @@ contract PieceMarket is ERC721Enumerable {
         uint j = checkOfferList_index(_tokenId);
         require(Market2.getOfferStatus(j) == Market2.getOfferStatus_onGoing()); // 투표가 시작되기 전까지만 거래할 수 있도록 제한함
         listOfPiece[_tokenId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
+
+        emit LISTTOKEN(msg.sender, _tokenId, _price);
     }
 
     /*
@@ -77,7 +78,6 @@ contract PieceMarket is ERC721Enumerable {
      
         // listOfPiece[_tokenId].status == pieceStatus.Sold;
         delete listOfPiece[_tokenId];
-        // emit MoneyReceived(msg.sender, msg.value);
     }
    
     /*
@@ -88,8 +88,6 @@ contract PieceMarket is ERC721Enumerable {
         require(listOfPiece[_tokenId].status == pieceStatus.Active, "This Piece NFT is not on sale");
         
         delete listOfPiece[_tokenId];
-
-        emit CancelSale(msg.sender, listOfPiece[_tokenId].tokenId);
     }
 
 }

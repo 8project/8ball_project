@@ -13,7 +13,7 @@ contract Market is ERC721Enumerable {
     // address private manager; 
     // string public URI; 
 
-  constructor (/*address _manager, string memory _URI,*/ address _OGAddress) ERC721("Market", "MRK") {
+    constructor (/*address _manager, string memory _URI,*/ address _OGAddress) ERC721("Market", "MRK") {
         // manager = _manager;
         // URI = _URI;
         OG = OGNFT(_OGAddress);
@@ -30,7 +30,7 @@ contract Market is ERC721Enumerable {
     mapping (uint => OGNft) public OGNftList;
 
     uint private index = 1; 
-    
+
     /*
     판매등록
     */
@@ -69,7 +69,7 @@ contract Market is ERC721Enumerable {
     */
     function OGFunding(uint _index) public payable { 
         require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-         require(msg.value >= OGNftList[_index].price/20 + OGNftList[_index].price/200);
+        require(msg.value >= OGNftList[_index].price/20 + OGNftList[_index].price/200);
 
          OGNftList[_index].buyer.push(msg.sender); 
 
@@ -117,6 +117,9 @@ contract Market is ERC721Enumerable {
     }
 
 
+    /*EVENT*/
+    event BEST_OFFER(address offer, uint bestPrice);
+    event VOTING(string funding, uint OGNftList_index);
     /*
     투표 구조체 
     */
@@ -143,6 +146,7 @@ contract Market is ERC721Enumerable {
 
     function getOffer_Address(uint _index) public view returns(address[] memory, uint[] memory ) {
         return (offerList[_index].account, offerList[_index].amount);
+
     }
 
     /*
@@ -199,6 +203,9 @@ contract Market is ERC721Enumerable {
         }
         (currentPolls[_index].by, currentPolls[_index].bestOfferPrice) = (offerList[_index].account[0], offerList[_index].amount[0]);
         giveBackOfferAmount(_index);
+        
+        //emit이 실행되면 자동으로 투표시작할 수 있게끔
+        emit BEST_OFFER(currentPolls[_index].by,currentPolls[_index].bestOfferPrice);
     } 
 
     function giveBackOfferAmount(uint _index) public {
@@ -231,15 +238,21 @@ contract Market is ERC721Enumerable {
             currentPolls[_index].pros++;
         } else if(_vote == false) {
             currentPolls[_index].cons++;
+        } else if(currentPolls[_index].pros > 10) {
+            //voteResult 함수 실행 
+            emit VOTING("Vote is completed", _index);
         }
 
-        if (currentPolls[_index].pros++ + currentPolls[_index].cons++ == 20) {
-            emit VOTING("Voting is complete", _index);
+        
+        //수수료 부분 
+        if (currentPolls[_index].pros + currentPolls[_index].cons == 20) {
             payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투표자에게 수수료의 일부분 지급
+            
+            emit VOTING("Voting is complete", _index);
         }
     }
 
-    event VOTING(string funding, uint OGNftList_index);
+    
     
     function voteResult(uint _index) public {
         //찬성되면 nft는 currentpoll의 by에게 전달되고 돈은 홀더들에게 전달
