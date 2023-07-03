@@ -30,16 +30,24 @@ contract Market is ERC721Enumerable {
     mapping (uint => OGNft) public OGNftList;
 
     uint private index = 1; 
+    
+    // 판매자 정보 가져올 때 사용
+    event LIST_FOR_SALE(string Sales, address seller); 
+
+    // 펀딩완료시 distributePiece, FundingPriceToSeller 자동실행
+    event FUNDING(string funding, uint OGNftList_index);
 
     /*
     판매등록
     */
     function listForSale(address _OGContractAddress, uint _OGTokenId, uint _price) public {
-        //ownercheck 기능 
+        //require(OG.ownerOf(_OGTokenId) == msg.sender);
         OG.transferFrom(tx.origin,address(this),_OGTokenId);
 
         (OGNftList[index].seller, OGNftList[index].OGContractAddress, OGNftList[index].OGTokenId, OGNftList[index].price) = (msg.sender, _OGContractAddress, _OGTokenId, _price);
         index++;
+
+        emit LIST_FOR_SALE("Sales Registration Completed", msg.sender);
     }
 
     function OGListForSale_buyerList(uint _index) public view returns(address[] memory) {
@@ -69,15 +77,15 @@ contract Market is ERC721Enumerable {
     */
     function OGFunding(uint _index) public payable { 
         require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-        require(msg.value >= OGNftList[_index].price/20 + OGNftList[_index].price/200);
+        require(msg.value >= OGNftList[_index].price/20 + OGNftList[_index].price/200);  // 수수료와 함께 지불
 
-         OGNftList[_index].buyer.push(msg.sender); 
+        OGNftList[_index].buyer.push(msg.sender); 
 
-         if (OGNftList[_index].buyer.length == 20) {
-         emit FUNDING("Financing is complete", _index);
-         distributePiece(_index);
-         FundingPriceToSeller(_index);
-         payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투자자에게 수수료의 일부분 지급
+        if (OGNftList[_index].buyer.length == 20) {
+            emit FUNDING("Financing is complete", _index);
+            distributePiece(_index);
+            FundingPriceToSeller(_index);
+            payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투자자에게 수수료의 일부분 지급
         }
     }
    
@@ -85,7 +93,7 @@ contract Market is ERC721Enumerable {
     EVENT
         > event확인 후 판매자에게 판매금액을 보낸다.
     */
-    event FUNDING(string funding, uint OGNftList_index);
+    
 
     /*
     모집금액 seller에게 전달
@@ -243,9 +251,7 @@ contract Market is ERC721Enumerable {
             emit VOTING("Vote is completed", _index);
         }
 
-        
-        //수수료 부분 
-        if (currentPolls[_index].pros + currentPolls[_index].cons == 20) {
+        if ((currentPolls[_index].pros + currentPolls[_index].cons) == 20) {
             payable(msg.sender).transfer(OGNftList[_index].price/400); // 20번째 투표자에게 수수료의 일부분 지급
             
             emit VOTING("Voting is complete", _index);
