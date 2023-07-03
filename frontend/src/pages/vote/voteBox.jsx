@@ -12,8 +12,11 @@ const VoteBox = () => {
 
   const handleSubmit = () => {
     if (selectedOption) {
-      setIsSubmitted(true);
-      console.log("Submitted option:", selectedOption);
+      const confirmed = window.confirm("Are you sure you want to submit?");
+      if (confirmed) {
+        setIsSubmitted(true);
+        console.log("Submitted option:", selectedOption);
+      }
     }
   };
 
