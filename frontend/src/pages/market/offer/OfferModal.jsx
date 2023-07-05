@@ -22,7 +22,6 @@ import {
     Input,
     FormControl,
 } from "@chakra-ui/react";
-import img from "../../../images/testFoloder/20220501000342_0.jpg";
 
 const OfferModal = ({ isOpen, onClose }) => {
     return (
@@ -31,11 +30,16 @@ const OfferModal = ({ isOpen, onClose }) => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
-                        <Image src={img} w={"256px"} />
+                        <Image
+                            src={
+                                "https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"
+                            }
+                            w={"256px"}
+                        />
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text className="font-semibold">Kongz #7332</Text>
+                        <Text className="font-semibold">BAYC #5895</Text>
                         <Text className="text-blue-400 text-sm mt-1">Piece: 1</Text>
                         <Text className="text-blue-500 font-semibold mt-1">Price: 1 ETH</Text>
                         <Box className="mt-4 text-sm font-semibold">

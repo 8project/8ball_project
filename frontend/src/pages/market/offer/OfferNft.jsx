@@ -33,7 +33,7 @@ const OfferNft = () => {
             )}
 
             <Box className="bg-gray-100 w-full px-4 py-1">
-                <Text>Kongz #7332</Text>
+                <Text>BAYC #5895</Text>
                 <Text className="text-blue-400 text-sm mt-1">1 piece</Text>
                 <Text className="text-blue-500 font-semibold mt-1">0.05 ETH</Text>
             </Box>

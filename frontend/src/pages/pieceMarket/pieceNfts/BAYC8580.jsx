@@ -13,7 +13,7 @@ import {
     ModalCloseButton,
 } from "@chakra-ui/react";
 
-const PieceNft = ({ num }) => {
+const BAYC8580 = ({ num }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -21,7 +21,7 @@ const PieceNft = ({ num }) => {
             <Box className="cursor-pointer ">
                 <Image
                     onClick={onOpen}
-                    src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmcviynpkVjLcUp7CMmDdrucCJ4QZSktQofzijEh3Kcfvm/${num}.jpg`}
+                    src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmNhjo67mp3LZKFracSt7w6DxNTLp3guyyBJJZVe92uCZx/${num}.jpg`}
                 />
             </Box>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -30,12 +30,12 @@ const PieceNft = ({ num }) => {
                     <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
                         <Image
                             className="w-[256px] rounded-md"
-                            src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmcviynpkVjLcUp7CMmDdrucCJ4QZSktQofzijEh3Kcfvm/${num}.jpg`}
+                            src={`https://olive-specific-newt-363.mypinata.cloud/ipfs/QmNhjo67mp3LZKFracSt7w6DxNTLp3guyyBJJZVe92uCZx/${num}.jpg`}
                         />
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text className="font-semibold">BAYC #5895 #{num}</Text>
+                        <Text className="font-semibold">BAYC #8580 #{num}</Text>
                         <Text className="text-blue-400 text-sm mt-1">Piece Number: {num}</Text>
                         <Text className="text-blue-500 font-semibold mt-1">Price: 0.05 ETH</Text>
                     </ModalBody>
@@ -54,4 +54,4 @@ const PieceNft = ({ num }) => {
     );
 };
 
-export default PieceNft;
+export default BAYC8580;

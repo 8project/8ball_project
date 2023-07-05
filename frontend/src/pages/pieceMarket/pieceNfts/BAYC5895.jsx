@@ -13,7 +13,7 @@ import {
     ModalCloseButton,
 } from "@chakra-ui/react";
 
-const PieceNft = ({ num }) => {
+const BAYC5895 = ({ num }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -54,4 +54,4 @@ const PieceNft = ({ num }) => {
     );
 };
 
-export default PieceNft;
+export default BAYC5895;
