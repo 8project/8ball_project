@@ -1,4 +1,4 @@
-import { Box, Text, useDisclosure, Button } from "@chakra-ui/react";
+import { Box, Text, useDisclosure, Button, Image } from "@chakra-ui/react";
 // import testImg from "../../images/testFoloder/20220501000342_0.jpg";
 import MyPieceNftModal from "./myPieceNftModal";
 
@@ -21,7 +21,30 @@ const MyPieceNft = () => {
           </div>
         </div>
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332-8</Text>
+          <Text>BAYC #5895-8</Text>
+          <Button
+            colorScheme="blue"
+            onClick={onOpen}
+            className="justify-center text-center w-full py-4"
+          >
+            List for Sell
+          </Button>
+        </Box>
+        <MyPieceNftModal
+          isOpen={isOpen}
+          onClose={onClose}
+          onSubmit={handleListForSell}
+        />
+      </Box>
+      <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+        <Image
+          src="/img/8thPiece.png"
+          w={"256px"}
+          h={"256px"}
+          className="rounded-md"
+        />
+        <Box className="bg-gray-100 w-full px-4 py-1">
+          <Text>BAYC #5895-8</Text>
           <Button
             colorScheme="blue"
             onClick={onOpen}

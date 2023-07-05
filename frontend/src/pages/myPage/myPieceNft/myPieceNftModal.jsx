@@ -15,7 +15,6 @@ import {
   Input,
   FormControl,
 } from "@chakra-ui/react";
-import img from "../../images/testFoloder/20220501000342_0.jpg";
 
 const MyPieceNftModal = ({ isOpen, onClose }) => {
   return (
@@ -24,11 +23,11 @@ const MyPieceNftModal = ({ isOpen, onClose }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
-            <Image src={img} w={"256px"} />
+            <Image src="/img/8thPiece.png" w={"256px"} />
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text className="font-semibold">Kongz #7332-8</Text>
+            <Text className="font-semibold">BAYC #5895-8</Text>
           </ModalBody>
 
           <FormControl>
