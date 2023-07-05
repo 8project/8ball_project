@@ -1,7 +1,7 @@
 import { Box, Text, Image, Button } from "@chakra-ui/react";
 import { useState } from "react";
 
-const MyNft = () => {
+const OnSale = () => {
   const [isCancelConfirmationOpen, setCancelConfirmationOpen] = useState(false);
 
   const handleCancel = () => {
@@ -66,4 +66,4 @@ const MyNft = () => {
   );
 };
 
-export default MyNft;
+export default OnSale;
