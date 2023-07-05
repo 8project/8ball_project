@@ -15,7 +15,7 @@ const Footer = () => {
                         onClick={() => setMenu("home")}
                         className={`flex flex-col items-center  ${
                             menu === "home" ? "text-white" : "text-gray-500"
-                        }`}
+                        } hover:text-white`}
                     >
                         <FaHome className="text-2xl" />
                         <Text className="font-semibold text-xs">Home</Text>
@@ -26,7 +26,7 @@ const Footer = () => {
                         onClick={() => setMenu("market")}
                         className={`flex flex-col items-center  ${
                             menu === "market" ? "text-white0" : "text-gray-500"
-                        }`}
+                        } hover:text-white`}
                     >
                         <BsShop className="text-2xl " />
                         <Text className=" text-xs">Market</Text>
@@ -37,7 +37,7 @@ const Footer = () => {
                         onClick={() => setMenu("piceMarket")}
                         className={`flex flex-col items-center  ${
                             menu === "piceMarket" ? "text-white" : "text-gray-500"
-                        }`}
+                        } hover:text-white`}
                     >
                         <BsShopWindow className="text-2xl" />
                         <Text className="text-xs"> Piece Market</Text>
@@ -48,7 +48,7 @@ const Footer = () => {
                         onClick={() => setMenu("vote")}
                         className={`flex flex-col items-center  ${
                             menu === "vote" ? "text-white" : "text-gray-500"
-                        }`}
+                        } hover:text-white`}
                     >
                         <FaVoteYea className="text-2xl" />
                         <Text className="text-xs">Vote</Text>
@@ -59,7 +59,7 @@ const Footer = () => {
                         onClick={() => setMenu("login")}
                         className={`flex flex-col items-center  ${
                             menu === "login" ? "text-white" : "text-gray-500"
-                        }`}
+                        } hover:text-white`}
                     >
                         <FaUserCircle className="text-2xl" />
                         <Text className="text-xs">MyPage</Text>
