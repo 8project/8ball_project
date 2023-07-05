@@ -1,5 +1,5 @@
 import { Box, Text, Image, useDisclosure, Button } from "@chakra-ui/react";
-import testImg from "../../../images/testFoloder/20220501000342_0.jpg";
+
 import MyNftModal from "./myNftModal";
 
 const MyNft = () => {
@@ -15,13 +15,18 @@ const MyNft = () => {
       <Text>My NFT</Text>
       <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
         <div className="relative">
-          {/* <Image src={testImg} className=" rounded-t-md relative" /> */}
+          {/* <Image
+            src={
+              "https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"
+            }
+            className=" rounded-t-md absolute"
+          /> */}
           <div className="top-0 w-[256px] h-[256px]  bg-white text-gray-950 flex justify-center items-center">
             Loading...
           </div>
         </div>
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332</Text>
+          <Text>BAYC #5895</Text>
           <Button
             colorScheme="blue"
             onClick={onOpen}
@@ -37,9 +42,15 @@ const MyNft = () => {
         />
       </Box>
       <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
-        <Image src={testImg} className="w-[256px] rounded-t-md " />
+        <Image
+          src={
+            "https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"
+          }
+          className="w-[256px] rounded-t-md "
+        />
+
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332</Text>
+          <Text>BAYC #5896</Text>
           <Button
             colorScheme="blue"
             onClick={onOpen}
