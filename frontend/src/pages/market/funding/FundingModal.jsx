@@ -35,7 +35,7 @@ const FundingModal = ({ isOpen, onClose }) => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text className="font-semibold">Kongz #7332 (#01~#20)</Text>
+                        <Text className="font-semibold">BAYC #5895 (#01~#20)</Text>
                         <Text className="text-blue-400 text-sm mt-1">Total piece: 20</Text>
                         <Text className="text-blue-500 font-semibold mt-1">
                             Per piece: 0.05 ETH

@@ -3,28 +3,7 @@ import PieceNft from "./PieceNft";
 import { BsShopWindow } from "react-icons/bs";
 
 function PieceMarket() {
-    const imgNum = [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-        20,
-    ];
+    const imgNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     return (
         <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] ">
             <Text className="flex justify-center lg:text-xl text-md font-bold cursor-default">
@@ -42,7 +21,7 @@ function PieceMarket() {
                 </Box>
                 <Box className="flex justify-between px-4 py-2 lg:w-[512px] w-[256px] bg-gray-100 rounded-b-md">
                     <Box>
-                        <Text className="font-semibold">Kongz #7332 (#1~#20)</Text>
+                        <Text className="font-semibold">BAYC #5895 (#1~#20)</Text>
                         <Text className=" text-blue-500">Total Piece: 20</Text>
                         <Text className="text-blue-600">
                             per piece: <span className="font-bold">0.05 ETH</span>
