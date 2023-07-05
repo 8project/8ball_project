@@ -28,11 +28,16 @@ const TopBtn = () => {
 
     return (
         showButton && (
-            <Box className=" fixed bottom-4 right-4">
-                <Button id="top" onClick={scrollToTop} type="button">
+            <Box className="fixed bottom-20 right-5">
+                <Box
+                    id="top"
+                    onClick={scrollToTop}
+                    type="button"
+                    className=" rounded-full bg-black py-3 px-3 text-white font-[Tenada] cursor-pointer hover:bg-gray-600"
+                >
                     {" "}
                     Top
-                </Button>
+                </Box>
             </Box>
         )
     );
