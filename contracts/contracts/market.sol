@@ -183,13 +183,13 @@ contract Market is ERC721Enumerable {
 
 
     //가격 제안 
-    function offering(uint _index, uint _amount) public payable {
+    function offering(uint _index) public payable {
         require(OGNftList[_index].buyer.length == 20 && currentPolls[_index].OGNFT_index != 0);
-        require(_amount >= msg.value);
+
         offerList[_index].Offer_Status = offerStatus.onGoing;
         offerList[_index].OGNFT_index = _index;
         offerList[_index].account.push(msg.sender);
-        offerList[_index].amount.push(_amount);
+        offerList[_index].amount.push(msg.value);
     }
 
     // 프론트에서 하기 - offer를 받은지 3일째가 되면 자동실행
