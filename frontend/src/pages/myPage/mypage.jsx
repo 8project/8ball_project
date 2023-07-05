@@ -38,7 +38,7 @@ function MyPage({ account }) {
           maxW={["460px", "460px", "460px", "800px"]}
           mx="auto"
         ></Box>
-        <Link to="/mypage/myNft">
+        <Link to="/mypage/MyNft">
           <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
             <Box className="flex pb-2 ml-6 items-center">
               <SlPicture />
@@ -47,7 +47,7 @@ function MyPage({ account }) {
             <IoIosArrowForward className=" text-gray-300" />
           </Box>
         </Link>
-        <Link to="/mypage/myPieceNft">
+        <Link to="/mypage/MyPieceNft">
           <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
             <Box className="flex pb-2 ml-6 items-center">
               <HiOutlinePuzzle />

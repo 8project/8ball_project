@@ -10,7 +10,7 @@ import MyPage from "./pages/myPage/mypage";
 import Header from "./components/Header";
 import SideInfo from "./components/SideInfo";
 import BottomMenu from "./components/BottomMenu";
-import MyNft from "./pages/myPage/myNft";
+import MyNft from "./pages/myPage/myNft/myNft";
 import MyPieceNft from "./pages/myPage/myPieceNft";
 import InProgress from "./pages/myPage/inProgress";
 import OnSale from "./pages/myPage/onSale";

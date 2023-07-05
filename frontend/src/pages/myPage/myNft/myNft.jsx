@@ -1,8 +1,8 @@
-import { Box, Text, useDisclosure, Button } from "@chakra-ui/react";
-// import testImg from "../../images/testFoloder/20220501000342_0.jpg";
-import MyPieceNftModal from "./myPieceNftModal";
+import { Box, Text, Image, useDisclosure, Button } from "@chakra-ui/react";
+import testImg from "../../../images/testFoloder/20220501000342_0.jpg";
+import MyNftModal from "./myNftModal";
 
-const MyPieceNft = () => {
+const MyNft = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleListForSell = () => {
@@ -12,7 +12,7 @@ const MyPieceNft = () => {
 
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
-      <Text>My Piece NFT</Text>
+      <Text>My NFT</Text>
       <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
         <div className="relative">
           {/* <Image src={testImg} className=" rounded-t-md relative" /> */}
@@ -21,7 +21,7 @@ const MyPieceNft = () => {
           </div>
         </div>
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332-8</Text>
+          <Text>Kongz #7332</Text>
           <Button
             colorScheme="blue"
             onClick={onOpen}
@@ -30,14 +30,27 @@ const MyPieceNft = () => {
             List for Sell
           </Button>
         </Box>
-        <MyPieceNftModal
+        <MyNftModal
           isOpen={isOpen}
           onClose={onClose}
           onSubmit={handleListForSell}
         />
       </Box>
+      <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+        <Image src={testImg} className="w-[256px] rounded-t-md " />
+        <Box className="bg-gray-100 w-full px-4 py-1">
+          <Text>Kongz #7332</Text>
+          <Button
+            colorScheme="blue"
+            onClick={onOpen}
+            className="justify-center text-center w-full py-4"
+          >
+            List for Sell
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };
 
-export default MyPieceNft;
+export default MyNft;
