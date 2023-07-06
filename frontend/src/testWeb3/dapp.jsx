@@ -5,38 +5,38 @@ import PieceMarketABI from "./PieceMarketABI.json";
 import Web3 from "web3";
 import axios from "axios";
 
-
 function App() {
   const [account, setAccount] = useState();
   const [CAName, setCAName] = useState();
   const [tokenImage, setTokenImage] = useState();
 
-
   const web3 = new Web3(window.ethereum);
-  // const web3_2 = new Web3("wss://sepolia.infura.io/ws/v3/bd4f14b4116f4974b5d08009d9b368f0");
+  // const web3_2 = new Web3("wss://sepolia.infura.io/ws/v3/b5c932ae0d1547bebdf43f18f5155ed4");
 
-  const OGNFTContractAddress = "0xe28433CFe04E125401bd827026BB3a55e8c63Cfd";
-  const MarketContractAddress = "0x05f086663c3f7E2C23C13ADA90cf6D8A9EE98B6c";
-  const PieceMarketContractAddress = "0x05f086663c3f7E2C23C13ADA90cf6D8A9EE98B6c";
+  const OGNFTContractAddress = "0x35a4842CbA5338e457635f7ed2a92E9690485eCd";
+  const MarketContractAddress = "0xf0bF4d3DD5E81b203bcF8C6B9390e4a5EBE368e6";
+  const PieceMarketContractAddress =
+    "0xC3f8b451b7BD8402F8f7987472f66caf7145afAf";
 
   const OGNFTContract = new web3.eth.Contract(ABI, OGNFTContractAddress);
-  const MarketContract = new web3.eth.Contract(MarketABI, MarketContractAddress);
-  const PieceMarketContract = new web3.eth.Contract(PieceMarketABI, PieceMarketContractAddress);
-  
-
-  // const PINATA_URL = "https://olbm.mypinata.cloud/ipfs/QmU52T5t4bXtoUqQYStgx39DdXy3gLQq7KDuF1F9g3E9Qy";
-
-  
+  const MarketContract = new web3.eth.Contract(
+    MarketABI,
+    MarketContractAddress
+  );
+  const PieceMarketContract = new web3.eth.Contract(
+    PieceMarketABI,
+    PieceMarketContractAddress
+  );
 
   const onClickLogIn = async () => {
     try {
       const account = await window.ethereum.request({
-        method : "eth_requestAccounts",
+        method: "eth_requestAccounts",
       });
 
       setAccount(account[0]);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
   };
 
@@ -51,8 +51,10 @@ function App() {
 
   const onClickMint = async () => {
     try {
-      const mintResponse = await OGNFTContract.methods.mintNFT().send({from : account});
-      
+      const mintResponse = await OGNFTContract.methods
+        .mintNFT()
+        .send({ from: account });
+
       console.log(mintResponse);
     } catch (error) {
       console.error(error);
@@ -62,16 +64,14 @@ function App() {
   const onClickBalanceOf = async () => {
     try {
       const response = await OGNFTContract.methods.balanceOf(account).call();
-      
+
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
 
-
-
-  const onClickTokenURI = async() => {
+  const onClickTokenURI = async () => {
     try {
       const response = await OGNFTContract.methods.tokenURI(1).call();
 
@@ -83,10 +83,12 @@ function App() {
     }
   };
 
-  const onClickApprove = async() => {
+  const onClickApprove = async () => {
     try {
       // console.log(account);
-      const response = await OGNFTContract.methods.approve(MarketContractAddress,3).send({from : account})
+      const response = await OGNFTContract.methods
+        .approve(MarketContractAddress, 3)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -106,7 +108,9 @@ function App() {
     let OGtokenId = web3.utils.numberToHex(Number(data.get("OG_TokenId")));
     let price = web3.utils.numberToHex(Number(data.get("Listprice")));
     try {
-      const response = await MarketContract.methods.listForSale(OGNFTContractAddress, OGtokenId, price).send({from : account});
+      const response = await MarketContract.methods
+        .listForSale(OGNFTContractAddress, OGtokenId, price)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -122,33 +126,39 @@ function App() {
 
     let OGListIndex = web3.utils.numberToHex(Number(data.get("IndexList")));
     try {
-      const response = await MarketContract.methods.OGFunding(OGListIndex).send({from : account, value : web3.utils.toWei("0.000055","ether")});
+      const response = await MarketContract.methods
+        .OGFunding(OGListIndex)
+        .send({ from: account, value: web3.utils.toWei("0.000055", "ether") });
       console.log(response);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   /*
   돈 받는건 돈받는애가 누르게 하자 
   자기 my page에서 누르게끔 
   */
-  const onSubmitPriceToSeller = async(e) => {
+  const onSubmitPriceToSeller = async (e) => {
     e.preventDefault();
 
     const data = new FormData(e.target);
 
-    let OGListIndex =  web3.utils.numberToHex(Number(data.get("IndexList")));
+    let OGListIndex = web3.utils.numberToHex(Number(data.get("IndexList")));
     try {
-      const response = await MarketContract.methods.PriceToSeller(OGListIndex).send({from : account });
+      const response = await MarketContract.methods
+        .PriceToSeller(OGListIndex)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.error(error);
-    }    
-  }
+    }
+  };
 
   const onClickOGListForSale_buyerList = async () => {
     try {
-      const response = await MarketContract.methods.OGListForSale_buyerList(1).call();
+      const response = await MarketContract.methods
+        .OGListForSale_buyerList(1)
+        .call();
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -163,9 +173,11 @@ function App() {
 
     const data = new FormData(e.target);
 
-    let OGListIndex =  web3.utils.numberToHex(Number(data.get("IndexList")));
+    let OGListIndex = web3.utils.numberToHex(Number(data.get("IndexList")));
     try {
-      const response = await MarketContract.methods.distributePiece(OGListIndex).send({ from: account });
+      const response = await MarketContract.methods
+        .distributePiece(OGListIndex)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -174,7 +186,9 @@ function App() {
 
   const onClickOverDuration = async () => {
     try {
-      const response = await MarketContract.methods.overDuration(1).send({ from: account });
+      const response = await MarketContract.methods
+        .overDuration(1)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -183,76 +197,82 @@ function App() {
   /*
   offering
   */
-  const onSubmitOffering = async(e) => {
+  const onSubmitOffering = async (e) => {
     e.preventDefault();
 
     const data = new FormData(e.target);
 
-    let OGListIndex =  web3.utils.numberToHex(Number(data.get("IndexList")));
-    let _value =  web3.utils.numberToHex(Number(data.get("price")));
+    let OGListIndex = web3.utils.numberToHex(Number(data.get("IndexList")));
+    let _value = web3.utils.numberToHex(Number(data.get("price")));
     try {
-      const response = await MarketContract.methods.offering(OGListIndex).send({from :account, value : _value});
+      const response = await MarketContract.methods
+        .offering(OGListIndex)
+        .send({ from: account, value: _value });
       console.log(response);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const onClickGetBestOffer = async() => {
+  const onClickGetBestOffer = async () => {
     try {
       const response = await MarketContract.methods.getBestOffer(1).send();
       console.log(response);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
-  
-  const onClickstartVote = async() => {
+  };
+
+  const onClickstartVote = async () => {
     try {
       const response = await MarketContract.methods.startVote(1, true).send();
       console.log(response);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const onClickvoteResult = async() => {
+  const onClickvoteResult = async () => {
     try {
       const response = await MarketContract.methods.voteResult(1).send();
       console.log(response);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const onClickListPieceTokenForSale = async() => {
+  const onClickListPieceTokenForSale = async () => {
     try {
-      const response = await PieceMarketContract.methods.listPieceTokenForSale(1, web3.utils.toWei("0.001", "ether")).send({from : account });
+      const response = await PieceMarketContract.methods
+        .listPieceTokenForSale(1, web3.utils.toWei("0.001", "ether"))
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.error(error);
-    }    
-  }
+    }
+  };
 
-  const onClickBuyPieceToken = async() => {
+  const onClickBuyPieceToken = async () => {
     try {
-      const response = await PieceMarketContract.methods.buyPieceToken(1).send({from : account, value : web3.utils.toWei("0.000055","ether")});
+      const response = await PieceMarketContract.methods
+        .buyPieceToken(1)
+        .send({ from: account, value: web3.utils.toWei("0.000055", "ether") });
       console.log(response);
     } catch (error) {
       console.error(error);
-    } 
-  }
+    }
+  };
 
-  const onClickCancelSale = async() => {
+  const onClickCancelSale = async () => {
     try {
-      const response = await PieceMarketContract.methods.cancelSale(1).send({from : account});
+      const response = await PieceMarketContract.methods
+        .cancelSale(1)
+        .send({ from: account });
       console.log(response);
     } catch (error) {
       console.error(error);
-    } 
-  }
-
-  
+    }
+  };
 
   return (
     <div>
@@ -268,28 +288,28 @@ function App() {
       </div>
       <div className="bg-blue-100">
         <div className="flex justify-center text-5xl font-bold">Market</div>
-          {/* <div onClick={onClickListForSale}>List For Sale</div> */}
+        {/* <div onClick={onClickListForSale}>List For Sale</div> */}
         <form onSubmit={onSubmitListForSale}>
-          <input className="mr-2" type = "text" name ="OG_TokenId"></input>
-          <input className="mr-2" type ="text" name ="Listprice"></input>
+          <input className="mr-2" type="text" name="OG_TokenId"></input>
+          <input className="mr-2" type="text" name="Listprice"></input>
           <button>List For Sale</button>
         </form>
         <div className="bg-blue-300">
-        <form onSubmit={onSubmitOGFunding}>
-          <input className="mt-2" type="text" name = "ListIndex"></input>
-          <button>OG Funding</button>
-          <div>Price : 하드코딩될부분</div>
-        </form>
+          <form onSubmit={onSubmitOGFunding}>
+            <input className="mt-2" type="text" name="ListIndex"></input>
+            <button>OG Funding</button>
+            <div>Price : 하드코딩될부분</div>
+          </form>
         </div>
         {/* <div onClick={onClickPriceToSeller}>모인 금액 og판매자에게 넘겨주기</div> */}
         <form onSubmit={onSubmitPriceToSeller}>
-          <input className="mt-2" type="text" name = "ListIndex"></input>
+          <input className="mt-2" type="text" name="ListIndex"></input>
           <button>withdraw : 판매금액 회수</button>
         </form>
         <div onClick={onClickOGListForSale_buyerList}>투자자 리스트</div>
-        
+
         <form onSubmit={onSubmitDistributePiece}>
-          <input className="mt-2" type="text" name = "ListIndex"></input>
+          <input className="mt-2" type="text" name="ListIndex"></input>
           <button>조각NFT 받기</button>
         </form>
         <div onClick={onClickOverDuration}>기간만료된 경우</div>
@@ -298,8 +318,8 @@ function App() {
         <div className="flex justify-center text-5xl font-bold">Vote</div>
         {/* <div onClick={onClickOffering}>offer :가격제안</div> */}
         <form onSubmit={onSubmitOffering}>
-          <input className="mt-2 mr-2" type="text" name = "ListIndex"></input>
-          <input className="mt-2 mr-2" type="text" name = "price"></input>
+          <input className="mt-2 mr-2" type="text" name="ListIndex"></input>
+          <input className="mt-2 mr-2" type="text" name="price"></input>
           <button>가격제안, 제안금액</button>
         </form>
         <div onClick={onClickGetBestOffer}>최고가격뽑기</div>
@@ -307,7 +327,9 @@ function App() {
         <div onClick={onClickvoteResult}>투표 결과</div>
       </div>
       <div className="bg-orange-100">
-        <div className="flex justify-center text-5xl font-bold">Piece Market</div>
+        <div className="flex justify-center text-5xl font-bold">
+          Piece Market
+        </div>
         <div onClick={onClickListPieceTokenForSale}>조각 NFT 등록 </div>
         <div onClick={onClickBuyPieceToken}>조각 구매 </div>
         <div onClick={onClickCancelSale}>조각 판매 취소 </div>
