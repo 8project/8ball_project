@@ -1,23 +1,26 @@
-import { useState } from "react";
-import ABI from "./OGNftABI.json";
-import MarketABI from "./MarketABI.json";
-import PieceMarketABI from "./PieceMarketABI.json";
+import { useEffect, useState } from "react";
+import ABI from "./lib/OGNftABI.json";
+import MarketABI from "./lib/MarketABI.json";
+import PieceMarketABI from "./lib/PieceMarketABI.json";
 import Web3 from "web3";
 import axios from "axios";
 
 
 function App() {
   const [account, setAccount] = useState();
-  const [CAName, setCAName] = useState();
-  const [tokenImage, setTokenImage] = useState();
+  const [tokenMetadata, setTokenMetadata] = useState(0);
+  const [listPrice, setListPrice] = useState();
+  const [tokenId, setTokenId] = useState();
+  // const [index,setIndex] = useState();
+  const [price, setPrice] = useState(0);
 
 
   const web3 = new Web3(window.ethereum);
   // const web3_2 = new Web3("wss://sepolia.infura.io/ws/v3/bd4f14b4116f4974b5d08009d9b368f0");
 
-  const OGNFTContractAddress = "0xe28433CFe04E125401bd827026BB3a55e8c63Cfd";
-  const MarketContractAddress = "0x05f086663c3f7E2C23C13ADA90cf6D8A9EE98B6c";
-  const PieceMarketContractAddress = "0x05f086663c3f7E2C23C13ADA90cf6D8A9EE98B6c";
+  const OGNFTContractAddress = "0x4945ca7DaeFc66Ef875d8209F526625E16f32292";
+  const MarketContractAddress = "0xF2bB516e979F5202Eb0ef873ac98588d1C326Be8";
+  const PieceMarketContractAddress = "0x739D55D23F46A8dF8d5A88AFD499b3cB6B5A7667";
 
   const OGNFTContract = new web3.eth.Contract(ABI, OGNFTContractAddress);
   const MarketContract = new web3.eth.Contract(MarketABI, MarketContractAddress);
@@ -27,7 +30,7 @@ function App() {
   // const PINATA_URL = "https://olbm.mypinata.cloud/ipfs/QmU52T5t4bXtoUqQYStgx39DdXy3gLQq7KDuF1F9g3E9Qy";
 
   
-
+  //완료
   const onClickLogIn = async () => {
     try {
       const account = await window.ethereum.request({
@@ -40,15 +43,7 @@ function App() {
     }
   };
 
-  const onClickContract = async () => {
-    try {
-      const CAName = await OGNFTContract.methods.name().call();
-      setCAName(CAName);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  //완료
   const onClickMint = async () => {
     try {
       const mintResponse = await OGNFTContract.methods.mintNFT().send({from : account});
@@ -58,7 +53,7 @@ function App() {
       console.error(error);
     }
   };
-
+  //완료
   const onClickBalanceOf = async () => {
     try {
       const response = await OGNFTContract.methods.balanceOf(account).call();
@@ -69,42 +64,51 @@ function App() {
     }
   };
 
+  //완료
+  const onSubmitTokenURI = async(e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
 
-
-  const onClickTokenURI = async() => {
+    let OGIndex = web3.utils.numberToHex(Number(data.get("OGIndex")));//10번넘어가면 ㅈ댈거같음 u
     try {
-      const response = await OGNFTContract.methods.tokenURI(1).call();
+      const response = await MarketContract.methods.OGNftList(OGIndex).call();
+      console.log(response);
+      setPrice(web3.utils.fromWei(Number(response.price),"ether"));
+      const tokenId = Number(response.OGTokenId);
 
-      const metadataResponse = await axios.get(`${response}`); //attribute
+      const response2 = await OGNFTContract.methods.tokenURI(tokenId).call();
+      const metadataResponse = await axios.get(response2); //attribute
       console.log(metadataResponse);
-      setTokenImage(metadataResponse.data.image);
+      setTokenMetadata(metadataResponse);
+      console.log(setTokenMetadata);
+      // setPrice
     } catch (error) {
       console.error(error);
     }
   };
 
-  const onClickApprove = async() => {
+  //완료
+  const onSubmitApprove = async(e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.target);
+    
+    let tokenId = web3.utils.numberToHex(Number(data.get("TokenId")));
     try {
       // console.log(account);
-      const response = await OGNFTContract.methods.approve(MarketContractAddress,3).send({from : account})
+      const response = await OGNFTContract.methods.approve(MarketContractAddress,tokenId).send({from : account})
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   };
-  /*
-  input값 수정부분
-  고쳐야 될 문제 : 10^18을 하면 int오류가남
-  내가 쓰고싶은건 web3.utils.toWei("10","ether");을 쓰고싶음 
-  */
-
+  //완료
   const onSubmitListForSale = async (e) => {
     e.preventDefault();
 
-    const data = new FormData(e.target);
+    let OGtokenId = Number(tokenId);
 
-    let OGtokenId = web3.utils.numberToHex(Number(data.get("OG_TokenId")));
-    let price = web3.utils.numberToHex(Number(data.get("Listprice")));
+    let price = web3.utils.toWei(listPrice, "ether");
     try {
       const response = await MarketContract.methods.listForSale(OGNFTContractAddress, OGtokenId, price).send({from : account});
       console.log(response);
@@ -113,21 +117,42 @@ function App() {
     }
   };
   /*
-  value 부분이 OG NFT의 1/20가격이 하드코딩되어야함
+  value 부분이 OG NFT의 1/20가격을 불러와야함
   */
+ //완료 : 등록한 OGNFT의 가격 가져오기 
+  const onClickgetPrice = async() => {
+    try {
+      let price = await MarketContract.methods.getOGNftList_price().call()
+      // console.log(web3.utils.fromWei(price, "ether"));
+      setPrice(Number(web3.utils.fromWei(price, "ether")));
+      // console.log(Number(price));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {console.log("price",price)},[price]);
+  //완료 : 펀딩 + 위의 등록한 OGNFT의 가격 가져오기 함수 사용한 것 
   const onSubmitOGFunding = async (e) => {
     e.preventDefault();
 
     const data = new FormData(e.target);
+    let OGListIndex = Number(data.get("ListIndex"));
+    console.log(OGListIndex);
+    
+    let priceNumber =(price)*10**18;
+    console.log("priceNumber", priceNumber);
 
-    let OGListIndex = web3.utils.numberToHex(Number(data.get("IndexList")));
+    // const price =  web3.utils.fromWei(onClickgetPrice(OGListIndex),"ether");
+    
     try {
-      const response = await MarketContract.methods.OGFunding(OGListIndex).send({from : account, value : web3.utils.toWei("0.000055","ether")});
+      const response = await MarketContract.methods.OGFunding(OGListIndex).send({from : account, value : priceNumber});
       console.log(response);
     } catch (error) {
       console.error(error);
     }
   }
+  
   /*
   돈 받는건 돈받는애가 누르게 하자 
   자기 my page에서 누르게끔 
@@ -145,10 +170,12 @@ function App() {
       console.error(error);
     }    
   }
-
+  /*
+  history부분에다가 useEffect써서 붙이기 
+  */
   const onClickOGListForSale_buyerList = async () => {
     try {
-      const response = await MarketContract.methods.OGListForSale_buyerList(1).call();
+      const response = await MarketContract.methods.OGListForSale_buyerList(4).call();
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -171,7 +198,7 @@ function App() {
       console.log(error);
     }
   };
-
+  //나중에
   const onClickOverDuration = async () => {
     try {
       const response = await MarketContract.methods.overDuration(1).send({ from: account });
@@ -197,7 +224,9 @@ function App() {
       console.error(error);
     }
   }
-
+  /*
+  이건 따로 매니저 지갑에서 눌러줘야함 event emit필요 
+  */
   const onClickGetBestOffer = async() => {
     try {
       const response = await MarketContract.methods.getBestOffer(1).send();
@@ -206,7 +235,9 @@ function App() {
       console.error(error);
     }
   }
-  
+  /*
+  front에서 막아주기 
+  */
   const onClickstartVote = async() => {
     try {
       const response = await MarketContract.methods.startVote(1, true).send();
@@ -215,7 +246,9 @@ function App() {
       console.error(error);
     }
   }
-
+  /*
+  프론트에서 막아주기
+  */
   const onClickvoteResult = async() => {
     try {
       const response = await MarketContract.methods.voteResult(1).send();
@@ -224,16 +257,26 @@ function App() {
       console.error(error);
     }
   }
+  /*
+  
+  */
+  const onSubmitListPieceTokenForSale = async(e) => {
+    e.preventDefault();
 
-  const onClickListPieceTokenForSale = async() => {
+    const data = new FormData(e.target);
+    
+    let PieceListIndex =  web3.utils.numberToHex(Number(data.get("PieceIndexList")));
+    let price =  web3.utils.numberToHex(Number(data.get("price")));
     try {
-      const response = await PieceMarketContract.methods.listPieceTokenForSale(1, web3.utils.toWei("0.001", "ether")).send({from : account });
+      const response = await PieceMarketContract.methods.listPieceTokenForSale(PieceListIndex, web3.utils.toWei(price, "ether")).send({from : account });
       console.log(response);
     } catch (error) {
       console.error(error);
     }    
   }
-
+  /*
+  value값을 PieceNftList에서 가져오기 
+  */
   const onClickBuyPieceToken = async() => {
     try {
       const response = await PieceMarketContract.methods.buyPieceToken(1).send({from : account, value : web3.utils.toWei("0.000055","ether")});
@@ -259,24 +302,41 @@ function App() {
       <div className="bg-red-100">
         <div className="flex justify-center text-5xl font-bold">OGNFT</div>
         <div onClick={onClickLogIn}>account : {account}</div>
-        <div onClick={onClickContract}>contract name : {CAName} </div>
         <div onClick={onClickMint}>Minting</div>
         <div onClick={onClickBalanceOf}>BalanceOf</div>
-        <div onClick={onClickTokenURI}>TokenURI</div>
-        <img src={tokenImage} alt="NFTIMAGE"></img>
-        <div onClick={onClickApprove}>Approve</div>
+        <form onSubmit={onSubmitTokenURI}>
+          <input type="text" name="OGIndex"></input>
+          <button>Get Token URI</button>
+          <div className="bg-green-200">price : {price} ETH</div>
+          {/* //프론트님들 이거 가격 설정안되면 안됐다고 설정해주세요 */}
+        </form>
+          <img src={tokenMetadata.data?.image} alt="NFTIMAGE"></img>
+          <div>{tokenMetadata.data?.description}</div>
+          <ul>
+            {tokenMetadata.data?.attributes?.map((v,i)=> {
+              return <div key={i}>{v.trait_type} {v.value}</div> 
+            })} 
+          </ul> 
+        <form onSubmit={onSubmitApprove}>
+          <input className=" mt-2" type="text" name ="TokenId"></input>
+          <button>Approve NFT</button>
+        </form>
+
       </div>
       <div className="bg-blue-100">
         <div className="flex justify-center text-5xl font-bold">Market</div>
-          {/* <div onClick={onClickListForSale}>List For Sale</div> */}
+          
         <form onSubmit={onSubmitListForSale}>
-          <input className="mr-2" type = "text" name ="OG_TokenId"></input>
-          <input className="mr-2" type ="text" name ="Listprice"></input>
+          <input className="mr-2" type ="text" value ={tokenId} onChange={(e) => setTokenId(e.target.value)}></input>
+          <input className="mr-2" type ="text" value ={listPrice} onChange={(e) => setListPrice(e.target.value)}></input>
           <button>List For Sale</button>
         </form>
+
+        <div onClick={onClickgetPrice}>getPrice</div>
+
         <div className="bg-blue-300">
         <form onSubmit={onSubmitOGFunding}>
-          <input className="mt-2" type="text" name = "ListIndex"></input>
+        <input className="mt-2" type="text" name = "ListIndex"></input>
           <button>OG Funding</button>
           <div>Price : 하드코딩될부분</div>
         </form>
@@ -308,9 +368,15 @@ function App() {
       </div>
       <div className="bg-orange-100">
         <div className="flex justify-center text-5xl font-bold">Piece Market</div>
-        <div onClick={onClickListPieceTokenForSale}>조각 NFT 등록 </div>
+        {/* <div onClick={onSubmitListPieceTokenForSale}>조각 NFT 등록 </div> */}
+        <form onSubmit={onSubmitListPieceTokenForSale}>
+        <input className="mt-2 mr-2" type="text" name = "PieceIndexList"></input>
+          <input className="mt-2 mr-2" type="text" name = "price"></input>
+        </form>
         <div onClick={onClickBuyPieceToken}>조각 구매 </div>
+        {/* 347은 nft카드에 붙이면 됨 */}
         <div onClick={onClickCancelSale}>조각 판매 취소 </div>
+        
       </div>
     </div>
   );
