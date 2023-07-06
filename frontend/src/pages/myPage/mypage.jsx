@@ -5,26 +5,10 @@ import { SlPicture } from "react-icons/sl";
 import { CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { useState } from "react";
-import { OGNFTContract } from "../../lib/web3.config";
 function MyPage({ account }) {
   const handleCopyAccount = () => {
     navigator.clipboard.writeText(account);
   };
-
-  const [OGTokenIds, setOGTokenIds] = useState();
-  const onClickgetMyNftTokenId_OG = async () => {
-    try {
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(account)
-        .call();
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] w-[100%]">
       <Box
@@ -55,10 +39,7 @@ function MyPage({ account }) {
           mx="auto"
         ></Box>
         <Link to="/mypage/MyNft">
-          <Box
-            onClick={onClickgetMyNftTokenId_OG}
-            className="pt-6 border-b border-gray-400 flex justify-between items-center"
-          >
+          <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
             <Box className="flex pb-2 ml-6 items-center">
               <SlPicture />
               <Box className="pl-2">My NFT</Box>
