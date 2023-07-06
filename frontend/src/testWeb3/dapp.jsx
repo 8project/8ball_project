@@ -384,7 +384,7 @@ function App() {
           <input className="mt-2" type="text" name = "ListIndex"></input>
           <button>조각NFT 받기</button>
         </form>
-        <div onClick={onClickOverDuration}>기간만료된 경우</div>
+        <div onClick={onClickOverDuration}>기간만료된 경우1</div>
       </div>
       <div className="bg-purple-100">
         <div className="flex justify-center text-5xl font-bold">Vote</div>
