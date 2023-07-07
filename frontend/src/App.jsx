@@ -18,6 +18,7 @@ import Login from "./pages/myPage/login";
 
 function App() {
   const [account, setAccount] = useState("");
+
   return (
     <Box className="flex justify-center bg-gray-200 min-h-screen">
       <Box className="relative xl:w-[500px]">
@@ -34,7 +35,7 @@ function App() {
             <Route path="/vote" element={<Vote />} />
             <Route path="/login" element={<Login account={account} />} />
             <Route path="/mypage" element={<MyPage account={account} />} />
-            <Route path="/mypage/myNft" element={<MyNft />} />
+            <Route path="/mypage/myNft" element={<MyNft account={account} />} />
             <Route path="/mypage/myPieceNft" element={<MyPieceNft />} />
             <Route path="/mypage/inProgress" element={<InProgress />} />
             <Route path="/mypage/onSale" element={<OnSale />} />
