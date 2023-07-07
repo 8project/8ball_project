@@ -5,18 +5,30 @@ import { SlPicture } from "react-icons/sl";
 import { CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
-<<<<<<< HEAD
-
-=======
->>>>>>> 08b4e1f362242d50647e551a7a2f8f7d39331148
+import { OGNFTContract } from "../../lib/web3.config";
+import { useEffect, useState } from "react";
 function MyPage({ account }) {
   const handleCopyAccount = () => {
     navigator.clipboard.writeText(account);
   };
-<<<<<<< HEAD
 
-=======
->>>>>>> 08b4e1f362242d50647e551a7a2f8f7d39331148
+  const [miting, setMinting] = useState();
+  const onClickMint = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await OGNFTContract.methods
+        .mintNFT(miting)
+        .send({ from: account });
+      response();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    onClickMint();
+  }, []);
+
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] w-[100%]">
       <Box
@@ -26,6 +38,16 @@ function MyPage({ account }) {
         className="pb-6"
       >
         <Box className="mt-[82px]  text-center ">
+          <Box>
+            <form onSubmit={onClickMint}>
+              <input
+                type="민팅하기"
+                value={miting}
+                onChange={(e) => setMinting(e.target.value)}
+              />
+              <input type="submit" value="민팅ㅎㅎㅎ" />
+            </form>
+          </Box>
           <Box fontWeight="bold" color="gray.400" className="pb-5">
             UserWallet
           </Box>
