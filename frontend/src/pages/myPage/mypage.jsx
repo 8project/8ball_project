@@ -35,6 +35,7 @@ function MyPage({ account }) {
       >
         <Box className="mt-[82px]  text-center ">
           <Box>
+<<<<<<< HEAD
             <form onSubmit={onClickMint}>
               <input
                 type="민팅하기"
@@ -43,6 +44,10 @@ function MyPage({ account }) {
               />
               <input type="submit" value="민팅ㅎㅎㅎ" />
             </form>
+=======
+            <button className="bg-red-300"onClick={onClickMint}>민팅하기 </button>
+            
+>>>>>>> 9d923f7252bd065e8107e9a9b0a199ffe0f4092e
           </Box>
           <Box fontWeight="bold" color="gray.400" className="pb-5">
             UserWallet
@@ -105,4 +110,8 @@ function MyPage({ account }) {
   );
 }
 
+<<<<<<< HEAD
 export default MyPage;
+=======
+export default MyPage;
+>>>>>>> 9d923f7252bd065e8107e9a9b0a199ffe0f4092e
