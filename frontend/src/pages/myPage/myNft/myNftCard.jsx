@@ -1,4 +1,12 @@
-import { Box, Text, Image, useDisclosure, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Image,
+  useDisclosure,
+  Button,
+  Spinner,
+  Flex,
+} from "@chakra-ui/react";
 import MyNftModal from "./myNftModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -7,18 +15,17 @@ import { MarketContractAddress, OGNFTContract } from "../../../lib/web3.config";
 const MyNftCard = ({ tokenId, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isApproved, setIsApproved] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleListForSell = () => {
-    //"List for sell" 클릭 시 필요한 동작 수행
     console.log("List for sell clicked");
   };
 
-  const [userTokenImages, setUserTokenImages] = useState();
+  const [userTokenImages, setUserTokenImages] = useState(null);
   const getOGTokenURI = async () => {
     try {
       const response = await OGNFTContract.methods.tokenURI(tokenId).call();
-      const metadataResponse = await axios.get(`${response}`);
-      console.log(metadataResponse);
+      const metadataResponse = await axios.get(response);
       setUserTokenImages(metadataResponse.data.image);
     } catch (error) {
       console.error(error);
@@ -29,6 +36,8 @@ const MyNftCard = ({ tokenId, account }) => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       const response = await OGNFTContract.methods
         .approve(MarketContractAddress, tokenId)
         .send({ from: account });
@@ -40,6 +49,8 @@ const MyNftCard = ({ tokenId, account }) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,14 +67,24 @@ const MyNftCard = ({ tokenId, account }) => {
         </div>
       </div>
       <Box className="bg-gray-100 w-full px-4 py-1">
-        <Text>BAYC #5895</Text>
-        <Button
-          colorScheme="blue"
-          onClick={isApproved ? onOpen : onClickApprove}
-          className="justify-center text-center w-full py-4"
-        >
-          List for Sell
-        </Button>
+        <Text>BAYC #{tokenId}</Text>
+        <Flex justify="center">
+          <Button
+            colorScheme="blue"
+            onClick={isApproved ? onOpen : onClickApprove}
+            className="justify-center text-center w-full py-4"
+            isLoading={isLoading}
+            loadingText="Approving..."
+            spinner={<Spinner size="sm" />}
+            disabled={isApproved}
+          >
+            {isLoading
+              ? "Loading..."
+              : isApproved
+              ? "Approved"
+              : "List for Sell"}
+          </Button>
+        </Flex>
       </Box>
       <MyNftModal
         isOpen={isOpen}
