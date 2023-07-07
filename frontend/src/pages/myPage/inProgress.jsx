@@ -13,7 +13,7 @@ const inProgress = () => {
         />
 
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332</Text>
+          <Text>BAYC #5895</Text>
           <div className="bg-blue-300 justify-center text-center p-4">
             minted
           </div>

@@ -16,7 +16,7 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 
-const MyNftModal = ({ isOpen, onClose, onSubmit }) => {
+const MyNftModal = ({ isOpen, onClose, onSubmit, userTokenImages }) => {
   const [offerPrice, setOfferPrice] = useState(0);
 
   const handleOffer = () => {
@@ -38,12 +38,12 @@ const MyNftModal = ({ isOpen, onClose, onSubmit }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
-          <Image
-            src={
-              "https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"
-            }
-            w={"256px"}
-          />
+          <div className="relative">
+            <Image src={userTokenImages} className=" rounded-t-md absolute" />
+            <div className="top-0 w-[256px] h-[256px]  bg-white text-gray-950 flex justify-center items-center">
+              Loading...
+            </div>
+          </div>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>

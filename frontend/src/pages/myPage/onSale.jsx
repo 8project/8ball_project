@@ -1,7 +1,7 @@
 import { Box, Text, Image, Button } from "@chakra-ui/react";
 import { useState } from "react";
 
-const MyNft = () => {
+const OnSale = () => {
   const [isCancelConfirmationOpen, setCancelConfirmationOpen] = useState(false);
 
   const handleCancel = () => {
@@ -27,7 +27,7 @@ const MyNft = () => {
           w={"256px"}
         />
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332</Text>
+          <Text>BAYC #5895</Text>
 
           <Button
             colorScheme="blue"
@@ -66,4 +66,4 @@ const MyNft = () => {
   );
 };
 
-export default MyNft;
+export default OnSale;

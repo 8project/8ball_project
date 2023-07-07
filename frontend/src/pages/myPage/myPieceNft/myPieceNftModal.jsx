@@ -37,7 +37,7 @@ const MyPieceNftModal = ({ isOpen, onClose }) => {
                 <InputRightAddon children="ETH" colorScheme="blue" />
               </InputGroup>
               <Button colorScheme="blue" mr={2} ml={2}>
-                Offer
+                Sell
               </Button>
               <Button colorScheme="teal" onClick={onClose}>
                 Close

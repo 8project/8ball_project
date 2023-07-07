@@ -1,8 +1,19 @@
 import { useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 
 const VoteBox = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   const handleOptionClick = (option) => {
     if (!isSubmitted) {
@@ -12,11 +23,15 @@ const VoteBox = () => {
 
   const handleSubmit = () => {
     if (selectedOption) {
-      const confirmed = window.confirm("Are you sure you want to submit?");
-      if (confirmed) {
-        setIsSubmitted(true);
-        console.log("Submitted option:", selectedOption);
-      }
+      setIsConfirmationOpen(true);
+    }
+  };
+
+  const handleConfirmation = (confirmed) => {
+    setIsConfirmationOpen(false);
+    if (confirmed) {
+      setIsSubmitted(true);
+      console.log("Submitted option:", selectedOption);
     }
   };
 
@@ -76,6 +91,33 @@ const VoteBox = () => {
         </div>
       )}
       {isSubmitted && <div className="self-end ml-2"></div>}
+
+      <Modal
+        isOpen={isConfirmationOpen}
+        onClose={() => handleConfirmation(false)}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirmation</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>Are you sure you want to submit your vote?</ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="green"
+              onClick={() => handleConfirmation(true)}
+            >
+              Confirm
+            </Button>
+            <Button
+              colorScheme="red"
+              ml={3}
+              onClick={() => handleConfirmation(false)}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

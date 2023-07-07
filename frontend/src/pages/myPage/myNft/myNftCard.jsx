@@ -6,6 +6,7 @@ import { MarketContractAddress, OGNFTContract } from "../../../lib/web3.config";
 
 const MyNftCard = ({ tokenId, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isApproved, setIsApproved] = useState(false);
 
   const handleListForSell = () => {
     //"List for sell" 클릭 시 필요한 동작 수행
@@ -32,11 +33,18 @@ const MyNftCard = ({ tokenId, account }) => {
         .approve(MarketContractAddress, tokenId)
         .send({ from: account });
 
+<<<<<<< HEAD
+=======
       const response2 = await OGNFTContract.methods.getApproved(tokenId).call();
       if (MarketContractAddress === response2) {
         onOpen();
       }
+>>>>>>> 58f783555d3315806c67dc3eaaa8e5dbbd4fe5a6
       console.log(response);
+      if (response.status) {
+        setIsApproved(true);
+        onOpen();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +66,7 @@ const MyNftCard = ({ tokenId, account }) => {
         <Text>BAYC #5895</Text>
         <Button
           colorScheme="blue"
-          onClick={onClickApprove}
+          onClick={isApproved ? onOpen : onClickApprove}
           className="justify-center text-center w-full py-4"
         >
           List for Sell
@@ -68,6 +76,7 @@ const MyNftCard = ({ tokenId, account }) => {
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleListForSell}
+        userTokenImages={userTokenImages}
       />
     </Box>
   );
