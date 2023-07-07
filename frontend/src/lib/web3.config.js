@@ -16,10 +16,12 @@ export const OGNFTContract = new web3.eth.Contract(
   OGNftABI,
   OGNFTContractAddress
 );
+
 export const MarketContract = new web3.eth.Contract(
   MarketABI,
-  MarketContractAddress
+  OGNFTContractAddress
 );
+
 export const PieceMarketContract = new web3.eth.Contract(
   PieceMarketABI,
   PieceMarketContractAddress
