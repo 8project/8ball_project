@@ -12,14 +12,17 @@ function MyPage({ account }) {
     navigator.clipboard.writeText(account);
   };
 
-  const [OGTokenIds, setOGTokenIds] = useState();
+  const [OGTokenIds, setOGTokenIds] = useState([]);
   const onClickgetMyNftTokenId_OG = async () => {
     try {
       const response = await OGNFTContract.methods
         .getMyNftTokenId_OG(account)
         .call();
+      const userTokenIdArray = response.map((v) => {
+        return Number(v);
+      });
 
-      console.log(response);
+      setOGTokenIds(userTokenIdArray);
     } catch (error) {
       console.log(error);
     }

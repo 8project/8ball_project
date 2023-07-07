@@ -27,7 +27,7 @@ const OnSale = () => {
           w={"256px"}
         />
         <Box className="bg-gray-100 w-full px-4 py-1">
-          <Text>Kongz #7332</Text>
+          <Text>BAYC #5895</Text>
 
           <Button
             colorScheme="blue"

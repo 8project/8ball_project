@@ -1,4 +1,4 @@
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { RiQuestionAnswerLine } from "react-icons/ri";
 import { useState } from "react";
 import NftFaq from "./nftFaq";
@@ -6,7 +6,6 @@ import InvestFaq from "./investFaq";
 import VoteFaq from "./voteFaq";
 
 const Faq = () => {
-  const [show, setShow] = useState(false);
   const [faqMenu, setFaqMenu] = useState("nft");
 
   return (
