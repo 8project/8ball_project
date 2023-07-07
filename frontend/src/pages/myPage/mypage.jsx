@@ -5,12 +5,18 @@ import { SlPicture } from "react-icons/sl";
 import { CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08b4e1f362242d50647e551a7a2f8f7d39331148
 function MyPage({ account }) {
   const handleCopyAccount = () => {
     navigator.clipboard.writeText(account);
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08b4e1f362242d50647e551a7a2f8f7d39331148
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] w-[100%]">
       <Box
