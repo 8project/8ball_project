@@ -1,77 +1,108 @@
-import { Box, Text, Image, useDisclosure, Button } from "@chakra-ui/react";
-import MyNftModal from "./myNft/myNftModal";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { MarketContractAddress, OGNFTContract } from "../../lib/web3.config";
-
-const MyNftCard = ({ tokenId, account }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isApproved, setIsApproved] = useState(false);
-
-  const handleListForSell = () => {
-    //"List for sell" 클릭 시 필요한 동작 수행
-    console.log("List for sell clicked");
+import { Box } from "@chakra-ui/react";
+import { IoIosArrowForward } from "react-icons/io";
+import { HiOutlinePuzzle } from "react-icons/hi";
+import { SlPicture } from "react-icons/sl";
+import { CiShop } from "react-icons/ci";
+import { Link } from "react-router-dom";
+import { MdOutlineContentCopy } from "react-icons/md";
+import { OGNFTContract } from "../../lib/web3.config";
+import { useState } from "react";
+function MyPage({ account }) {
+  const handleCopyAccount = () => {
+    navigator.clipboard.writeText(account);
   };
 
-  const [userTokenImages, setUserTokenImages] = useState();
-  const getOGTokenURI = async () => {
-    try {
-      const response = await OGNFTContract.methods.tokenURI(tokenId).call();
-      const metadataResponse = await axios.get(`${response}`);
-      console.log(metadataResponse);
-      setUserTokenImages(metadataResponse.data.image);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const onClickApprove = async (e) => {
+  const [miting, setMinting] = useState();
+  const onClickMint = async (e) => {
     e.preventDefault();
-
     try {
       const response = await OGNFTContract.methods
-        .approve(MarketContractAddress, tokenId)
+        .mintNFT(miting)
         .send({ from: account });
-
-      console.log(response);
-      if (response.status) {
-        setIsApproved(true);
-        onOpen();
-      }
+      response();
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-    getOGTokenURI();
-  }, []);
-
   return (
-    <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
-      <div className="relative">
-        <Image src={userTokenImages} className=" rounded-t-md absolute" />
-        <div className="top-0 w-[256px] h-[256px]  bg-white text-gray-950 flex justify-center items-center">
-          Loading...
-        </div>
-      </div>
-      <Box className="bg-gray-100 w-full px-4 py-1">
-        <Text>BAYC #5895</Text>
-        <Button
-          colorScheme="blue"
-          onClick={isApproved ? onOpen : onClickApprove}
-          className="justify-center text-center w-full py-4"
-        >
-          List for Sell
-        </Button>
+    <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] w-[100%]">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        className="pb-6"
+      >
+        <Box className="mt-[82px]  text-center ">
+          <Box>
+            <form onSubmit={onClickMint}>
+              <input
+                type="민팅하기"
+                value={miting}
+                onChange={(e) => setMinting(e.target.value)}
+              />
+              <input type="submit" value="민팅ㅎㅎㅎ" />
+            </form>
+          </Box>
+          <Box fontWeight="bold" color="gray.400" className="pb-5">
+            UserWallet
+          </Box>
+          <Box className="font-extrabold font-mono flex justify-center items-center ml-6">
+            <div className="mr-2">
+              {account.substring(0, 4)}...{account.slice(-4)}
+            </div>
+            <div onClick={handleCopyAccount} style={{ cursor: "pointer" }}>
+              <MdOutlineContentCopy />
+            </div>
+          </Box>
+        </Box>
       </Box>
-      <MyNftModal
-        isOpen={isOpen}
-        onClose={onClose}
-        onSubmit={handleListForSell}
-      />
+      <Box className="font-extrabold font-mono">
+        <Box
+          borderTop="1px solid gray"
+          width="100%"
+          maxW={["460px", "460px", "460px", "800px"]}
+          mx="auto"
+        ></Box>
+        <Link to="/mypage/MyNft">
+          <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
+            <Box className="flex pb-2 ml-6 items-center">
+              <SlPicture />
+              <Box className="pl-2">My NFT</Box>
+            </Box>
+            <IoIosArrowForward className=" text-gray-300" />
+          </Box>
+        </Link>
+        <Link to="/mypage/MyPieceNft">
+          <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
+            <Box className="flex pb-2 ml-6 items-center">
+              <HiOutlinePuzzle />
+              <Box className="pl-2">My Piece NFT</Box>
+            </Box>
+            <IoIosArrowForward className=" text-gray-300" />
+          </Box>
+        </Link>
+        <Link to="/mypage/inProgress">
+          <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
+            <Box className="flex pb-2 ml-6 items-center">
+              <CiShop />
+              <Box className="pl-1">In Progress</Box>
+            </Box>
+            <IoIosArrowForward className=" text-gray-300" />
+          </Box>
+        </Link>
+        <Link to="/mypage/onSale">
+          <Box className="pt-6 border-b border-gray-400 flex justify-between items-center">
+            <Box className="flex pb-2 ml-6 items-center">
+              <CiShop />
+              <Box className="pl-1">On Sale</Box>
+            </Box>
+            <IoIosArrowForward className=" text-gray-300" />
+          </Box>
+        </Link>
+      </Box>
     </Box>
   );
-};
+}
 
-export default MyNftCard;
+export default MyPage;
