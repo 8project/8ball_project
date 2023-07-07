@@ -33,6 +33,13 @@ const MyNftCard = ({ tokenId, account }) => {
         .approve(MarketContractAddress, tokenId)
         .send({ from: account });
 
+<<<<<<< HEAD
+=======
+      const response2 = await OGNFTContract.methods.getApproved(tokenId).call();
+      if (MarketContractAddress === response2) {
+        onOpen();
+      }
+>>>>>>> 58f783555d3315806c67dc3eaaa8e5dbbd4fe5a6
       console.log(response);
       if (response.status) {
         setIsApproved(true);
