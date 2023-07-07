@@ -1,8 +1,8 @@
 import { Box, Text, Image, useDisclosure, Button } from "@chakra-ui/react";
-import MyNftModal from "./myNftModal";
+import MyNftModal from "./myNft/myNftModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MarketContractAddress, OGNFTContract } from "../../../lib/web3.config";
+import { MarketContractAddress, OGNFTContract } from "../../lib/web3.config";
 
 const MyNftCard = ({ tokenId, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
