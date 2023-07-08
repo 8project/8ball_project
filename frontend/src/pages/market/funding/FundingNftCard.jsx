@@ -11,9 +11,6 @@ const FundingNftCard = ({ indexId, account}) => {
     const[tokenData, setTokenData] = useState();
     const [price, setPrice] = useState(0);
     // const [OGIndex, setOGIndex] = useState();
-
-
-   
     
     const getOGTokenURI = async () => {
         try {
@@ -30,11 +27,14 @@ const FundingNftCard = ({ indexId, account}) => {
         } catch (error) {
           console.error(error);
         }
-      };
+    };
     
-      useEffect(() => {
+    useEffect(() => {
         getOGTokenURI();
-      }, []);
+    }, []);
+    
+    
+    
     
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,6 +52,8 @@ const FundingNftCard = ({ indexId, account}) => {
                                 Inprogress
                             </Text>
                         </Box>
+                            <div className="bg-red-100">{tokenData.description}</div>   {/*수정한 부분-조성윤*/}
+                            <div className="bg-red-100">{tokenData.attributes.map((v,i) => {return<div key={i}>{v.trait_type} {v.value}</div>})}</div>
                         <Text className="text-blue-400 text-sm mt-1">Each Piece</Text>
                         <Text className="text-blue-500 font-semibold mt-1">{price/20} ETH</Text>
                     </Box>

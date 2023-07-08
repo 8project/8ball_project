@@ -21,6 +21,14 @@ const Funding = ({account}) => {
     console.log(OGTokenListArray);
     useEffect(() => {getNftMetadata()}, []);
 
+    // 펀딩 기록이 20번이 찍히면 등록된 해당 nft 프론트에서 지워주는법
+    // const completedFunding = () => { 
+    //     if(buyer.length === Number(20)) {
+            
+    //     }
+
+    // }
+
     return (
         <Box className="lg:max-w-[800px] max-w-[460px]">
             <Box className="grid lg:grid-cols-2 gap-14">

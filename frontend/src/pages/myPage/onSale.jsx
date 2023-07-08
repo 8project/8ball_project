@@ -1,8 +1,13 @@
 import { Box, Text, Image, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { OGNFTContract, MarketContractAddress, MarketContract } from "../../lib/web3.config";
+import Web3 from "web3";
 
-const OnSale = () => {
+
+const OnSale = ({account}) => {
+  const[OGTokenListArray, setOGTokenListArray] = useState();
   const [isCancelConfirmationOpen, setCancelConfirmationOpen] = useState(false);
+  const [OGTokenIds, setOGTokenIds] = useState([]);
 
   const handleCancel = () => {
     setCancelConfirmationOpen(true);
@@ -17,6 +22,36 @@ const OnSale = () => {
   const handleCancelCancel = () => {
     setCancelConfirmationOpen(false);
   };
+
+
+
+
+  const getNftMetadata = async () => {
+      try {
+          const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+
+          const marketTokenArray = response.map((v) => {return Number(v)});
+          setOGTokenListArray(marketTokenArray);
+          // console.log(marketTokenArray);
+          let i = marketTokenArray.length+1;
+          for(i=0; i<marketTokenArray.length; i++){
+            const response2 = await MarketContract.methods.OGNftList(i).call();
+            console.log(response2);
+          }
+      } catch (error) {
+          console.error(error);
+      }
+  };
+  console.log(OGTokenListArray);
+  useEffect(() => {getNftMetadata()}, []);
+
+  const compareContractAndAccount = async () => {
+    const response = await MarketContract.methods.OGNftList().call();
+    console.log(response);
+  };
+ 
+
+
 
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
@@ -37,6 +72,7 @@ const OnSale = () => {
             Cancel
           </Button>
         </Box>
+        <button onClick={compareContractAndAccount}>dasdasdasdasd</button>
       </Box>
 
       {isCancelConfirmationOpen && (
