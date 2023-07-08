@@ -6,7 +6,7 @@ import { CiShop } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { OGNFTContract } from "../../lib/web3.config";
-import { useState } from "react";
+// import { useState } from "react";
 
 function MyPage({ account }) {
 
@@ -15,13 +15,13 @@ function MyPage({ account }) {
     navigator.clipboard.writeText(account);
   };
 
-  const onClickMint = async (e) => {
-    e.preventDefault();
+  const onClickMint = async () => {
     try {
-      const response = await OGNFTContract.methods.mintNFT().send({ from: account });
-      console.log(response);
+      const mintResponse = await OGNFTContract.methods.mintNFT().send({from : account});
+      
+      console.log(mintResponse);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -36,7 +36,6 @@ function MyPage({ account }) {
         <Box className="mt-[82px]  text-center ">
           <Box>
             <button className="bg-red-300"onClick={onClickMint}>민팅하기 </button>
-            
           </Box>
           <Box fontWeight="bold" color="gray.400" className="pb-5">
             UserWallet
