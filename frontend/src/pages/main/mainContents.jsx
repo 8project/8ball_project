@@ -8,9 +8,12 @@ const MainContents = () => {
                 <Box className="flex justify-around gap-2">
                     <GridAnimation className=" shadow-xl " />
                     <Box className="flex flex-col justify-center items-center font-['Tenada']">
-                        <Text className="lg:text-2xl text-sm ">비싼 NFT 고민만 하셨나요?</Text>
+                        <Text className="lg:text-2xl text-sm ">
+                            비싼 <span className="text-red-600">NFT</span> 고민만 하셨나요?
+                        </Text>
                         <Text className="lg:text-lg text-xs animate-bounce">
-                            조각 투자를 통해 쉽게 접근해 보세요!
+                            <span className="text-blue-600">조각 투자</span>를 통해 쉽게 접근해
+                            보세요!
                         </Text>
                     </Box>
                 </Box>
