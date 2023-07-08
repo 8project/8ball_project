@@ -9,8 +9,6 @@ import { OGNFTContract } from "../../lib/web3.config";
 // import { useState } from "react";
 
 function MyPage({ account }) {
-
-
   const handleCopyAccount = () => {
     navigator.clipboard.writeText(account);
   };
