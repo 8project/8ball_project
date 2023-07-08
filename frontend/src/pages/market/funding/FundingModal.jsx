@@ -28,10 +28,12 @@ const FundingModal = ({ isOpen, onClose, tokenData, account, price }) => {
     const onClickFunding = async(e) => {
         e.preventDefault();
         try {
-            const fundingPrice =web3.utils.toWei((price/20),"ether");
-            console.log(tokenData.edition);
-            console.log(account);
-            console.log(fundingPrice);
+            const fundingPrice =web3.utils.toWei((price/*/20*/),"ether");
+            // console.log(price);
+            // console.log(tokenData.edition);
+            // console.log(account);
+            // console.log(fundingPrice);
+            
             const response = await MarketContract.methods.OGFunding(tokenData.edition).send({from : account, value : fundingPrice});  
             console.log(response);
         } catch (error) {

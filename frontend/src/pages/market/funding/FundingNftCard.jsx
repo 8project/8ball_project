@@ -7,21 +7,23 @@ import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
 
  const web3 = new Web3(window.ethereum);
 
-const FundingNftCard = ({ tokenId, account }) => {
+const FundingNftCard = ({ indexId, account}) => {
     const[tokenData, setTokenData] = useState();
     const [price, setPrice] = useState(0);
+    // const [OGIndex, setOGIndex] = useState();
 
 
-
+   
+    
     const getOGTokenURI = async () => {
         try {
-            const priceResponse = await MarketContract.methods.OGNftList(tokenId).call();
+            const priceResponse = await MarketContract.methods.OGNftList(indexId).call();
             console.log(priceResponse);
             setPrice(web3.utils.fromWei(Number(priceResponse.price),"ether"));
             console.log(price);
             // const tokenId = Number(response.OGTokenId);
 
-          const response = await OGNFTContract.methods.tokenURI(tokenId).call();
+          const response = await OGNFTContract.methods.tokenURI(Number(priceResponse.OGTokenId)).call();          
           const metadataResponse = await axios.get(response);
           setTokenData(metadataResponse.data);
         //   console.log(metadataResponse.data);
@@ -62,7 +64,7 @@ const FundingNftCard = ({ tokenId, account }) => {
                         Funding
                     </Button>
                 </Box>
-                <FundingModal isOpen={isOpen} onClose={onClose} tokenId={tokenId} account={account} tokenData={tokenData} price={price}/>
+                <FundingModal isOpen={isOpen} onClose={onClose} indexId={indexId} account={account} tokenData={tokenData} price={price}/>
             </div>}
             </Box>
     );

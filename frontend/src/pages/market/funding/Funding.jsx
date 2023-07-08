@@ -13,7 +13,7 @@ const Funding = ({account}) => {
             
             const marketTokenArray = response.map((v) => {return Number(v)});
             setOGTokenListArray(marketTokenArray);
-            console.log(response);
+            // console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -25,7 +25,7 @@ const Funding = ({account}) => {
         <Box className="lg:max-w-[800px] max-w-[460px]">
             <Box className="grid lg:grid-cols-2 gap-14">
                 {OGTokenListArray?.map((t,i) => {
-                    return (<FundingNftCard key={i} tokenId={t} account={account} />
+                    return (<FundingNftCard key={i} indexId={i+1} account={account} />
                     );
                 })}
             </Box>

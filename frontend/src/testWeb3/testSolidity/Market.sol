@@ -35,7 +35,7 @@ contract Market is ERC721Enumerable {
     /*
     판매등록
     */
-    
+    event GETPRICE(uint price);
     function listForSale(address _OGContractAddress, uint _OGTokenId, uint _price) public {
         //ownercheck 기능 
         OG.transferFrom(tx.origin,address(this),_OGTokenId);
