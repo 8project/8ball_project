@@ -16,10 +16,28 @@ import {
     SliderThumb,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Nfts from "../../../components/Nfts";
+import { MarketContract } from "../../../lib/web3.config";
+import Web3 from "web3";
 
-const FundingModal = ({ isOpen, onClose, nft, num }) => {
+
+const web3 = new Web3(window.ethereum);
+
+const FundingModal = ({ isOpen, onClose, tokenData, account, price }) => {
     const [count, setCount] = useState(60);
+
+    const onClickFunding = async(e) => {
+        e.preventDefault();
+        try {
+            const fundingPrice =web3.utils.toWei((price/20),"ether");
+            console.log(tokenData.edition);
+            console.log(account);
+            console.log(fundingPrice);
+            const response = await MarketContract.methods.OGFunding(tokenData.edition).send({from : account, value : fundingPrice});  
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <Box>
@@ -27,21 +45,21 @@ const FundingModal = ({ isOpen, onClose, nft, num }) => {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
-                        <Image src={nft?.image} />
+                        <Image src={tokenData.image} />
                     </ModalHeader>
                     <ModalCloseButton />
-                    {nft && (
+                    {tokenData && (
                         <ModalBody>
                             <Text className="font-semibold">
-                                {nft.name} #{num}
+                                {tokenData.name}
                             </Text>
-                            <Text className="text-blue-400 text-sm mt-1">Total piece: 20</Text>
+                            <Text className="text-blue-400 text-sm mt-1">Total piece: {price}</Text>
                             <Text className="text-blue-500 font-semibold mt-1">
-                                Per piece: 0.05 ETH
+                                Per piece: {price / 20} ETH
                             </Text>
                             <Box className="mt-4 text-sm font-semibold">
                                 <Box className="flex justify-between">
-                                    <Text>Recruitment rate</Text>
+                                    <Text>Funding rate</Text>
                                     <Text>{count}%</Text>
                                 </Box>
                                 <Slider aria-label="slider-ex-1" defaultValue={count}>
@@ -59,7 +77,7 @@ const FundingModal = ({ isOpen, onClose, nft, num }) => {
                     )}
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={2}>
+                        <Button onClick={onClickFunding}colorScheme="blue" mr={2}>
                             Funding now
                         </Button>
                         <Button colorScheme="teal" onClick={onClose}>

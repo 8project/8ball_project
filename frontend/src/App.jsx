@@ -28,17 +28,17 @@ function App() {
         <Header account={account} setAccount={setAccount} />
         <Box className="flex justify-center lg:min-w-[800px] lg:max-w-[800px] min-w-[460px] max-w-[460px]  min-h-screen bg-white">
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/market" element={<Market />} />
-            <Route path="/pieceMarket" element={<PieceMarket />} />
-            <Route path="/vote" element={<Vote />} />
+            <Route path="/" element={<Main account={account}/>} />
+            <Route path="*" element={<NotFound account={account}/>} />
+            <Route path="/market" element={<Market account={account}/>} />
+            <Route path="/pieceMarket" element={<PieceMarket account={account}/>} />
+            <Route path="/vote" element={<Vote account={account}/>} />
             <Route path="/login" element={<Login account={account} />} />
             <Route path="/mypage" element={<MyPage account={account} />} />
             <Route path="/mypage/myNft" element={<MyNft account={account} />} />
-            <Route path="/mypage/myPieceNft" element={<MyPieceNft />} />
-            <Route path="/mypage/inProgress" element={<InProgress />} />
-            <Route path="/mypage/onSale" element={<OnSale />} />
+            <Route path="/mypage/myPieceNft" element={<MyPieceNft account={account}/>} />
+            <Route path="/mypage/inProgress" element={<InProgress account={account}/>} />
+            <Route path="/mypage/onSale" element={<OnSale account={account}/>} />
           </Routes>
         </Box>
         <BottomMenu />

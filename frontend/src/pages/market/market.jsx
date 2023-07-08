@@ -5,7 +5,7 @@ import Offer from "./offer/Offer";
 import { GiReceiveMoney } from "react-icons/gi";
 import { FaCartArrowDown } from "react-icons/fa";
 
-function Market() {
+function Market({account}) {
   const [show, setShow] = useState(true);
 
   return (
@@ -31,7 +31,7 @@ function Market() {
             Offer
           </Box>
         </Box>
-        <Box className="mt-10">{show ? <Funding /> : <Offer />}</Box>
+        <Box className="mt-10">{show ? <Funding account={account}/> : <Offer />}</Box>
       </Box>
     </Box>
   );
