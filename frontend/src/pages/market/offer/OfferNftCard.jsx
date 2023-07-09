@@ -8,35 +8,6 @@ const OfferNft = () => {
   const [show, setShow] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [tokenData, setTokenData] = useState();
-  const [price, setPrice] = useState(0);
-  // const [OGIndex, setOGIndex] = useState();
-
-  const getOGTokenURI = async () => {
-    try {
-      const priceResponse = await MarketContract.methods
-        .OGNftList(indexId)
-        .call();
-      console.log(priceResponse);
-      setPrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
-      console.log(price);
-      // const tokenId = Number(response.OGTokenId);
-
-      const response = await OGNFTContract.methods
-        .tokenURI(Number(priceResponse.OGTokenId))
-        .call();
-      const metadataResponse = await axios.get(response);
-      setTokenData(metadataResponse.data);
-      //   console.log(metadataResponse.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getOGTokenURI();
-  }, []);
-
   return (
     <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
       {show ? (
