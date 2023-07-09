@@ -10,10 +10,6 @@ const web3 = new Web3(window.ethereum);
 const FundingNftCard = ({ indexId, account }) => {
   const [tokenData, setTokenData] = useState();
   const [price, setPrice] = useState(0);
-  const [buyerArray, setBuyerArray] = useState([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const isFundingCompleted = buyerArray.length === 20;
-
   // const [OGIndex, setOGIndex] = useState();
 
   const getOGTokenURI = async () => {
@@ -37,39 +33,18 @@ const FundingNftCard = ({ indexId, account }) => {
     }
   };
 
-  const getFundingBuyerList = async () => {
-    try {
-      const buyerArray = await MarketContract.methods
-        .OGListForSale_buyerList(indexId)
-        .call();
-      setBuyerArray(buyerArray);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     getOGTokenURI();
-    getFundingBuyerList();
   }, []);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
       {tokenData && (
         <div>
-          <Box position="relative">
-            {isFundingCompleted && (
-              <div className="absolute bg-black w-full h-full flex justify-center items-center text-2xl font-bold text-white">
-                Funding completed
-              </div>
-            )}
-            <Image
-              src={tokenData.image}
-              className={`w-[256px] rounded-t-md ${
-                isFundingCompleted ? "opacity-50" : ""
-              }`}
-              style={{ zIndex: 2 }}
-            />
+          <Box>
+            <Image src={tokenData.image} className="w-[256px] rounded-t-md " />
           </Box>
           <Box className="bg-gray-100 w-full px-4 py-1">
             <Box className="flex justify-between">
