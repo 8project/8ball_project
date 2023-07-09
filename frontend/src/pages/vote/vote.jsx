@@ -8,9 +8,7 @@ function Vote() {
       <div className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
         <div className=" bg-gray-500 lg:max-w-[800px] max-w-[460px] border rounded-md p-2">
           <VoteBox />
-          <VoteBox />
-          <VoteBox />
-          <VoteBox />
+          
         </div>
       </div>
     </Box>
