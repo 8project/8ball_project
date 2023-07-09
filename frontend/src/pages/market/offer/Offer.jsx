@@ -8,8 +8,6 @@ import {
 } from "../../../lib/web3.config";
 
 const Offer = () => {
-  const [OGTokenListArray, setOGTokenListArray] = useState([]);
-  const [copy, setCopy] = useState([]);
   const [fundingComplete, setFundingComplete] = useState([]);
 
   const getNftMetadata = async () => {
@@ -21,44 +19,34 @@ const Offer = () => {
       const marketTokenArray = response.map((v) => {
         return Number(v);
       });
-      setOGTokenListArray(marketTokenArray);
-      // console.log(response);
+
+      for (var j = 1; j <= marketTokenArray.length; j++) {
+        const response = await MarketContract.methods
+          .OGListForSale_buyerList(j)
+          .call();
+        if (response.length == 20) {
+          setFundingComplete((prev) => [...prev, j]);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    getNftMetadata();
-  }, []);
-
-  const getCompleteFunding = async () => {
-    try {
-      var j;
-      var count;
-      for (j = 1; j <= OGTokenListArray.length; j++) {
-        const response = await MarketContract.methods
-          .OGListForSale_buyerList(j)
-          .call();
-        console.log(response.length);
-        if (response.length == 20) {
-          setFundingComplete([([count] = j), ...fundingComplete]);
-          count++;
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    console.log(fundingComplete);
+  }, [fundingComplete]);
 
   useEffect(() => {
-    getCompleteFunding();
+    getNftMetadata();
   }, []);
 
   return (
     <Box className="lg:max-w-[800px] max-w-[460px]">
       <Box className="grid lg:grid-cols-2 gap-14">
-        <OfferNftCard />;
+        {fundingComplete?.map((o, i) => {
+          return <OfferNftCard key={i} offerId={o} />;
+        })}
       </Box>
     </Box>
   );
