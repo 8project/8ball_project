@@ -40,34 +40,37 @@ const FundingNftCard = ({ indexId, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+    <Box className="flex flex-col justify-center items-center mb-10 ">
       {tokenData && (
-        <div>
+        <Box className="border rounded-md max-w-[256px]">
           <Box>
             <Image src={tokenData.image} className="w-[256px] rounded-t-md " />
           </Box>
           <Box className="bg-gray-100 w-full px-4 py-1">
             <Box className="flex justify-between">
-              <div>{tokenData.name}</div>
+              <Text>{tokenData.name}</Text>
               <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
                 Inprogress
               </Text>
             </Box>
-            <div className="bg-red-100">{tokenData.description}</div>{" "}
-            {/*수정한 부분-조성윤*/}
-            <div className="bg-red-100">
-              {tokenData.attributes.map((v, i) => {
-                return (
-                  <div key={i}>
-                    {v.trait_type} {v.value}
-                  </div>
-                );
-              })}
-            </div>
-            <Text className="text-blue-400 text-sm mt-1">Each Piece</Text>
-            <Text className="text-blue-500 font-semibold mt-1">
-              {price / 20} ETH
-            </Text>
+            <Box className="text-xs mt-2">
+              <Box>{tokenData.description}</Box>
+              <Box>
+                {tokenData.attributes.map((v, i) => {
+                  return (
+                    <Box key={i}>
+                      {v.trait_type} : {v.value}
+                    </Box>
+                  );
+                })}
+              </Box>
+            </Box>
+            <Box className="flex justify-around border-t mt-2">
+              <Text className="text-blue-400 text-sm mt-1">Each Piece : </Text>
+              <Text className="text-blue-500 font-semibold mt-1">
+                {price / 20} ETH
+              </Text>
+            </Box>
           </Box>
           <Box className="bg-gray-100 w-full flex justify-center py-2">
             <Button
@@ -88,7 +91,7 @@ const FundingNftCard = ({ indexId, account }) => {
             tokenData={tokenData}
             price={price}
           />
-        </div>
+        </Box>
       )}
     </Box>
   );
