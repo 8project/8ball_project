@@ -33,7 +33,7 @@ const TopBtn = () => {
           id="top"
           onClick={scrollToTop}
           type="button"
-          className=" rounded-full bg-black py-3 px-3 text-white font-[Tenada] cursor-pointer hover:bg-gray-600"
+          className=" rounded-full bg-black py-3 px-3 text-white font-[Tenada] cursor-pointer hover:bg-gray-600 border border-white"
         >
           {" "}
           Top
