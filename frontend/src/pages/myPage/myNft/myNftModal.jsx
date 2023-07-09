@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Text,
@@ -15,14 +14,16 @@ import {
   InputRightAddon,
   Input,
   FormControl,
+  Spinner,
 } from "@chakra-ui/react";
 import { MarketContract, OGNFTContractAddress } from "../../../lib/web3.config";
 import Web3 from "web3";
 
 const web3 = new Web3(window.ethereum);
 
-const MyNftModal = ({ isOpen, onClose, onSubmit, tokenData, account }) => {
+const MyNftModal = ({ isOpen, onClose, tokenData, account }) => {
   const [offerPrice, setOfferPrice] = useState(0);
+  const [isProcessing, setProcessing] = useState(false);
 
   const handleOffer = async (e) => {
     e.preventDefault();
@@ -30,14 +31,20 @@ const MyNftModal = ({ isOpen, onClose, onSubmit, tokenData, account }) => {
     let priceInWei = web3.utils.toWei(offerPrice, "ether");
 
     try {
-      const response = await MarketContract.methods.listForSale(OGNFTContractAddress, tokenData.edition, priceInWei).send({ from: account });
+      setProcessing(true);
+
+      const response = await MarketContract.methods
+        .listForSale(OGNFTContractAddress, tokenData.edition, priceInWei)
+        .send({ from: account });
+
       console.log(response);
+
+      onClose();
     } catch (error) {
       console.error(error);
+    } finally {
+      setProcessing(false);
     }
-
-    onSubmit();
-    onClose();
   };
 
   const piecePrice = offerPrice ? (1 / 20) * offerPrice : 0;
@@ -75,10 +82,23 @@ const MyNftModal = ({ isOpen, onClose, onSubmit, tokenData, account }) => {
               <InputRightAddon children="ETH" colorScheme="blue" />
             </InputGroup>
           </FormControl>
-          <Button colorScheme="blue" mr={2} ml={2} onClick={handleOffer}>
+          <Button
+            colorScheme="blue"
+            mr={2}
+            ml={4}
+            onClick={handleOffer}
+            isLoading={isProcessing}
+            loadingText={<Text fontSize="sm">Loading</Text>}
+            isDisabled={isProcessing}
+            spinner={<Spinner size="sm" />}
+          >
             Offer
           </Button>
-          <Button colorScheme="teal" onClick={onClose}>
+          <Button
+            colorScheme="teal"
+            onClick={onClose}
+            isDisabled={isProcessing}
+          >
             Close
           </Button>
         </ModalFooter>
