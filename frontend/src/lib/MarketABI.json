@@ -387,7 +387,7 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "OGNFT_index",
+				"name": "OGNft_tokenId",
 				"type": "uint256"
 			},
 			{
@@ -563,7 +563,7 @@
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "OGNFT_index",
+				"name": "OGNft_tokenId",
 				"type": "uint256"
 			}
 		],

@@ -6,17 +6,16 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "./OGNFT.sol";
 
 
-
 contract Market is ERC721Enumerable {
 
     ERC721 public OG;
 
     // address private manager; 
-    string public URI; 
+    string public URI;  
 
-  constructor (/*address _manager,*/string memory _URI, address _OGAddress) ERC721("Market", "MRK") {
+  constructor (/*address _manager,*/ string memory _URI, address _OGAddress) ERC721("Market", "MRK") {
         // manager = _manager;
-        URI = _URI; // piece nft의 pinata 주소 
+        URI = _URI;
         OG = OGNFT(_OGAddress);
     }
 
@@ -35,14 +34,14 @@ contract Market is ERC721Enumerable {
     /*
     판매등록
     */
-    event GETPRICE(uint price);
+    // event GETPRICE(uint price);
+    
     function listForSale(address _OGContractAddress, uint _OGTokenId, uint _price) public {
         //ownercheck 기능 
         OG.transferFrom(tx.origin,address(this),_OGTokenId);
 
         (OGNftList[OGIndex].seller, OGNftList[OGIndex].OGContractAddress, OGNftList[OGIndex].OGTokenId, OGNftList[OGIndex].price) = (msg.sender, _OGContractAddress, _OGTokenId, _price);
         OGIndex++;
-        
     }
 
     function OGListForSale_buyerList(uint _index) public view returns(address[] memory) {
@@ -88,9 +87,10 @@ contract Market is ERC721Enumerable {
             OGNftList[_index].buyer.push(msg.sender); 
         }
 
-         if (OGNftList[_index].buyer.length == 20) {
-         emit FUNDING("Financing is complete", _index);
-         //+ pieceNFT 배분
+       if (OGNftList[_index].buyer.length == 20) {
+            distributePiece(_index);
+            FundingPriceToSeller(_index);
+        
         }
     }
    
@@ -117,7 +117,7 @@ contract Market is ERC721Enumerable {
             _mint(OGNftList[_index].buyer[i], i);
             ownerList[_index].push(OGNftList[_index].buyer[i]);
         }
-        currentPolls[_index].OGNFT_index = _index;
+        currentPolls[_index].OGNft_tokenId = OGNftList[_index].OGTokenId;//인풋으로 인덱스가 아니라 list tokenId를 넣어줘야ㅕ함 
     }
     
     function tokenURI(uint _tokenId) override public view returns(string memory) {
@@ -131,10 +131,10 @@ contract Market is ERC721Enumerable {
     }
     
     /*
-    투표 구조체 
+    투표 구조체  
     */
     struct poll {
-        uint OGNFT_index;
+        uint OGNft_tokenId;//OGNft_tokenId
         address by;//투표를 만드는 주체
         uint bestOfferPrice; // 주체의 제안 가격 
         uint pros; //찬성 투표 수 
@@ -143,7 +143,7 @@ contract Market is ERC721Enumerable {
     }
 
     struct offer{
-        uint OGNFT_index;
+        uint OGNft_tokenId;
         address[] account;
         uint[] amount;
     }
@@ -172,7 +172,7 @@ contract Market is ERC721Enumerable {
 
     //가격 제안 
     function offering(uint _index) public payable {
-        offerList[_index].OGNFT_index = _index;
+        offerList[_index].OGNft_tokenId = _index;
         offerList[_index].account.push(msg.sender);
         offerList[_index].amount.push(msg.value);
     }
