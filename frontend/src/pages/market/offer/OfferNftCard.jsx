@@ -6,9 +6,6 @@ import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
 import axios from "axios";
 
 const OfferNft = ({ offerId }) => {
-  const [show, setShow] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [offerMetadata, setOfferMetadata] = useState();
   const getOfferTokenURI = async () => {
     try {
@@ -22,6 +19,9 @@ const OfferNft = ({ offerId }) => {
       console.log(error);
     }
   };
+
+  const [show, setShow] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     getOfferTokenURI();
@@ -37,9 +37,7 @@ const OfferNft = ({ offerId }) => {
           }}
         >
           <Image
-            src={
-              "https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa"
-            }
+            src={offerMetadata.image}
             className="w-[256px] rounded-t-md "
           />
         </Box>
