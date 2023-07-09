@@ -8,75 +8,115 @@ import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
 const web3 = new Web3(window.ethereum);
 
 const FundingNftCard = ({ indexId, account }) => {
-    const [tokenData, setTokenData] = useState();
-    const [price, setPrice] = useState(0);
-    // const [OGIndex, setOGIndex] = useState();
-    
-    const getOGTokenURI = async () => {
-        try {
-            const priceResponse = await MarketContract.methods.OGNftList(indexId).call();
-            console.log(priceResponse);
-            setPrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
-            console.log(price);
-            // const tokenId = Number(response.OGTokenId);
+  const [tokenData, setTokenData] = useState();
+  const [price, setPrice] = useState(0);
+  const [buyerArray, setBuyerArray] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const isFundingCompleted = buyerArray.length === 20;
 
-            const response = await OGNFTContract.methods
-                .tokenURI(Number(priceResponse.OGTokenId))
-                .call();
-            const metadataResponse = await axios.get(response);
-            setTokenData(metadataResponse.data);
-            //   console.log(metadataResponse.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    
-    useEffect(() => {
-        getOGTokenURI();
-    }, []);
+  // const [OGIndex, setOGIndex] = useState();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+  const getOGTokenURI = async () => {
+    try {
+      const priceResponse = await MarketContract.methods
+        .OGNftList(indexId)
+        .call();
+      console.log(priceResponse);
+      setPrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
+      console.log(price);
+      // const tokenId = Number(response.OGTokenId);
 
-    return (
-        <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
-            {tokenData && (
-                <div>
-                    <Box>
-                        <Image src={tokenData.image} className="w-[256px] rounded-t-md " />
-                    </Box>
-                    <Box className="bg-gray-100 w-full px-4 py-1">
-                        <Box className="flex justify-between">
-                            <div>{tokenData.name}</div>
-                            <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
-                                Inprogress
-                            </Text>
-                        </Box>
-                            <div className="bg-red-100">{tokenData.description}</div>   {/*수정한 부분-조성윤*/}
-                            <div className="bg-red-100">{tokenData.attributes.map((v,i) => {return<div key={i}>{v.trait_type} {v.value}</div>})}</div>
-                        <Text className="text-blue-400 text-sm mt-1">Each Piece</Text>
-                        <Text className="text-blue-500 font-semibold mt-1">{price / 20} ETH</Text>
-                    </Box>
-                    <Box className="bg-gray-100 w-full flex justify-center py-2">
-                        <Button
-                            colorScheme="blue"
-                            className="font-bold text-white  px-4 py-2 rounded-md "
-                            onClick={account ? onOpen : () => alert("Need to Connect Metamask")}
-                        >
-                            Funding
-                        </Button>
-                    </Box>
-                    <FundingModal
-                        isOpen={isOpen}
-                        onClose={onClose}
-                        indexId={indexId}
-                        account={account}
-                        tokenData={tokenData}
-                        price={price}
-                    />
-                </div>
+      const response = await OGNFTContract.methods
+        .tokenURI(Number(priceResponse.OGTokenId))
+        .call();
+      const metadataResponse = await axios.get(response);
+      setTokenData(metadataResponse.data);
+      //   console.log(metadataResponse.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getFundingBuyerList = async () => {
+    try {
+      const buyerArray = await MarketContract.methods
+        .OGListForSale_buyerList(indexId)
+        .call();
+      setBuyerArray(buyerArray);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getOGTokenURI();
+    getFundingBuyerList();
+  }, []);
+
+  return (
+    <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+      {tokenData && (
+        <div>
+          <Box position="relative">
+            {isFundingCompleted && (
+              <div className="absolute bg-black w-full h-full flex justify-center items-center text-2xl font-bold text-white">
+                Funding completed
+              </div>
             )}
-        </Box>
-    );
+            <Image
+              src={tokenData.image}
+              className={`w-[256px] rounded-t-md ${
+                isFundingCompleted ? "opacity-50" : ""
+              }`}
+              style={{ zIndex: 2 }}
+            />
+          </Box>
+          <Box className="bg-gray-100 w-full px-4 py-1">
+            <Box className="flex justify-between">
+              <div>{tokenData.name}</div>
+              <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
+                Inprogress
+              </Text>
+            </Box>
+            <div className="bg-red-100">{tokenData.description}</div>{" "}
+            {/*수정한 부분-조성윤*/}
+            <div className="bg-red-100">
+              {tokenData.attributes.map((v, i) => {
+                return (
+                  <div key={i}>
+                    {v.trait_type} {v.value}
+                  </div>
+                );
+              })}
+            </div>
+            <Text className="text-blue-400 text-sm mt-1">Each Piece</Text>
+            <Text className="text-blue-500 font-semibold mt-1">
+              {price / 20} ETH
+            </Text>
+          </Box>
+          <Box className="bg-gray-100 w-full flex justify-center py-2">
+            <Button
+              colorScheme="blue"
+              className="font-bold text-white  px-4 py-2 rounded-md "
+              onClick={
+                account ? onOpen : () => alert("Need to Connect Metamask")
+              }
+            >
+              Funding
+            </Button>
+          </Box>
+          <FundingModal
+            isOpen={isOpen}
+            onClose={onClose}
+            indexId={indexId}
+            account={account}
+            tokenData={tokenData}
+            price={price}
+          />
+        </div>
+      )}
+    </Box>
+  );
 };
 
 export default FundingNftCard;
