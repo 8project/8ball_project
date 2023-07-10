@@ -24,7 +24,7 @@ const FundingNftCard = ({ indexId, account }) => {
     const [price, setPrice] = useState(0);
     const [buyerArray, setBuyerArray] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const isFundingCompleted = buyerArray.length === 21;
+    const isFundingCompleted = buyerArray.length === 20;
 
     const getOGTokenURI = async () => {
         try {
