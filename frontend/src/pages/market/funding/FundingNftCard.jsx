@@ -111,7 +111,7 @@ const FundingNftCard = ({ indexId, account }) => {
                     )}
                 </>
             ) : (
-                <Button isLoading loadingText="Submitting" colorScheme="blue" variant="outline">
+                <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
                     Loading
                 </Button>
             )}

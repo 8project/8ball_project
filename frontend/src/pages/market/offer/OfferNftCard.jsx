@@ -68,7 +68,7 @@ const OfferNft = ({ offerId }) => {
                     <OfferModal isOpen={isOpen} onClose={onClose} />
                 </>
             ) : (
-                <Button isLoading loadingText="Submitting" colorScheme="blue" variant="outline">
+                <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
                     Loading
                 </Button>
             )}
