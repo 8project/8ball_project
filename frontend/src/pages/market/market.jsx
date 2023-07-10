@@ -34,7 +34,7 @@ function Market({ account }) {
           </Box>
         </Box>
         <Box className="mt-10">
-          {show ? <Funding account={account} /> : <Offer />}
+          {show ? <Funding account={account} /> : <Offer account={account} />}
         </Box>
       </Box>
     </Box>

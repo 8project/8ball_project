@@ -35,17 +35,14 @@ const OfferModal = ({
   offerId,
   account,
 }) => {
-  const [inputOffer, setInputOffer] = useState(0);
-  // const [offerAccount, setOfferAccount] = useState([]);
-  // const [offerAmount, setOfferAmount] = useState([]);
+  const [inputOffer, setInputOffer] = useState();
+  const [offerAccount, setOfferAccount] = useState([]);
+  const [offerAmount, setOfferAmount] = useState([]);
 
   const onClickOffer = async (e) => {
     e.preventDefault();
     try {
       const offerAmount = Number(web3.utils.toWei(inputOffer, "ether"));
-      console.log(typeof offerAmount);
-      console.log(offerId);
-      console.log(account);
       const responseOffer = await MarketContract.methods
         .offering(offerId)
         .send({ from: account, value: offerAmount });
@@ -55,24 +52,24 @@ const OfferModal = ({
     }
   };
 
-  // const getOfferList = async () => {
-  //   try {
-  //     const responseGetOfferAccount = await MarketContract.methods
-  //       .getOfferAccount(offerId)
-  //       .call();
-  //     const responseGetOfferAmount = await MarketContract.methods
-  //       .getOfferAmount(offerId)
-  //       .call();
-  //     setOfferAccount(responseGetOfferAccount);
-  //     setOfferAmount(responseGetOfferAmount);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getOfferList = async () => {
+    try {
+      const responseGetOfferAccount = await MarketContract.methods
+        .getOfferAccount(offerId)
+        .call();
+      const responseGetOfferAmount = await MarketContract.methods
+        .getOfferAmount(offerId)
+        .call();
+      setOfferAccount(responseGetOfferAccount);
+      setOfferAmount(responseGetOfferAmount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getOfferList();
-  // }, []);
+  useEffect(() => {
+    getOfferList();
+  }, []);
 
   return (
     <Box>
@@ -102,8 +99,16 @@ const OfferModal = ({
                     </Thead>
                     <Tbody>
                       <Tr>
-                        <Td>1.2 ETH</Td>
-                        <Td>0x94...abcd</Td>
+                        {offerAmount?.map((m, i) => {
+                          return <Td key={i}>{Number(m) / 10 ** 18}</Td>;
+                        })}
+                        {offerAccount?.map((c, i) => {
+                          return (
+                            <Td key={i}>
+                              {c.substring(0, 4)}...{c.slice(-4)}
+                            </Td>
+                          );
+                        })}
                       </Tr>
                     </Tbody>
                   </Table>
@@ -129,8 +134,9 @@ const OfferModal = ({
                   type="text"
                   value={inputOffer}
                   onChange={(e) => setInputOffer(e.target.value)}
+                  className="bg-blue-100"
                 />
-                <input type="submit" value="Offer" />
+                <input type="submit" value="Offer" className="bg-yellow-100" />
               </form>
               <Button colorScheme="teal" onClick={onClose}>
                 Close
