@@ -66,9 +66,15 @@ const FundingNftCard = ({ indexId, account }) => {
                             <Box className="bg-gray-100 w-full px-4 py-1">
                                 <Box className="flex justify-between">
                                     <Box>{tokenData.name}</Box>
-                                    <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
-                                        Inprogress
-                                    </Text>
+                                    {isFundingCompleted ? (
+                                        <Text className="cursor-default text-sm font-semibold text-blue-500 rounded-lg">
+                                            Completed
+                                        </Text>
+                                    ) : (
+                                        <Text className="cursor-default text-sm font-semibold text-green-500 rounded-lg">
+                                            Inprogress
+                                        </Text>
+                                    )}
                                 </Box>
                                 <Box className="text-xs">
                                     <Box>{tokenData.description}</Box>
@@ -111,7 +117,7 @@ const FundingNftCard = ({ indexId, account }) => {
                     )}
                 </>
             ) : (
-                <Button isLoading loadingText="Submitting" colorScheme="blue" variant="outline">
+                <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
                     Loading
                 </Button>
             )}

@@ -54,6 +54,7 @@ const OfferNft = ({ offerId }) => {
             </Box>
           )}
 
+<<<<<<< HEAD
           <Box className="bg-gray-100 w-full px-4 py-1">
             <Text>{offerMetadata?.name}</Text>
             <Text className="text-blue-400 text-sm mt-1">1 piece</Text>
@@ -82,5 +83,30 @@ const OfferNft = ({ offerId }) => {
       )}
     </Box>
   );
+=======
+                    <Box className="bg-gray-100 w-full px-4 py-1">
+                        <Text>{offerMetadata.name}</Text>
+                        <Text className="text-blue-400 text-sm mt-1">1 piece</Text>
+                        <Text className="text-blue-500 font-semibold mt-1">0.05 ETH</Text>
+                    </Box>
+                    <Box className="bg-gray-100 w-full flex justify-center py-2">
+                        <Button
+                            colorScheme="blue"
+                            className="font-bold text-white  px-4 py-2 rounded-md "
+                            onClick={onOpen}
+                        >
+                            Make Offer
+                        </Button>
+                    </Box>
+                    <OfferModal isOpen={isOpen} onClose={onClose} />
+                </>
+            ) : (
+                <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
+                    Loading
+                </Button>
+            )}
+        </Box>
+    );
+>>>>>>> 3f34270dcbae75ac5af4da5ff30643bc6237402c
 };
 export default OfferNft;
