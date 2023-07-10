@@ -81,7 +81,7 @@ const OnSaleNft = ({ account }) => {
               className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]"
               key={i}
             >
-              <Text>On Sale</Text>
+              {/* <Text>On Sale</Text> */}
               <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
                 <Image src={v.data.image} w={"256px"} />
                 <Box className="bg-gray-100 w-full px-4 py-1">
@@ -107,7 +107,6 @@ const OnSaleNft = ({ account }) => {
           </div>
         );
       })}
-      ;
       {isCancelConfirmationOpen && (
         <Box className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <Box
