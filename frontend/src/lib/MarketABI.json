@@ -460,13 +460,27 @@
 				"type": "uint256"
 			}
 		],
-		"name": "getOffer_Address",
+		"name": "getOfferAccount",
 		"outputs": [
 			{
 				"internalType": "address[]",
 				"name": "",
 				"type": "address[]"
-			},
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getOfferAmount",
+		"outputs": [
 			{
 				"internalType": "uint256[]",
 				"name": "",
