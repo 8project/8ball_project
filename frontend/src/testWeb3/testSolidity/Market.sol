@@ -134,7 +134,7 @@ contract Market is ERC721Enumerable {
     투표 구조체  
     */
     struct poll {
-        uint OGNft_tokenId;//OGNft_tokenId
+        uint OGNft_tokenId;//OGNft_tokenId = 3
         address by;//투표를 만드는 주체
         uint bestOfferPrice; // 주체의 제안 가격 
         uint pros; //찬성 투표 수 
@@ -148,8 +148,11 @@ contract Market is ERC721Enumerable {
         uint[] amount;
     }
 
-    function getOffer_Address(uint _index) public view returns(address[] memory, uint[] memory ) {
-        return (offerList[_index].account, offerList[_index].amount);
+    function getOfferAccount(uint _index) public view returns(address[] memory ) {
+        return (offerList[_index].account);
+    }
+    function getOfferAmount(uint _index) public view returns(uint[] memory ) {
+        return (offerList[_index].amount);
     }
 
     /*
@@ -172,7 +175,7 @@ contract Market is ERC721Enumerable {
 
     //가격 제안 
     function offering(uint _index) public payable {
-        offerList[_index].OGNft_tokenId = _index;
+        offerList[_index].OGNft_tokenId = currentPolls[_index].OGNft_tokenId;
         offerList[_index].account.push(msg.sender);
         offerList[_index].amount.push(msg.value);
     }

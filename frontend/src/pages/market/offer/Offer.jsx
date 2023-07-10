@@ -12,18 +12,12 @@ const Offer = () => {
 
   const getNftMetadata = async () => {
     try {
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(MarketContractAddress)
-        .call();
+      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
 
-      const marketTokenArray = response.map((v) => {
-        return Number(v);
-      });
+      const marketTokenArray = response.map((v) => {return Number(v);});
 
       for (var j = 1; j <= marketTokenArray.length; j++) {
-        const response = await MarketContract.methods
-          .OGListForSale_buyerList(j)
-          .call();
+        const response = await MarketContract.methods.OGListForSale_buyerList(j).call();
         if (response.length == 20) {
           setFundingComplete((prev) => [...prev, j]);
         }

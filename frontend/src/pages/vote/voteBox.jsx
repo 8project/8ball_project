@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Modal,
@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { MarketContract, MarketContractAddress, OGNFTContract } from "../../lib/web3.config";
 
 const VoteBox = () => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -34,6 +35,60 @@ const VoteBox = () => {
       console.log("Submitted option:", selectedOption);
     }
   };
+  const [OGTokenId, setOGTokenIds] = useState([]);
+  //===================================================================================
+
+
+  //Funding이 완료된 index의 ogTokenId를 불러오기 
+  //address[]에서 account와 일치하는 tokenId 가져오기 
+  //
+  
+  const getMyNftTokenIds_OG = async () => {
+    try {
+      /*
+      1   2   3   4  <-index
+      4   8   5   7  <-tokenid
+      39  02  a9  39 <- address[]
+      02  
+      39
+      .
+      .
+      .      
+      */
+
+      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+      const marketNftTokenId = response.map((v) => {return Number(v);});
+      console.log(marketNftTokenId); //마켓 컨트랙트가 가지고 있는 token id(value값으로) 
+      
+      const tempArray = []
+      for (let i = 0; i < marketNftTokenId.length+1; i++) {
+        const buyerList = await MarketContract.methods.OGListForSale_buyerList(i).call();
+        if(buyerList.length === 20){
+          tempArray.push(buyerList);
+        };
+
+        // for (let j = 0; j < buyerList.length; j++) {
+        //   if(buyerList === account){}
+          // const tempArray[j] = 
+        //   // const add = toLowerCase(getBuyerList[j]);
+        // }
+        // const changeToLowerCase = getBuyerList();
+        // for (let j = 0; j < array.length; j++) {
+        //   const checkBuyerList 
+          
+        // }
+      }
+      console.log(tempArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  useEffect(() => {
+    getMyNftTokenIds_OG();
+  }, []);
+
+
 
   return (
     <div

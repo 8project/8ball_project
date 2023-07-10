@@ -30,18 +30,12 @@ const OnSaleNft = ({ account }) => {
 
   const getOnSaleNftMetadata = async () => {
     try {
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(MarketContractAddress)
-        .call(); //nft 정보 불러오기
-      console.log(response);
-      const marketNftListArr = response.map((v) => {
-        return Number(v);
-      }); // 판매 등록된 NFT 목록을 가져옴
+      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call(); //nft 정보 불러오기
+      // console.log(response);
+      const marketNftListArr = response.map((v) => {return Number(v);}); // 판매 등록된 NFT 목록을 가져옴
       // console.log(marketNftListArr);
       for (let index = 1; index <= marketNftListArr.length; index++) {
-        const getSaleList = await MarketContract.methods
-          .OGNftList(index)
-          .call(); //등록된 nft 목록의 정보를 가져옴
+        const getSaleList = await MarketContract.methods.OGNftList(index).call(); //등록된 nft 목록의 정보를 가져옴
 
         // console.log( 'index' , index );
         // console.log( 'seller' , getSaleList.seller  ) ;
@@ -53,9 +47,7 @@ const OnSaleNft = ({ account }) => {
           //해야될거 가져온 배열의 address들중에서 account와 같은 것만 추출.
           // console.log( 'push!' ) ;
           setDataID((prev) => [...prev, getSaleList.OGTokenId]);
-          const uri = await OGNFTContract.methods
-            .tokenURI(getSaleList.OGTokenId)
-            .call();
+          const uri = await OGNFTContract.methods.tokenURI(getSaleList.OGTokenId).call();
           const uri2 = await axios.get(uri);
           setDataURI((prev) => [...prev, uri2]);
         }
