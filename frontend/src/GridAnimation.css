@@ -15,7 +15,7 @@
     --box-height: 15rem;
     --frag-width: calc(var(--box-width) / var(--col));
     --frag-height: calc(var(--box-height) / var(--row));
-    --img-url: url("https://ipfs.io/ipfs/QmavwZZLUcudbdBidTivN7pQTyyZKdmXXbYv4Z7vPjaBMa");
+    --img-url: url("https://ipfs.io/ipfs/QmTy6vibn4b5vw6R1cvt1NqwnokftSaSGy8i4Hu1yUYkJM");
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
