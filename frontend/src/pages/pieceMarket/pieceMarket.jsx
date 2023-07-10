@@ -20,7 +20,7 @@ function PieceMarket() {
                         8Ball에서만 경험 할 수 있는{" "}
                         <span className="text-lg text-blue-700">조각 NFT</span>
                     </Text>
-                    <Box className="text-xs">
+                    <Box className="text-xs px-2">
                         <Text>* 조각 NFT는 펀딩한 NFT를 실제로 20등분 합니다.</Text>
                         <Text>* 조각 NFT 당 펀딩 NFT에 대해 5%의 지분율을 갖게 됩니다.</Text>
                         <Text>* 조각 NFT는 PieceMarket에서 유저간 거래가 가능합니다.</Text>

@@ -2,8 +2,8 @@ import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import OnSaleNft from "./onSaleNft";
 import OnSalePieceNft from "./onSalePieceNft";
-import { GiReceiveMoney } from "react-icons/gi";
-import { FaCartArrowDown } from "react-icons/fa";
+import { HiOutlinePuzzle } from "react-icons/hi";
+import { SlPicture } from "react-icons/sl";
 import ToTopBtn from "../../../components/ToTopBtn";
 
 function OnSale({ account }) {
@@ -15,22 +15,22 @@ function OnSale({ account }) {
       <Box className="flex flex-col justify-center items-center">
         <Box className="flex mt-10">
           <Box
-            className={`flex justify-center w-[120px] border-2 text-center py-2 px-4 font-mono font-semibold cursor-pointer ${
+            className={`flex justify-center w-[120px] border-2 text-center py-2 px-10 font-mono font-semibold cursor-pointer ${
               show ? "bg-gray-200" : "bg-white"
             }`}
             onClick={() => setShow(true)}
           >
-            <GiReceiveMoney className="mr-1" />
-            OnSaleNft
+            {/* <SlPicture className="mr-1"  /> */}
+            NFT
           </Box>
           <Box
-            className={`flex justify-center w-[120px] border-2 text-center py-2 px-4 font-mono font-semibold cursor-pointer ${
+            className={`flex justify-center w-[120px] border-2 text-center py-2 px-10 font-mono font-semibold cursor-pointer ${
               show ? "bg-white" : "bg-gray-200"
             }`}
             onClick={() => setShow(false)}
           >
-            <FaCartArrowDown className="mt-1 mr-1" />
-            OnSalePieceNft
+            {/* <HiOutlinePuzzle className="mr-1" /> */}
+            PieceNft
           </Box>
         </Box>
         <Box className="mt-10">

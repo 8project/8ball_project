@@ -3,14 +3,21 @@ import {
   Text,
   Image,
   useDisclosure,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  Accordion,
   Button,
   Spinner,
   Flex,
+  Badge,
 } from "@chakra-ui/react";
 import MyNftModal from "./myNftModal";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { MarketContractAddress, OGNFTContract } from "../../../lib/web3.config";
+import { BiDetail } from "react-icons/bi";
 
 const MyNftCard = ({ tokenId, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -70,16 +77,38 @@ const MyNftCard = ({ tokenId, account }) => {
           </div>
           <Box className="bg-gray-100 w-full px-4 py-1">
             <Text>{tokenData.name}</Text>
-            <div>{tokenData.description}</div>
-            <div>
-              {tokenData.attributes.map((v, i) => {
-                return (
-                  <div key={i}>
-                    {v.trait_type} {v.value}
-                  </div>
-                );
-              })}
-            </div>
+            <Accordion allowMultiple>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex="1" textAlign="left">
+                      <Box className="flex">
+                        <BiDetail className="mt-1 mr-1" />
+                        Details
+                      </Box>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Box className="text-xs">
+                    <Box>{tokenData.description}</Box>
+                    <Box>
+                      {tokenData.attributes.map((v, i) => (
+                        <Flex key={i} alignItems="center" mt={1}>
+                          <Text fontWeight="bold" mr={2}>
+                            {v.trait_type}:
+                          </Text>
+                          <Badge colorScheme="blue" fontSize="xs">
+                            {v.value}
+                          </Badge>
+                        </Flex>
+                      ))}
+                    </Box>
+                  </Box>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
             <Flex justify="center">
               <Button
                 colorScheme="blue"
