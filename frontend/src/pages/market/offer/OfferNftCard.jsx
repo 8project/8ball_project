@@ -106,59 +106,6 @@ const OfferNft = ({ offerId, account }) => {
                         ))}
                       </Box>
                     </Box>
-<<<<<<< HEAD
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  <Box className="text-xs">
-                    <Box>{offerMetadata?.description}</Box>
-                    <Box>
-                      {offerMetadata?.attributes.map((v, i) => (
-                        <Flex key={i} alignItems="center" mt={1}>
-                          <Text fontWeight="bold" mr={2}>
-                            {v.trait_type}:
-                          </Text>
-                          <Badge colorScheme="blue" fontSize="xs">
-                            {v.value}
-                          </Badge>
-                        </Flex>
-                      ))}
-                    </Box>
-                  </Box>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </Box>
-          <Box className="bg-gray-100 w-full flex justify-center py-2">
-            <Button
-              colorScheme="blue"
-              className="font-bold text-white  px-4 py-2 rounded-md "
-              onClick={onOpen}
-            >
-              Make Offer
-            </Button>
-          </Box>
-          <OfferModal
-            isOpen={isOpen}
-            onClose={onClose}
-            offerMetadata={offerMetadata}
-            price={price}
-            offerId={offerId}
-            account={account}
-          />
-        </>
-      ) : (
-        <Button
-          isLoading
-          loadingText="Loading"
-          colorScheme="blue"
-          variant="outline"
-        >
-          Loading
-        </Button>
-      )}
-=======
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
@@ -190,7 +137,6 @@ const OfferNft = ({ offerId, account }) => {
           </Button>
         )}
       </Box>
->>>>>>> 89408b6612741f9dc318148ca9cfaf1ba86eb9fa
     </Box>
   );
 };
