@@ -20,7 +20,7 @@ import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
 import axios from "axios";
 import web3 from "web3";
 
-const OfferNft = ({ offerId }) => {
+const OfferNft = ({ offerId, account }) => {
   const [offerMetadata, setOfferMetadata] = useState();
   const [price, setPrice] = useState();
   const getOfferTokenURI = async () => {
@@ -123,6 +123,8 @@ const OfferNft = ({ offerId }) => {
             onClose={onClose}
             offerMetadata={offerMetadata}
             price={price}
+            offerId={offerId}
+            account={account}
           />
         </>
       ) : (

@@ -22,15 +22,53 @@ import {
   Input,
   FormControl,
 } from "@chakra-ui/react";
+import { MarketContract } from "../../../lib/web3.config";
+import web3 from "web3";
+import { useEffect, useState } from "react";
 
-const OfferModal = ({ isOpen, onClose, offerMetadata, price }) => {
-  // const onClickOffer = async () => {
-  //     try {
-  //         const
-  //     } catch (error) {
-  //         console.log();
-  //     }
-  // }
+const OfferModal = ({
+  isOpen,
+  onClose,
+  offerMetadata,
+  price,
+  offerId,
+  account,
+}) => {
+  const { inputOffer, setInputOffer } = useState();
+  const [offerAccount, setOfferAccount] = useState([]);
+  const [offerAmount, setOfferAmount] = useState([]);
+
+  const onClickOffer = async (e) => {
+    e.preventDefault();
+    try {
+      const offerAmount = web3.utils.toWei(inputOffer, "ether");
+      const responseOffer = await MarketContract.methods
+        .offering(offerId)
+        .send({ from: account, value: offerAmount });
+      console.log(responseOffer);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getOfferList = async () => {
+    try {
+      const responseGetOfferAccount = await MarketContract.methods
+        .getOfferAccount(offerId)
+        .call();
+      const responseGetOfferAmount = await MarketContract.methods
+        .getOfferAmount(offerId)
+        .call();
+      setOfferAccount(responseGetOfferAccount);
+      setOfferAmount(responseGetOfferAmount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getOfferList();
+  }, []);
 
   return (
     <Box>
@@ -71,17 +109,25 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price }) => {
           </ModalBody>
           <FormControl>
             <ModalFooter>
-              <InputGroup focusBorderColor="blue">
+              {/* <InputGroup focusBorderColor="blue">
                 <Input type="number" placeholder="Price" />
                 <InputRightAddon children="ETH" colorScheme="blue" />
               </InputGroup>
-              <Button /*  onClick={onClickOffer} */
+              <Button   onClick={onClickOffer} 
                 colorScheme="blue"
                 mr={2}
                 ml={2}
               >
                 Offer
-              </Button>
+              </Button> */}
+              <form onSubmit={onClickOffer}>
+                <input
+                  type="text"
+                  value={inputOffer}
+                  onChange={(e) => setInputOffer(e.target.value)}
+                />
+                <input type="submit" value="Offer" />
+              </form>
               <Button colorScheme="teal" onClick={onClose}>
                 Close
               </Button>

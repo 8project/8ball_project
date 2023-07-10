@@ -7,17 +7,23 @@ import {
   OGNFTContract,
 } from "../../../lib/web3.config";
 
-const Offer = () => {
+const Offer = ({ account }) => {
   const [fundingComplete, setFundingComplete] = useState([]);
 
   const getNftMetadata = async () => {
     try {
-      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+      const response = await OGNFTContract.methods
+        .getMyNftTokenId_OG(MarketContractAddress)
+        .call();
 
-      const marketTokenArray = response.map((v) => {return Number(v);});
+      const marketTokenArray = response.map((v) => {
+        return Number(v);
+      });
 
       for (var j = 1; j <= marketTokenArray.length; j++) {
-        const response = await MarketContract.methods.OGListForSale_buyerList(j).call();
+        const response = await MarketContract.methods
+          .OGListForSale_buyerList(j)
+          .call();
         if (response.length == 20) {
           setFundingComplete((prev) => [...prev, j]);
         }
@@ -39,7 +45,7 @@ const Offer = () => {
     <Box className="lg:max-w-[800px] max-w-[460px]">
       <Box className="grid lg:grid-cols-2 gap-14">
         {fundingComplete?.map((o, i) => {
-          return <OfferNftCard key={i} offerId={o} />;
+          return <OfferNftCard key={i} offerId={o} account={account} />;
         })}
       </Box>
     </Box>
