@@ -45,96 +45,98 @@ const OfferNft = ({ offerId }) => {
   }, []);
 
   return (
-    <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
-      {offerMetadata ? (
-        <>
-          {show ? (
-            <Box
-              className=" cursor-pointer"
-              onClick={() => {
-                setShow(false);
-              }}
-            >
-              <Image
-                src={offerMetadata?.image}
-                className="w-[256px] rounded-t-md "
-              />
-            </Box>
-          ) : (
-            <Box
-              className=" cursor-pointer"
-              onClick={() => {
-                setShow(true);
-              }}
-            >
-              <Nfts />
-            </Box>
-          )}
+    <Box className="flex flex-col justify-center items-center">
+      <Box className="max-w-[256px] border rounded-md mb-10 mt-4">
+        {offerMetadata ? (
+          <>
+            {show ? (
+              <Box
+                className=" cursor-pointer"
+                onClick={() => {
+                  setShow(false);
+                }}
+              >
+                <Image
+                  src={offerMetadata?.image}
+                  className="w-[256px] rounded-t-md "
+                />
+              </Box>
+            ) : (
+              <Box
+                className=" cursor-pointer"
+                onClick={() => {
+                  setShow(true);
+                }}
+              >
+                <Nfts />
+              </Box>
+            )}
 
-          <Box className="bg-gray-100 w-full px-4 py-1">
-            <Text>{offerMetadata?.name}</Text>
-            <Text className="text-blue-400 text-sm mt-1">One(20 piece)</Text>
-            <Text className="text-blue-500 font-semibold mt-1">{price}</Text>
+            <Box className="bg-gray-100 w-full px-4 py-1">
+              <Text>{offerMetadata?.name}</Text>
+              <Text className="text-blue-400 text-sm mt-1">One(20 piece)</Text>
+              <Text className="text-blue-500 font-semibold mt-1">{price}</Text>
 
-            <Accordion allowMultiple>
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as="span" flex="1" textAlign="left">
-                      <Box className="flex">
-                        <BiDetail className="mt-1 mr-1" />
-                        Details
+              <Accordion allowMultiple>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton>
+                      <Box as="span" flex="1" textAlign="left">
+                        <Box className="flex">
+                          <BiDetail className="mt-1 mr-1" />
+                          Details
+                        </Box>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Box className="text-xs">
+                      <Box>{offerMetadata?.description}</Box>
+                      <Box>
+                        {offerMetadata?.attributes.map((v, i) => (
+                          <Flex key={i} alignItems="center" mt={1}>
+                            <Text fontWeight="bold" mr={2}>
+                              {v.trait_type}:
+                            </Text>
+                            <Badge colorScheme="blue" fontSize="xs">
+                              {v.value}
+                            </Badge>
+                          </Flex>
+                        ))}
                       </Box>
                     </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  <Box className="text-xs">
-                    <Box>{offerMetadata?.description}</Box>
-                    <Box>
-                      {offerMetadata?.attributes.map((v, i) => (
-                        <Flex key={i} alignItems="center" mt={1}>
-                          <Text fontWeight="bold" mr={2}>
-                            {v.trait_type}:
-                          </Text>
-                          <Badge colorScheme="blue" fontSize="xs">
-                            {v.value}
-                          </Badge>
-                        </Flex>
-                      ))}
-                    </Box>
-                  </Box>
-                </AccordionPanel>
-              </AccordionItem>
-            </Accordion>
-          </Box>
-          <Box className="bg-gray-100 w-full flex justify-center py-2">
-            <Button
-              colorScheme="blue"
-              className="font-bold text-white  px-4 py-2 rounded-md "
-              onClick={onOpen}
-            >
-              Make Offer
-            </Button>
-          </Box>
-          <OfferModal
-            isOpen={isOpen}
-            onClose={onClose}
-            offerMetadata={offerMetadata}
-            price={price}
-          />
-        </>
-      ) : (
-        <Button
-          isLoading
-          loadingText="Loading"
-          colorScheme="blue"
-          variant="outline"
-        >
-          Loading
-        </Button>
-      )}
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </Box>
+            <Box className="bg-gray-100 w-full flex justify-center py-2">
+              <Button
+                colorScheme="blue"
+                className="font-bold text-white  px-4 py-2 rounded-md "
+                onClick={onOpen}
+              >
+                Make Offer
+              </Button>
+            </Box>
+            <OfferModal
+              isOpen={isOpen}
+              onClose={onClose}
+              offerMetadata={offerMetadata}
+              price={price}
+            />
+          </>
+        ) : (
+          <Button
+            isLoading
+            loadingText="Loading"
+            colorScheme="blue"
+            variant="outline"
+          >
+            Loading
+          </Button>
+        )}
+      </Box>
     </Box>
   );
 };
