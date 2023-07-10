@@ -3,6 +3,8 @@ import {
   Text,
   Image,
   Button,
+  Flex,
+  Badge,
   useDisclosure,
   AccordionItem,
   AccordionButton,
@@ -73,34 +75,40 @@ const OfferNft = ({ offerId }) => {
             <Text>{offerMetadata?.name}</Text>
             <Text className="text-blue-400 text-sm mt-1">One(20 piece)</Text>
             <Text className="text-blue-500 font-semibold mt-1">{price}</Text>
-          </Box>
-          <Accordion allowMultiple>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    <Box className="flex">
-                      <BiDetail className="mt-1 mr-1" />
-                      Details
+
+            <Accordion allowMultiple>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex="1" textAlign="left">
+                      <Box className="flex">
+                        <BiDetail className="mt-1 mr-1" />
+                        Details
+                      </Box>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Box className="text-xs">
+                    <Box>{offerMetadata?.description}</Box>
+                    <Box>
+                      {offerMetadata?.attributes.map((v, i) => (
+                        <Flex key={i} alignItems="center" mt={1}>
+                          <Text fontWeight="bold" mr={2}>
+                            {v.trait_type}:
+                          </Text>
+                          <Badge colorScheme="blue" fontSize="xs">
+                            {v.value}
+                          </Badge>
+                        </Flex>
+                      ))}
                     </Box>
                   </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <Box className="text-xs">
-                  <Box>{offerMetadata?.description}</Box>
-                  <Box>
-                    {offerMetadata?.attributes.map((v, i) => (
-                      <Box key={i}>
-                        {v.trait_type} : {v.value}
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </Box>
           <Box className="bg-gray-100 w-full flex justify-center py-2">
             <Button
               colorScheme="blue"
