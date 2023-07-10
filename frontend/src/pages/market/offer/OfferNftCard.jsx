@@ -37,7 +37,7 @@ const OfferNft = ({ offerId }) => {
           }}
         >
           <Image
-            src={offerMetadata.image}
+            src={offerMetadata?.image}
             className="w-[256px] rounded-t-md "
           />
         </Box>
@@ -53,7 +53,7 @@ const OfferNft = ({ offerId }) => {
       )}
 
       <Box className="bg-gray-100 w-full px-4 py-1">
-        <Text>{offerMetadata.name}</Text>
+        <Text>{offerMetadata?.name}</Text>
         <Text className="text-blue-400 text-sm mt-1">1 piece</Text>
         <Text className="text-blue-500 font-semibold mt-1">0.05 ETH</Text>
       </Box>
