@@ -23,8 +23,9 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 import { MarketContract } from "../../../lib/web3.config";
-import web3 from "web3";
+import Web3 from "web3";
 import { useEffect, useState } from "react";
+const web3 = new Web3(window.ethereum);
 
 const OfferModal = ({
   isOpen,
@@ -34,14 +35,17 @@ const OfferModal = ({
   offerId,
   account,
 }) => {
-  const { inputOffer, setInputOffer } = useState();
-  const [offerAccount, setOfferAccount] = useState([]);
-  const [offerAmount, setOfferAmount] = useState([]);
+  const [inputOffer, setInputOffer] = useState(0);
+  // const [offerAccount, setOfferAccount] = useState([]);
+  // const [offerAmount, setOfferAmount] = useState([]);
 
   const onClickOffer = async (e) => {
     e.preventDefault();
     try {
-      const offerAmount = web3.utils.toWei(inputOffer, "ether");
+      const offerAmount = Number(web3.utils.toWei(inputOffer, "ether"));
+      console.log(typeof offerAmount);
+      console.log(offerId);
+      console.log(account);
       const responseOffer = await MarketContract.methods
         .offering(offerId)
         .send({ from: account, value: offerAmount });
@@ -51,24 +55,24 @@ const OfferModal = ({
     }
   };
 
-  const getOfferList = async () => {
-    try {
-      const responseGetOfferAccount = await MarketContract.methods
-        .getOfferAccount(offerId)
-        .call();
-      const responseGetOfferAmount = await MarketContract.methods
-        .getOfferAmount(offerId)
-        .call();
-      setOfferAccount(responseGetOfferAccount);
-      setOfferAmount(responseGetOfferAmount);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getOfferList = async () => {
+  //   try {
+  //     const responseGetOfferAccount = await MarketContract.methods
+  //       .getOfferAccount(offerId)
+  //       .call();
+  //     const responseGetOfferAmount = await MarketContract.methods
+  //       .getOfferAmount(offerId)
+  //       .call();
+  //     setOfferAccount(responseGetOfferAccount);
+  //     setOfferAmount(responseGetOfferAmount);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getOfferList();
-  }, []);
+  // useEffect(() => {
+  //   getOfferList();
+  // }, []);
 
   return (
     <Box>

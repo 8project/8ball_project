@@ -18,7 +18,8 @@ import Nfts from "../../../components/Nfts";
 import OfferModal from "./OfferModal";
 import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
 import axios from "axios";
-import web3 from "web3";
+import Web3 from "web3";
+const web3 = new Web3(window.ethereum);
 
 const OfferNft = ({ offerId, account }) => {
   const [offerMetadata, setOfferMetadata] = useState();
@@ -124,6 +125,8 @@ const OfferNft = ({ offerId, account }) => {
               onClose={onClose}
               offerMetadata={offerMetadata}
               price={price}
+              offerId={offerId}
+              account={account}
             />
           </>
         ) : (
