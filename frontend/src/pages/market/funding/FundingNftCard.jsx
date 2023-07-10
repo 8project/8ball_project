@@ -72,7 +72,6 @@ const FundingNftCard = ({ indexId, account }) => {
                                     className={`w-[256px] rounded-t-md ${
                                         isFundingCompleted ? "opacity-50" : ""
                                     }`}
-                                    style={{ zIndex: 2 }}
                                 />
                             </Box>
                             <Box className="bg-gray-100 w-full px-4 py-1">
@@ -142,6 +141,7 @@ const FundingNftCard = ({ indexId, account }) => {
                                 account={account}
                                 tokenData={tokenData}
                                 price={price}
+                                buyerArray={buyerArray}
                             />
                         </Box>
                     )}
