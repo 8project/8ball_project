@@ -114,6 +114,7 @@ const OfferNft = ({ offerId }) => {
             isOpen={isOpen}
             onClose={onClose}
             offerMetadata={offerMetadata}
+            price={price}
           />
         </>
       ) : (

@@ -23,7 +23,15 @@ import {
   FormControl,
 } from "@chakra-ui/react";
 
-const OfferModal = ({ isOpen, onClose, offerMetadata }) => {
+const OfferModal = ({ isOpen, onClose, offerMetadata, price }) => {
+  // const onClickOffer = async () => {
+  //     try {
+  //         const
+  //     } catch (error) {
+  //         console.log();
+  //     }
+  // }
+
   return (
     <Box>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -34,10 +42,10 @@ const OfferModal = ({ isOpen, onClose, offerMetadata }) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text className="font-semibold">BAYC #5895</Text>
-            <Text className="text-blue-400 text-sm mt-1">Piece: 1</Text>
+            <Text className="font-semibold">{offerMetadata?.name}</Text>
+            <Text className="text-blue-400 text-sm mt-1">One</Text>
             <Text className="text-blue-500 font-semibold mt-1">
-              Price: 1 ETH
+              Price: {price} ETH
             </Text>
             <Box className="mt-4 text-sm font-semibold">
               <Box>
@@ -55,24 +63,23 @@ const OfferModal = ({ isOpen, onClose, offerMetadata }) => {
                         <Td>1.2 ETH</Td>
                         <Td>0x94...abcd</Td>
                       </Tr>
-                      <Tr>
-                        <Td>1.5 ETH</Td>
-                        <Td>0x39...efgh</Td>
-                      </Tr>
                     </Tbody>
                   </Table>
                 </TableContainer>
               </Box>
             </Box>
           </ModalBody>
-
           <FormControl>
             <ModalFooter>
               <InputGroup focusBorderColor="blue">
                 <Input type="number" placeholder="Price" />
                 <InputRightAddon children="ETH" colorScheme="blue" />
               </InputGroup>
-              <Button colorScheme="blue" mr={2} ml={2}>
+              <Button /*  onClick={onClickOffer} */
+                colorScheme="blue"
+                mr={2}
+                ml={2}
+              >
                 Offer
               </Button>
               <Button colorScheme="teal" onClick={onClose}>
