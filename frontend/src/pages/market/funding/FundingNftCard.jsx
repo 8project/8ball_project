@@ -24,7 +24,7 @@ const FundingNftCard = ({ indexId, account }) => {
     const [price, setPrice] = useState(0);
     const [buyerArray, setBuyerArray] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const isFundingCompleted = buyerArray.length === 20;
+    const isFundingCompleted = buyerArray.length === 21;
 
     const getOGTokenURI = async () => {
         try {
@@ -114,10 +114,9 @@ const FundingNftCard = ({ indexId, account }) => {
                                         </AccordionPanel>
                                     </AccordionItem>
                                 </Accordion>
-
                                 <Box className="flex justify-around">
                                     <Text className="text-blue-400 text-sm mt-1">Each Piece :</Text>
-                                    <Text className="text-blue-500 font-semibold mt-1">
+                                    <Text className="text-blue-500 font-semibold mt-1 text-sm">
                                         {price / 20} ETH
                                     </Text>
                                 </Box>

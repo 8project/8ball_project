@@ -68,12 +68,9 @@ const FundingModal = ({ isOpen, onClose, tokenData, account, price, indexId, buy
                             <Box className="mt-4 text-sm font-semibold">
                                 <Box className="flex justify-between">
                                     <Text>Funding rate</Text>
-                                    <Text>{buyerArray.length * 5} / 100 %</Text>
+                                    <Text>{buyer.length * 5} / 100 %</Text>
                                 </Box>
-                                <Slider
-                                    aria-label="slider-ex-1"
-                                    defaultValue={buyerArray.length * 5}
-                                >
+                                <Slider aria-label="slider-ex-1" defaultValue={buyer.length * 5}>
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
@@ -83,16 +80,45 @@ const FundingModal = ({ isOpen, onClose, tokenData, account, price, indexId, buy
                             <Box className="flex flex-col justify-center items-center text-xs mt-4">
                                 <Text>* 조각 NFT는 랜덤으로 지급됩니다.</Text>
                                 <Text>* 조각 NFT당 5%의 지분율을 갖게 됩니다.</Text>
-                                <div onClick={getFundingBuyerList}>
-                                    {" "}
-                                    {/*수정한 부분-조성윤*/}
-                                    <div className="text-lg bg-red-100">History</div>
-                                    <div className="bg-blue-100">
-                                        {buyer.map((v, i) => {
-                                            return <div key={i}>{v}</div>;
-                                        })}
-                                    </div>
-                                </div>
+                                <Box className="mt-2">
+                                    {buyer.length ? (
+                                        <Box className="flex flex-col justify-center items-center mt-2 border rounded-lg px-4 py-2">
+                                            <Text
+                                                className="text-lg font-semibold mb-2"
+                                                onClick={getFundingBuyerList}
+                                            >
+                                                Funding History
+                                            </Text>
+
+                                            <Box className="grid grid-cols-4 gap-2 mt-1">
+                                                {buyer.map((v, i) => {
+                                                    return (
+                                                        <Box
+                                                            key={i}
+                                                            className="flex justify-around text-xs"
+                                                        >
+                                                            <Box className="font-bold">{i + 1}</Box>{" "}
+                                                            :
+                                                            <Box className="text-blue-500">
+                                                                {v.substring(0, 4)}...
+                                                                {v.slice(-4)}
+                                                            </Box>
+                                                        </Box>
+                                                    );
+                                                })}
+                                            </Box>
+                                        </Box>
+                                    ) : (
+                                        <Button
+                                            isLoading
+                                            loadingText="Loading"
+                                            colorScheme="blue"
+                                            variant="outline"
+                                        >
+                                            Loading
+                                        </Button>
+                                    )}
+                                </Box>
                             </Box>
                         </ModalBody>
                     )}
