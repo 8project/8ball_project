@@ -1,9 +1,21 @@
-import { Box, Text, Image, Button, useDisclosure } from "@chakra-ui/react";
+import {
+    Box,
+    Text,
+    Image,
+    Button,
+    useDisclosure,
+    AccordionItem,
+    AccordionButton,
+    AccordionIcon,
+    AccordionPanel,
+    Accordion,
+} from "@chakra-ui/react";
 import FundingModal from "./FundingModal";
 import { useState, useEffect } from "react";
 import Web3 from "web3";
 import axios from "axios";
 import { MarketContract, OGNFTContract } from "../../../lib/web3.config";
+import { BiDetail } from "react-icons/bi";
 
 const web3 = new Web3(window.ethereum);
 
@@ -76,16 +88,34 @@ const FundingNftCard = ({ indexId, account }) => {
                                         </Text>
                                     )}
                                 </Box>
-                                <Box className="text-xs">
-                                    <Box>{tokenData.description}</Box>
-                                    <Box>
-                                        {tokenData.attributes.map((v, i) => (
-                                            <Box key={i}>
-                                                {v.trait_type} : {v.value}
+                                <Accordion allowMultiple>
+                                    <AccordionItem>
+                                        <h2>
+                                            <AccordionButton>
+                                                <Box as="span" flex="1" textAlign="left">
+                                                    <Box className="flex">
+                                                        <BiDetail className="mt-1 mr-1" />
+                                                        Details
+                                                    </Box>
+                                                </Box>
+                                                <AccordionIcon />
+                                            </AccordionButton>
+                                        </h2>
+                                        <AccordionPanel pb={4}>
+                                            <Box className="text-xs">
+                                                <Box>{tokenData.description}</Box>
+                                                <Box>
+                                                    {tokenData.attributes.map((v, i) => (
+                                                        <Box key={i}>
+                                                            {v.trait_type} : {v.value}
+                                                        </Box>
+                                                    ))}
+                                                </Box>
                                             </Box>
-                                        ))}
-                                    </Box>
-                                </Box>
+                                        </AccordionPanel>
+                                    </AccordionItem>
+                                </Accordion>
+
                                 <Box className="flex justify-around">
                                     <Text className="text-blue-400 text-sm mt-1">Each Piece :</Text>
                                     <Text className="text-blue-500 font-semibold mt-1">
