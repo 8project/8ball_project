@@ -107,7 +107,7 @@ const OnSaleNft = ({ account }) => {
           </div>
         );
       })}
-      ;
+
       {isCancelConfirmationOpen && (
         <Box className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <Box
