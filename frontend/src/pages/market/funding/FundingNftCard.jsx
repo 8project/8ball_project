@@ -72,7 +72,7 @@ const FundingNftCard = ({ indexId, account }) => {
                                         </Text>
                                     ) : (
                                         <Text className="cursor-default text-sm font-semibold text-green-500 rounded-lg">
-                                            Inprogress
+                                            In progress
                                         </Text>
                                     )}
                                 </Box>
