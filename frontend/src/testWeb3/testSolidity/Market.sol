@@ -88,7 +88,8 @@ contract Market is ERC721Enumerable {
         }
 
        if (OGNftList[_index].buyer.length == 20) {
-            distributePiece(_index);
+        uint tokenId = OGNftList[_index].OGTokenId;
+            distributePiece(_index, tokenId);
             FundingPriceToSeller(_index);
         
         }
