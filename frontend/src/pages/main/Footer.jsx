@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import {
     AiOutlineInstagram,
     AiOutlineTwitter,
-    AiFillFacebook,
+    AiFillMediumCircle,
     AiOutlineYoutube,
 } from "react-icons/ai";
 
@@ -18,7 +18,7 @@ const Footer = () => {
             <Box className="bm-6 mr-10 flex gap-2">
                 <AiOutlineInstagram className="sm:text-4xl" />
                 <AiOutlineTwitter className="sm:text-4xl" />
-                <AiFillFacebook className="sm:text-4xl" />
+                <AiFillMediumCircle className="sm:text-4xl" />
                 <AiOutlineYoutube className="sm:text-4xl" />
             </Box>
             <Box className="bm-6 mr-10">

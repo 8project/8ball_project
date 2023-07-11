@@ -132,6 +132,7 @@ const MyNftCard = ({ tokenId, account }) => {
             isOpen={isOpen}
             onClose={onClose}
             tokenData={tokenData}
+            tokenId={tokenId}
           />
         </div>
       )}

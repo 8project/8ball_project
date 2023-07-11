@@ -28,17 +28,12 @@ const MyNftModal = ({ isOpen, onClose, tokenData, account, tokenId }) => {
   const handleOffer = async (e) => {
     e.preventDefault();
 
-    let priceInWei = web3.utils.toWei(offerPrice, "ether");
-
+    const priceInWei = Number(web3.utils.toWei(offerPrice, "ether"));
+    console.log(priceInWei);
     try {
       setProcessing(true);
-
-      const response = await MarketContract.methods
-        .listForSale(OGNFTContractAddress, tokenId, priceInWei)
-        .send({ from: account });
-
+      const response = await MarketContract.methods.listForSale(OGNFTContractAddress, tokenId, priceInWei).send({ from: account });
       console.log(response);
-
       onClose();
     } catch (error) {
       console.error(error);

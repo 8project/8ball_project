@@ -9,7 +9,7 @@ const MyPieceNft = () => {
     //"List for sell" 클릭 시 필요한 동작 수행
     console.log("List for sell clicked");
   };
-
+    
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
       <Text>My Piece NFT</Text>
