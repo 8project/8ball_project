@@ -122,8 +122,8 @@ const MyNftCard = ({ tokenId, account }) => {
                 {isLoading
                   ? "Loading..."
                   : isApproved
-                  ? "Approved"
-                  : "List for Sell"}
+                  ? "List for Sell"
+                  : "Approved"}
               </Button>
             </Flex>
           </Box>
