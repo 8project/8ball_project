@@ -110,8 +110,8 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                                         </Box>
                                     </Box>
                                     <Box className="text-xs">
+                                        <Text className="font-bold text-sm">Offer</Text>
                                         <Box className="flex flex-col-reverse">
-                                            <Text className="font-bold text-sm">Offer</Text>
                                             {offerAccount?.map((c, i) => {
                                                 return (
                                                     <Text key={i} className="text-gray-600 mt-1">
