@@ -68,20 +68,20 @@ contract Market is ERC721Enumerable {
     /*
     Funding
     */
-    // function OGFunding(uint _index) public payable { 
-    //      require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-    //      require(msg.value >= OGNftList[_index].price/20);
-        
-    //      OGNftList[_index].buyer.push(msg.sender); 
-
-    //      if (OGNftList[_index].buyer.length == 20) {
-    //      emit FUNDING("Financing is complete", _index);
-    //      //+ pieceNFT 배분
-    //     }
-    // }
-
     function OGFunding(uint _index) public payable { 
          require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
+         require(msg.value >= OGNftList[_index].price/20);
+        
+         OGNftList[_index].buyer.push(msg.sender); 
+
+         if (OGNftList[_index].buyer.length == 20) {
+         emit FUNDING("Financing is complete", _index);
+         //+ pieceNFT 배분
+        }
+    }
+
+    function OGFunding(uint _index) public payable { 
+         require(OGNftList[_index].buyer.length < 19, "Financing is complete."); 
          require(msg.value >= OGNftList[_index].price);
         for(uint i=0; i<20; i++){
             OGNftList[_index].buyer.push(msg.sender); 
@@ -172,8 +172,17 @@ contract Market is ERC721Enumerable {
     /*
     3일동안 나온 제안을 모아두는 곳.
     */
-    mapping(uint => offer) public offerList;
+    // mapping(uint => offer) public offerList;
 
+    function CheckOutPieceOwner(uint _index, address _owner) public view returns(bool) {
+        uint _tokenId = OGNftList[_index].OGTokenId;
+        for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
+            if(ownerOf(i) == _owner) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 
     //가격 제안 
