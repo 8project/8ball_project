@@ -15,7 +15,9 @@ import {
   Input,
   FormControl,
 } from "@chakra-ui/react";
+import Web3 from "web3";
 
+const web3 = new Web3(window.ethereum);
 const MyPieceNftModal = ({ isOpen, onClose }) => {
   return (
     <Box>
