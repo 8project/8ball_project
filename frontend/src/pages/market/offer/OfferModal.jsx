@@ -137,7 +137,7 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                                     type="text"
                                     value={inputOffer}
                                     onChange={(e) => setInputOffer(e.target.value)}
-                                    placeholder={`${bestOfferAmount} ETH`}
+                                    placeholder={`${bestOfferAmount}`}
                                     className="bg-gray-200 rounded-md border border-black text-center py-1"
                                 />
                                 <Text className="ml-1 font-bold mr-2">ETH</Text>
