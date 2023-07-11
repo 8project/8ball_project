@@ -114,9 +114,11 @@ contract Market is ERC721Enumerable {
     */
     function distributePiece(uint _index, uint _tokenId) public { 
         //  require (manager == msg.sender,"Invalid");
+        uint j;
         for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
-            _mint(OGNftList[_index].buyer[i], i);
-            ownerList[_index].push(OGNftList[_index].buyer[i]);
+            _mint(OGNftList[_index].buyer[j], i);
+            ownerList[_index].push(OGNftList[_index].buyer[j]);
+            j++;
         }
         currentPolls[_index].OGNft_tokenId = OGNftList[_index].OGTokenId;//인풋으로 인덱스가 아니라 list tokenId를 넣어줘야ㅕ함 
     }
