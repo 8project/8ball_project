@@ -132,7 +132,7 @@ const FundingNftCard = ({ indexId, account }) => {
                     Each Piece :
                   </Text>
                   <Text className="text-blue-500 font-semibold mt-1">
-                    {price / 20} ETH
+                    {(price / 20).toFixed(6)} ETH
                   </Text>
                 </Box>
               </Box>

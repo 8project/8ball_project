@@ -88,7 +88,8 @@ contract Market is ERC721Enumerable {
         }
 
        if (OGNftList[_index].buyer.length == 20) {
-            distributePiece(_index);
+        uint tokenId = OGNftList[_index].OGTokenId;
+            distributePiece(_index, tokenId);
             FundingPriceToSeller(_index);
         
         }
@@ -111,9 +112,9 @@ contract Market is ERC721Enumerable {
     /*
     조각 buyer에게 전달
     */
-    function distributePiece(uint _index) public { 
+    function distributePiece(uint _index, uint _tokenId) public { 
         //  require (manager == msg.sender,"Invalid");
-        for (uint i=0; i<OGNftList[_index].buyer.length; i++) {
+        for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
             _mint(OGNftList[_index].buyer[i], i);
             ownerList[_index].push(OGNftList[_index].buyer[i]);
         }
@@ -121,7 +122,7 @@ contract Market is ERC721Enumerable {
     }
     
     function tokenURI(uint _tokenId) override public view returns(string memory) {
-        // return string(abi.encodePacked(URI,'/',Strings.toString(_tokenId),'.json'));
+         return string(abi.encodePacked(URI,'/',Strings.toString(_tokenId),'.json'));
     }
 
     enum pollStatus {
