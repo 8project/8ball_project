@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 const web3 = new Web3(window.ethereum);
 
 const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account }) => {
-    const [inputOffer, setInputOffer] = useState();
+    const [inputOffer, setInputOffer] = useState(price);
     const [offerAccount, setOfferAccount] = useState([]);
     const [offerAmount, setOfferAmount] = useState([]);
     const offerAmountArr = [];
@@ -61,11 +61,16 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
             responseGetOfferAmount.map((v) => {
                 offerAmountArr.push(parseInt(v) / 10 ** 18);
             });
-            setBestOfferAmount(offerAmountArr.sort((a, b) => b - a)[0]);
+            setBestOfferAmount(
+                offerAmountArr > 0 ? offerAmountArr.sort((a, b) => b - a)[0] : price
+            );
         } catch (error) {
             console.log(error);
         }
     };
+
+    console.log(price);
+    console.log(bestOfferAmount);
 
     useEffect(() => {
         getOfferList();
@@ -130,7 +135,7 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                                 type="text"
                                 value={inputOffer}
                                 onChange={(e) => setInputOffer(e.target.value)}
-                                placeholder={`${bestOfferAmount + 0.01} ETH`}
+                                placeholder={`${bestOfferAmount} ETH`}
                                 className="bg-gray-200 rounded-md border border-black text-center py-1"
                             />
                             <Button type="submit" colorScheme="blue" mr={2} ml={2}>
