@@ -36,16 +36,26 @@ const FundingModal = ({
   const [buyer, setBuyer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-    const onClickFunding = async (e) => {
+    const onClickBatchFunding = async (e) => {
         e.preventDefault();
         try {
             const fundingPrice = web3.utils.toWei(price /*/20*/, "ether");
-            const response = await MarketContract.methods.OGFunding(indexId).send({ from: account, value: fundingPrice });
+            const response = await MarketContract.methods.OGBatchFunding(indexId).send({ from: account, value: fundingPrice });
             // console.log(response);
         } catch (error) {
             console.error(error);
         }
     };
+    const onClickFunding = async (e) => {
+      e.preventDefault();
+      try {
+          const fundingPrice = web3.utils.toWei(price/20, "ether");
+          const response = await MarketContract.methods.OGFunding(indexId).send({ from: account, value: fundingPrice });
+          // console.log(response);
+      } catch (error) {
+          console.error(error);
+      }
+  };
 
   const getFundingBuyerList = async () => {
     try {
@@ -167,7 +177,7 @@ const FundingModal = ({
 
           <ModalFooter>
             <Button
-              onClick={onClickFunding}
+              onClick={onClickBatchFunding}
               colorScheme="blue"
               mr={2}
               isLoading={isLoading}
@@ -175,6 +185,16 @@ const FundingModal = ({
               spinner={<Spinner size="sm" />}
             >
               Funding now
+            </Button>
+            <Button
+              onClick={onClickFunding}
+              colorScheme="blue"
+              mr={2}
+              isLoading={isLoading}
+              loadingText="Funding..."
+              spinner={<Spinner size="sm" />}
+            >
+              테스트용조각하나만 민팅됨
             </Button>
             <Button colorScheme="teal" onClick={onClose}>
               Close

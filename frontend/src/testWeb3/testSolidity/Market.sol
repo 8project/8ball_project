@@ -38,7 +38,7 @@ contract Market is ERC721Enumerable {
     
     function listForSale(address _OGContractAddress, uint _OGTokenId, uint _price) public {
         //ownercheck 기능 
-        OG.transferFrom(tx.origin,address(this),_OGTokenId);
+       OG.transferFrom(tx.origin,address(this),_OGTokenId);
 
         (OGNftList[OGIndex].seller, OGNftList[OGIndex].OGContractAddress, OGNftList[OGIndex].OGTokenId, OGNftList[OGIndex].price) = (msg.sender, _OGContractAddress, _OGTokenId, _price);
         OGIndex++;
@@ -75,15 +75,17 @@ contract Market is ERC721Enumerable {
          OGNftList[_index].buyer.push(msg.sender); 
 
          if (OGNftList[_index].buyer.length == 20) {
-         emit FUNDING("Financing is complete", _index);
-         //+ pieceNFT 배분
+            uint tokenId = OGNftList[_index].OGTokenId;
+            distributePiece(_index, tokenId);
+            FundingPriceToSeller(_index);
+
         }
     }
 
-    function OGFunding(uint _index) public payable { 
-         require(OGNftList[_index].buyer.length < 19, "Financing is complete."); 
-         require(msg.value >= OGNftList[_index].price);
-        for(uint i=0; i<20; i++){
+    function OGBatchFunding(uint _index) public payable { 
+         require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
+         require(msg.value >= OGNftList[_index].price - 1);
+        for(uint i=0; i<19; i++){
             OGNftList[_index].buyer.push(msg.sender); 
         }
 
@@ -117,7 +119,6 @@ contract Market is ERC721Enumerable {
         uint j;
         for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
             _mint(OGNftList[_index].buyer[j], i);
-            ownerList[_index].push(OGNftList[_index].buyer[j]);
             j++;
         }
         currentPolls[_index].OGNft_tokenId = OGNftList[_index].OGTokenId;//인풋으로 인덱스가 아니라 list tokenId를 넣어줘야ㅕ함 
@@ -161,8 +162,6 @@ contract Market is ERC721Enumerable {
     /*
     pieceNFT owner
     */
-    mapping(uint => address[]) public ownerList; //토큰등록번호 => owner주소들 쫘르륵..
-    
     mapping(uint => poll) public currentPolls;
 
     function getVotedAddressList(uint _index) public view returns(address[] memory) {
@@ -172,7 +171,7 @@ contract Market is ERC721Enumerable {
     /*
     3일동안 나온 제안을 모아두는 곳.
     */
-    // mapping(uint => offer) public offerList;
+     mapping(uint => offer) public offerList;
 
     function CheckOutPieceOwner(uint _index, address _owner) public view returns(bool) {
         uint _tokenId = OGNftList[_index].OGTokenId;
@@ -221,18 +220,26 @@ contract Market is ERC721Enumerable {
         }
     }
     
-    function voteResult(uint _index,uint _OGTokenId) public {
+    function voteResult(uint _index) public {
         //찬성되면 nft는 currentpoll의 by에게 전달되고 돈은 홀더들에게 전달
+        uint _tokenId = OGNftList[_index].OGTokenId;
         if(currentPolls[_index].pros > 10) {
-            OG.safeTransferFrom(address(this), currentPolls[_index].by, _OGTokenId);
-            //홀더들에게 나눠주기
-            for(uint i=0; i<20; i++){
-                payable(ownerList[_index][i]).transfer((currentPolls[_index].bestOfferPrice)/20);
-            } 
+            OG.safeTransferFrom(address(this), currentPolls[_index].by, _tokenId);
+            //홀더들에게 나눠주기 
         } else {
             //_by에게 돈은 돌려주기 
             payable(currentPolls[_index].by).transfer(currentPolls[_index].bestOfferPrice);
         }
+    }
+
+    function changePieceToEth(uint _index, uint _tokenId) public {
+        payable(ownerOf(_tokenId)).transfer((currentPolls[_index].bestOfferPrice)/20); 
+        _burn(_tokenId);
+    }
+    function TESTburnNFT(uint _tokenId) public {
+        require(msg.sender == ownerOf(_tokenId), "Caller is not token owner.");
+
+        _burn(_tokenId);
     }
 
     function getMyNftTokenId_Piece(address _user) public view returns(uint[] memory) {
@@ -248,5 +255,12 @@ contract Market is ERC721Enumerable {
                 return MyNPieceNfts;     
             }
         }
+    }
+    function TESTMint(uint _tokenId) public {
+        _mint(msg.sender, _tokenId);
+    }
+
+    function aaa() public payable {
+        msg.value;
     }
 }
