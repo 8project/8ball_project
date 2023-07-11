@@ -21,7 +21,7 @@ import Web3 from "web3";
 
 const web3 = new Web3(window.ethereum);
 
-const MyNftModal = ({ isOpen, onClose, tokenData, account }) => {
+const MyNftModal = ({ isOpen, onClose, tokenData, account, tokenId }) => {
   const [offerPrice, setOfferPrice] = useState(0);
   const [isProcessing, setProcessing] = useState(false);
 
@@ -34,7 +34,7 @@ const MyNftModal = ({ isOpen, onClose, tokenData, account }) => {
       setProcessing(true);
 
       const response = await MarketContract.methods
-        .listForSale(OGNFTContractAddress, tokenData.edition, priceInWei)
+        .listForSale(OGNFTContractAddress, tokenId, priceInWei)
         .send({ from: account });
 
       console.log(response);
@@ -65,7 +65,7 @@ const MyNftModal = ({ isOpen, onClose, tokenData, account }) => {
         <ModalBody>
           <Text className="font-semibold">{tokenData.name}</Text>
           <Text className="text-black text-sm mt-1 bg-gray-400 text-center">
-            Price: {piecePrice.toFixed(2)} ETH
+            Piece Price: {parseFloat(piecePrice.toFixed(6))} ETH
           </Text>
         </ModalBody>
         <ModalFooter>
