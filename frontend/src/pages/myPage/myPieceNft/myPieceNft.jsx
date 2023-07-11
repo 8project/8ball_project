@@ -91,6 +91,7 @@ const MyPieceNft = ({ account }) => {
           pieceId={p}
           account={account}
           isApproved={isApproved}
+          onClickPieceApprove={onClickPieceApprove}
         />
       ))}
     </Box>
