@@ -19,7 +19,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MarketContract } from "../../../lib/web3.config";
 
-const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
+const MyPieceNftCard = ({
+  pieceId,
+  account,
+  isLoading,
+  isApproved,
+  onClickPieceApprove,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pieceTokenData, setPieceTokenData] = useState(null);
 
@@ -36,10 +42,6 @@ const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
   useEffect(() => {
     getPieceTokenURI();
   }, []);
-
-  const onClickListForSell = () => {
-    onOpen();
-  };
 
   return (
     <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
@@ -97,8 +99,8 @@ const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
                 isLoading={isLoading}
                 loadingText="Approving..."
                 spinner={<Spinner size="sm" />}
-                disabled={!isApproved} // Approved 되어있지 않다면 판매못함.
-                onClick={onClickListForSell}
+                disabled={!isApproved}
+                onClick={isApproved ? onOpen : onClickPieceApprove}
               >
                 {isLoading
                   ? "Loading..."
