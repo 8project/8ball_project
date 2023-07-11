@@ -62,7 +62,7 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                 offerAmountArr.push(parseInt(v) / 10 ** 18);
             });
             setBestOfferAmount(
-                offerAmountArr > 0 ? offerAmountArr.sort((a, b) => b - a)[0] : price
+                offerAmountArr != null ? offerAmountArr.sort((a, b) => b - a)[0] : price
             );
         } catch (error) {
             console.log(error);
@@ -134,7 +134,7 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                             <Box className="flex items-center">
                                 <input
                                     type="text"
-                                    value={inputOffer}
+                                    value={bestOfferAmount}
                                     onChange={(e) => setInputOffer(e.target.value)}
                                     placeholder={`${bestOfferAmount} ETH`}
                                     className="bg-gray-200 rounded-md border border-black text-center py-1"
