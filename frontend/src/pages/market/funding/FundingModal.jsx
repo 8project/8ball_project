@@ -30,9 +30,7 @@ const FundingModal = ({ isOpen, onClose, tokenData, account, price, indexId, buy
         e.preventDefault();
         try {
             const fundingPrice = web3.utils.toWei(price /*/20*/, "ether");
-            const response = await MarketContract.methods
-                .OGFunding(indexId)
-                .send({ from: account, value: fundingPrice });
+            const response = await MarketContract.methods.OGFunding(indexId).send({ from: account, value: fundingPrice });
             // console.log(response);
         } catch (error) {
             console.error(error);

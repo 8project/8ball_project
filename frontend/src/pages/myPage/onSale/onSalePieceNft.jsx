@@ -77,10 +77,7 @@ const OnSalePieceNft = ({ account }) => {
       {dataURI?.map((v, i) => {
         return (
           <div>
-            <Box
-              className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]"
-              key={i}
-            >
+            <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]" key={i}>
               <Text>On Sale</Text>
               <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
                 <Image src={v.data.image} w={"256px"} />

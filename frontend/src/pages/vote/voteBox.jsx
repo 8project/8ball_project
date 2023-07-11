@@ -16,6 +16,11 @@ const VoteBox = ({ account }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [OGTokenId, setOGTokenIds] = useState([]);
+  const [votePermissionList, setVotePermissionList] = useState([]);
+  const [dataID, setDataID] = useState([]); // TOKEN ID
+  const [dataURI, setDataURI] = useState([]); // URI
+  const [bestOffer, setBestOffer] = useState();
 
   const handleOptionClick = (option) => {
     if (!isSubmitted) {
@@ -36,10 +41,7 @@ const VoteBox = ({ account }) => {
       console.log("Submitted option:", selectedOption);
     }
   };
-  const [OGTokenId, setOGTokenIds] = useState([]);
-  const [votePermissionList, setVotePermissionList] = useState([]);
-  const [dataID, setDataID] = useState([]); // TOKEN ID
-  const [dataURI, setDataURI] = useState([]); // URI
+ 
   //===================================================================================
 
 
@@ -84,10 +86,13 @@ const VoteBox = ({ account }) => {
                   setVotePermissionList((prev) => [...prev, getRealBuyer]);
                   // const uri = await OGNFTContract.methods.tokenURI().call(); //해당 토큰 ID가
                   const a = await MarketContract.methods.OGNftList(i).call()
+                  const res = await MarketContract.methods.currentPolls(i).call();
+                  const changeToNum = Number(res.bestOfferPrice)
+                  setBestOffer(changeToNum);
                   const uri = await OGNFTContract.methods.tokenURI(a.OGTokenId).call();
-                  console.log(uri);
+                  // console.log(uri);
                   const uri2 = await axios.get(uri);
-                  console.log(uri2);
+                  // console.log(uri2);
                   setDataURI((prev) => [...prev, uri2]);
                 };
               };
@@ -99,28 +104,36 @@ const VoteBox = ({ account }) => {
       console.log(error);
     }
   };
+
+  const voting = async(e) => {
+    e.preventDefault();
+    const voteRes = await MarketContract.methods.startVote().send({from : account});
+    console.log(voteRes);
+  }
+
+
   useEffect(() => {getMyNftTokenIds_OG()}, []);
   useEffect(() => {console.log(votePermissionList)},[votePermissionList]);
+  useEffect(() => {console.log(dataURI)},[dataURI]);
 
   return (
     <div>
-      return<div></div>
-    
-      <div
+      {dataURI?.map((v,i) => {return(
+      <div>
+        <div key={i}
         className={`lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 ${
           isSubmitted ? "bg-gray-400" : "bg-gray-200"
-        } pb-12 pl-6`}
-      >
+        } pb-12 pl-6`}>
         <div className="m-2">
-          <img src="img/pieceNft.png" alt="pieceNft" className="w-10 h-10" />
+          <img src={v.data.image} alt="pieceNft" className="w-10 h-10" />
         </div>
         <div className="m-2 p-1 text-center">
           <div>Offer price</div>
-          <div className="text-blue-500">1.2ETH</div>
+          <div className="text-blue-500">{bestOffer} ETH</div> 
         </div>
         <div className="m-2 p-1 text-center">
           <div>Duration</div>
-          <div>0618~0619</div>
+          <div>0618~0619</div> // {/*기간도 설정해줘야함 */} 
         </div>
         <div className="mt-6 ml-4">
           <div>Vote</div>
@@ -172,23 +185,15 @@ const VoteBox = ({ account }) => {
             <ModalCloseButton />
             <ModalBody>Are you sure you want to submit your vote?</ModalBody>
             <ModalFooter>
-              <Button
-                colorScheme="green"
-                onClick={() => handleConfirmation(true)}
-              >
-                Confirm
-              </Button>
-              <Button
-                colorScheme="red"
-                ml={3}
-                onClick={() => handleConfirmation(false)}
-              >
-                Cancel
-              </Button>
+              <Button colorScheme="green" onClick={() => handleConfirmation(true)}>Confirm</Button>
+              <Button colorScheme="red" ml={3} onClick={() => handleConfirmation(false)}>Cancel</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       </div>
+      </div>)})}
+    
+      
   </div>
   );
 };
