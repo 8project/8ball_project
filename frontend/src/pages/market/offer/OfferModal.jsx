@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 const web3 = new Web3(window.ethereum);
 
 const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account }) => {
-    const [inputOffer, setInputOffer] = useState(price);
+    const [inputOffer, setInputOffer] = useState();
     const [offerAccount, setOfferAccount] = useState([]);
     const [offerAmount, setOfferAmount] = useState([]);
     const offerAmountArr = [];
@@ -134,7 +134,7 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                             <Box className="flex items-center">
                                 <input
                                     type="text"
-                                    value={bestOfferAmount}
+                                    value={inputOffer}
                                     onChange={(e) => setInputOffer(e.target.value)}
                                     placeholder={`${bestOfferAmount} ETH`}
                                     className="bg-gray-200 rounded-md border border-black text-center py-1"
