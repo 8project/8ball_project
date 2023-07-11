@@ -99,23 +99,27 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                                 <Box className="flex justify-around mt-2 bg-gray-100 py-2 rounded-lg">
                                     <Box className="text-xs">
                                         <Text className=" font-bold text-sm">Price</Text>
-                                        {offerAmount?.map((m, i) => {
-                                            return (
-                                                <Text key={i} className="text-blue-600 mt-1">
-                                                    {Number(m) / 10 ** 18} eth
-                                                </Text>
-                                            );
-                                        })}
+                                        <Box className="flex flex-col-reverse">
+                                            {offerAmount?.map((m, i) => {
+                                                return (
+                                                    <Text key={i} className="text-blue-600 mt-1 ">
+                                                        {Number(m) / 10 ** 18} eth
+                                                    </Text>
+                                                );
+                                            })}
+                                        </Box>
                                     </Box>
                                     <Box className="text-xs">
-                                        <Text className="font-bold text-sm">Offer</Text>
-                                        {offerAccount?.map((c, i) => {
-                                            return (
-                                                <Text key={i} className="text-gray-600 mt-1">
-                                                    {c.substring(0, 4)}...{c.slice(-4)}
-                                                </Text>
-                                            );
-                                        })}
+                                        <Box className="flex flex-col-reverse">
+                                            <Text className="font-bold text-sm">Offer</Text>
+                                            {offerAccount?.map((c, i) => {
+                                                return (
+                                                    <Text key={i} className="text-gray-600 mt-1">
+                                                        {c.substring(0, 4)}...{c.slice(-4)}
+                                                    </Text>
+                                                );
+                                            })}
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Box>
