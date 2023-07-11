@@ -61,11 +61,16 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
             responseGetOfferAmount.map((v) => {
                 offerAmountArr.push(parseInt(v) / 10 ** 18);
             });
-            setBestOfferAmount(offerAmountArr.sort((a, b) => b - a)[0]);
+            setBestOfferAmount(
+                offerAmountArr != null ? offerAmountArr.sort((a, b) => b - a)[0] : price
+            );
         } catch (error) {
             console.log(error);
         }
     };
+
+    console.log(price);
+    console.log(bestOfferAmount);
 
     useEffect(() => {
         getOfferList();
@@ -126,16 +131,19 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                                       }
                             }
                         >
-                            <input
-                                type="text"
-                                value={inputOffer}
-                                onChange={(e) => setInputOffer(e.target.value)}
-                                placeholder={`${bestOfferAmount + 0.01} ETH`}
-                                className="bg-gray-200 rounded-md border border-black text-center py-1"
-                            />
-                            <Button type="submit" colorScheme="blue" mr={2} ml={2}>
-                                Offer
-                            </Button>
+                            <Box className="flex items-center">
+                                <input
+                                    type="text"
+                                    value={inputOffer}
+                                    onChange={(e) => setInputOffer(e.target.value)}
+                                    placeholder={`${bestOfferAmount} ETH`}
+                                    className="bg-gray-200 rounded-md border border-black text-center py-1"
+                                />
+                                <Text className="ml-1 font-bold mr-2">ETH</Text>
+                                <Button type="submit" colorScheme="blue" mr={2} ml={2}>
+                                    Offer
+                                </Button>
+                            </Box>
                         </form>
 
                         <Button colorScheme="teal" onClick={onClose}>
