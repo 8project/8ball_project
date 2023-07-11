@@ -7,7 +7,7 @@ import {
 } from "../../../lib/web3.config";
 
 const MyPieceNft = ({ account }) => {
-  const [pieceTokenIds, setPieceTokenIds] = useState();
+  const [pieceTokenIds, setPieceTokenIds] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,27 +26,30 @@ const MyPieceNft = ({ account }) => {
     }
   };
 
-  useEffect(() => {
-    getMyNftTokenIds_Piece();
-  }, []);
+  const checkApprovalStatus = async () => {
+    try {
+      const checkApproved = await MarketContract.methods
+        .isApprovedForAll(account, MarketContractAddress)
+        .call({ from: account });
+      setIsApproved(checkApproved);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const onClickPieceApprove = async (e) => {
     e.preventDefault();
 
     try {
       setIsLoading(true);
-      const checkApproved = await MarketContract.methods
-        .isApprovedForAll(account, MarketContractAddress)
-        .call({ from: account });
-      if (checkApproved !== true) {
-        const response = await MarketContract.methods
-          .setApprovalForAll(MarketContractAddress, true)
-          .send({ from: account });
-        // if (response.status) {
-        console.log(response);
-        // }
+
+      const response = await MarketContract.methods
+        .setApprovalForAll(MarketContractAddress, true)
+        .send({ from: account });
+
+      if (response.status) {
+        setIsApproved(true);
       }
-      setIsApproved(true);
     } catch (error) {
       console.error(error);
     } finally {
@@ -54,28 +57,42 @@ const MyPieceNft = ({ account }) => {
     }
   };
 
+  useEffect(() => {
+    getMyNftTokenIds_Piece();
+    checkApprovalStatus();
+  }, []);
+
   return (
     <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
       <Text>
         My Piece NFT
         <Box>
-          판매가능 상태{" "}
-          <Button onClick={onClickPieceApprove}>
-            {isApproved ? "가능" : "불가"}
-          </Button>
+          Sell Status{" "}
+          {isApproved ? (
+            <Button colorScheme="green" size="sm" variant="outline">
+              Possible
+            </Button>
+          ) : (
+            <Button
+              colorScheme="red"
+              size="sm"
+              variant="outline"
+              onClick={onClickPieceApprove}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Approved"}
+            </Button>
+          )}
         </Box>
       </Text>
-      {pieceTokenIds?.map((p, i) => {
-        return (
-          <MyPieceNftCard
-            key={i}
-            pieceId={p}
-            account={account}
-            isApproved={isApproved}
-            isLoading={isLoading}
-          />
-        );
-      })}
+      {pieceTokenIds.map((p, i) => (
+        <MyPieceNftCard
+          key={i}
+          pieceId={p}
+          account={account}
+          isApproved={isApproved}
+        />
+      ))}
     </Box>
   );
 };
