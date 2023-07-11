@@ -86,13 +86,11 @@ const VoteBox = ({ account }) => {
                   const a = await MarketContract.methods.OGNftList(i).call()
                   const uri = await OGNFTContract.methods.tokenURI(a.OGTokenId).call();
                   console.log(uri);
-                  // const uri2 = await axios.get(uri);
-                  // console.log(uri2);
-                  // setDataURI((prev) => [...prev, uri2]);
+                  const uri2 = await axios.get(uri);
+                  console.log(uri2);
+                  setDataURI((prev) => [...prev, uri2]);
                 };
-              }
-              // console.log('getRealBuyer', getRealBuyer);
-              
+              };
             };
           };
         };
@@ -104,92 +102,94 @@ const VoteBox = ({ account }) => {
   useEffect(() => {getMyNftTokenIds_OG()}, []);
   useEffect(() => {console.log(votePermissionList)},[votePermissionList]);
 
-
-
   return (
-    <div
-      className={`lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 ${
-        isSubmitted ? "bg-gray-400" : "bg-gray-200"
-      } pb-12 pl-6`}
-    >
-      <div className="m-2">
-        <img src="img/pieceNft.png" alt="pieceNft" className="w-10 h-10" />
-      </div>
-      <div className="m-2 p-1 text-center">
-        <div>Offer price</div>
-        <div className="text-blue-500">1.2ETH</div>
-      </div>
-      <div className="m-2 p-1 text-center">
-        <div>Duration</div>
-        <div>0618~0619</div>
-      </div>
-      <div className="mt-6 ml-4">
-        <div>Vote</div>
-        <div>
-          <div className="flex items-center">
-            <button
-              className={`option-button ${
-                selectedOption === "up" ? "selected" : ""
-              }`}
-              onClick={() => handleOptionClick("up")}
-              disabled={isSubmitted}
-            ></button>
-            <div className="ml-2">Up</div>
-          </div>
-          <div className="flex items-center">
-            <button
-              className={`option-button ${
-                selectedOption === "down" ? "selected" : ""
-              }`}
-              onClick={() => handleOptionClick("down")}
-              disabled={isSubmitted}
-            ></button>
-            <div className="ml-2">Down</div>
-          </div>
-        </div>
-      </div>
-      {!isSubmitted && (
-        <div className="self-end ml-2">
-          <button
-            className={`text-white m-1 p-1 rounded-md ${
-              isSubmitted ? "disabled" : "bg-blue-500"
-            }`}
-            onClick={handleSubmit}
-            disabled={isSubmitted}
-          >
-            Submit
-          </button>
-        </div>
-      )}
-      {isSubmitted && <div className="self-end ml-2"></div>}
-
-      <Modal
-        isOpen={isConfirmationOpen}
-        onClose={() => handleConfirmation(false)}
+    <div>
+      return<div></div>
+    
+      <div
+        className={`lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 ${
+          isSubmitted ? "bg-gray-400" : "bg-gray-200"
+        } pb-12 pl-6`}
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirmation</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>Are you sure you want to submit your vote?</ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="green"
-              onClick={() => handleConfirmation(true)}
+        <div className="m-2">
+          <img src="img/pieceNft.png" alt="pieceNft" className="w-10 h-10" />
+        </div>
+        <div className="m-2 p-1 text-center">
+          <div>Offer price</div>
+          <div className="text-blue-500">1.2ETH</div>
+        </div>
+        <div className="m-2 p-1 text-center">
+          <div>Duration</div>
+          <div>0618~0619</div>
+        </div>
+        <div className="mt-6 ml-4">
+          <div>Vote</div>
+          <div>
+            <div className="flex items-center">
+              <button
+                className={`option-button ${
+                  selectedOption === "up" ? "selected" : ""
+                }`}
+                onClick={() => handleOptionClick("up")}
+                disabled={isSubmitted}
+              ></button>
+              <div className="ml-2">Up</div>
+            </div>
+            <div className="flex items-center">
+              <button
+                className={`option-button ${
+                  selectedOption === "down" ? "selected" : ""
+                }`}
+                onClick={() => handleOptionClick("down")}
+                disabled={isSubmitted}
+              ></button>
+              <div className="ml-2">Down</div>
+            </div>
+          </div>
+        </div>
+        {!isSubmitted && (
+          <div className="self-end ml-2">
+            <button
+              className={`text-white m-1 p-1 rounded-md ${
+                isSubmitted ? "disabled" : "bg-blue-500"
+              }`}
+              onClick={handleSubmit}
+              disabled={isSubmitted}
             >
-              Confirm
-            </Button>
-            <Button
-              colorScheme="red"
-              ml={3}
-              onClick={() => handleConfirmation(false)}
-            >
-              Cancel
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </div>
+              Submit
+            </button>
+          </div>
+        )}
+        {isSubmitted && <div className="self-end ml-2"></div>}
+
+        <Modal
+          isOpen={isConfirmationOpen}
+          onClose={() => handleConfirmation(false)}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Confirmation</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>Are you sure you want to submit your vote?</ModalBody>
+            <ModalFooter>
+              <Button
+                colorScheme="green"
+                onClick={() => handleConfirmation(true)}
+              >
+                Confirm
+              </Button>
+              <Button
+                colorScheme="red"
+                ml={3}
+                onClick={() => handleConfirmation(false)}
+              >
+                Cancel
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </div>
+  </div>
   );
 };
 
