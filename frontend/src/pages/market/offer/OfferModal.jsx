@@ -31,6 +31,8 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
     const [inputOffer, setInputOffer] = useState();
     const [offerAccount, setOfferAccount] = useState([]);
     const [offerAmount, setOfferAmount] = useState([]);
+    const offerAmountArr = [];
+    const [bestOfferAmount, setBestOfferAmount] = useState();
 
     const onClickOffer = async (e) => {
         e.preventDefault();
@@ -55,6 +57,11 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                 .call();
             setOfferAccount(responseGetOfferAccount);
             setOfferAmount(responseGetOfferAmount);
+
+            responseGetOfferAmount.map((v) => {
+                offerAmountArr.push(parseInt(v) / 10 ** 18);
+            });
+            setBestOfferAmount(offerAmountArr.sort((a, b) => b - a)[0]);
         } catch (error) {
             console.log(error);
         }
@@ -79,10 +86,14 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                         <Box className="mt-4 text-sm font-semibold">
                             <Box>
                                 <Text className="text-center font-bold text-lg">Offer list</Text>
+                                <Box className="flex justify-center">
+                                    <Text className="text-semibold mr-4">The highest bid : </Text>
+                                    <Text className="text-blue-700"> {bestOfferAmount} ETH</Text>
+                                </Box>
                                 <Box className="flex justify-around mt-2 bg-gray-100 py-2 rounded-lg">
                                     <Box className="text-xs">
                                         <Text className=" font-bold text-sm">Price</Text>
-                                        {offerAmount?.map((m, i, c) => {
+                                        {offerAmount?.map((m, i) => {
                                             return (
                                                 <Text key={i} className="text-blue-600 mt-1">
                                                     {Number(m) / 10 ** 18} eth
@@ -104,48 +115,33 @@ const OfferModal = ({ isOpen, onClose, offerMetadata, price, offerId, account })
                             </Box>
                         </Box>
                     </ModalBody>
-                    <FormControl>
-                        <ModalFooter>
-                            {/* <InputGroup focusBorderColor="blue">
-                <Input type="number" placeholder="Price" />
-                <InputRightAddon children="ETH" colorScheme="blue" />
-              </InputGroup>
-              <Button   onClick={onClickOffer} 
-                colorScheme="blue"
-                mr={2}
-                ml={2}
-              >
-                Offer
-              </Button> */}
-                            <form
-                                onSubmit={
-                                    onClickOffer
-                                    /* 
-                                  Number(offerAmount / 10 ** 18) < inputOffer / 10 ** 18
-                                        ? onClickOffer
-                                        : (e) => {
-                                              e.preventDefault();
-                                              alert("Check offer price");
-                                          }
-                                */
-                                }
-                            >
-                                <input
-                                    type="text"
-                                    value={inputOffer}
-                                    onChange={(e) => setInputOffer(e.target.value)}
-                                    placeholder="Ethereum"
-                                    className="bg-gray-200 rounded-md border border-black text-center py-1"
-                                />
-                                <Button type="submit" colorScheme="blue" mr={2} ml={2}>
-                                    Offer
-                                </Button>
-                            </form>
-                            <Button colorScheme="teal" onClick={onClose}>
-                                Close
+                    <ModalFooter>
+                        <form
+                            onSubmit={
+                                bestOfferAmount < inputOffer
+                                    ? onClickOffer
+                                    : (e) => {
+                                          e.preventDefault();
+                                          alert("Check offer price");
+                                      }
+                            }
+                        >
+                            <input
+                                type="text"
+                                value={inputOffer}
+                                onChange={(e) => setInputOffer(e.target.value)}
+                                placeholder={`${bestOfferAmount + 0.01} ETH`}
+                                className="bg-gray-200 rounded-md border border-black text-center py-1"
+                            />
+                            <Button type="submit" colorScheme="blue" mr={2} ml={2}>
+                                Offer
                             </Button>
-                        </ModalFooter>
-                    </FormControl>
+                        </form>
+
+                        <Button colorScheme="teal" onClick={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </Box>
