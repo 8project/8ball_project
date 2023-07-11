@@ -37,6 +37,10 @@ const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
     getPieceTokenURI();
   }, []);
 
+  const onClickListForSell = () => {
+    onOpen();
+  };
+
   return (
     <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
       {pieceTokenData && (
@@ -44,7 +48,7 @@ const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
           <div className="relative">
             <Image
               src={pieceTokenData?.image}
-              className=" rounded-t-md absolute"
+              className=" rounded-t-md absolute w-[256px] h-[256px]"
             />
             <div className="top-0 w-[256px] h-[256px]  bg-white text-gray-950 flex justify-center items-center">
               Loading...
@@ -89,12 +93,12 @@ const MyPieceNftCard = ({ pieceId, account, isLoading, isApproved }) => {
             <Flex justify="center">
               <Button
                 colorScheme="blue"
-                // onClick={isApproved ? onOpen : onClickPieceApprove}
                 className="justify-center text-center w-full py-4"
                 isLoading={isLoading}
                 loadingText="Approving..."
                 spinner={<Spinner size="sm" />}
-                disabled={isApproved}
+                disabled={!isApproved} // Approved 되어있지 않다면 판매못함.
+                onClick={onClickListForSell}
               >
                 {isLoading
                   ? "Loading..."
