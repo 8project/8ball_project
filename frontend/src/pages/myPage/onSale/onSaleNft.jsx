@@ -13,6 +13,7 @@ const OnSaleNft = ({ account }) => {
 
   const [dataID, setDataID] = useState([]); // TOKEN ID
   const [dataURI, setDataURI] = useState([]); // URI
+  const [tokenId, setTokenId] = useState([]);
 
   const handleCancel = () => {
     setCancelConfirmationOpen(true);
@@ -57,6 +58,16 @@ const OnSaleNft = ({ account }) => {
     }
   };
 
+  const onClickWithdraw = async() => {
+    try {
+      const WithdrawRes = await MarketContract.methods.FundingPriceToSeller().send({from : account});
+      console.log(WithdrawRes)
+    } catch (error) {
+      console.error(error);
+    };
+  };
+
+
   useEffect(() => {
     getOnSaleNftMetadata();
   }, []);
@@ -70,14 +81,13 @@ const OnSaleNft = ({ account }) => {
         return (
           <div>
             <Box
-              className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]"
-              key={i}
-            >
+              className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]" key={i}>
               {/* <Text>On Sale</Text> */}
               <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
                 <Image src={v.data.image} w={"256px"} />
                 <Box className="bg-gray-100 w-full px-4 py-1">
-                  <Text>{v.data.name}</Text>
+                  <Text>{v.data.name} #{v.data.edition}</Text>
+                  
                   <div>{v.data.description}</div>
                   {/* <div>{v.data.attributes.map((traits,key) => {return<div key={key}>{traits.trait_type} {traits.value}</div>})}</div> */}
                   <Button
@@ -85,10 +95,11 @@ const OnSaleNft = ({ account }) => {
                     onClick={handleCancel}
                     className="justify-center text-center w-full py-4"
                   >
-                    Cancel
+                    Duration
                   </Button>
                   <Button
                     colorScheme="blue"
+                    onClick={onClickWithdraw}
                     className="justify-center mt-1 text-center w-full py-4"
                   >
                     Withdraw Fundraise

@@ -76,7 +76,7 @@ const MyNftCard = ({ tokenId, account }) => {
             </div>
           </div>
           <Box className="bg-gray-100 w-full px-4 py-1">
-            <Text>{tokenData.name}</Text>
+            <Text>{tokenData.name} #{tokenData.edition}</Text>
             <Accordion allowMultiple>
               <AccordionItem>
                 <h2>
