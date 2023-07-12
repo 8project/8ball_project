@@ -18,14 +18,13 @@ import {
 } from "../../lib/web3.config";
 import axios from "axios";
 import { LuVote } from "react-icons/lu";
+import Web3 from "web3";
 
 const VoteBox = ({ account }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [OGTokenId, setOGTokenIds] = useState([]);
-  const [votePermissionList, setVotePermissionList] = useState([]);
-  const [dataID, setDataID] = useState([]); // TOKEN ID
   const [dataURI, setDataURI] = useState([]); // URI
   const [bestOffer, setBestOffer] = useState();
 
@@ -72,49 +71,25 @@ const VoteBox = ({ account }) => {
         const arr2=arr[i]
       }
       */
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(MarketContractAddress)
-        .call();
-      const marketNftTokenId = response.map((v) => {
-        return Number(v);
-      });
+      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+      const marketNftTokenId = response.map((v) => {return Number(v);});
       setOGTokenIds(marketNftTokenId); //tokenId 가져옴
       console.log(marketNftTokenId);
-
-      const tempArray = [];
-      for (let i = 1; i < marketNftTokenId.length + 1; i++) {
-        const buyerList = await MarketContract.methods
-          .OGListForSale_buyerList(i)
-          .call(); // list index로 for문
-        console.log("buyer ", buyerList);
-        if (buyerList.length === 20) {
-          // buyerLength 가 20인 것만 추출
-          tempArray.push(buyerList); // buyerList == []
-          console.log("tempArr", tempArray);
-          for (let j = 0; j < tempArray.length; j++) {
-            const getRealBuyer = tempArray[j]; //수정할 부분
-            console.log("getRealBuyer", getRealBuyer);
-            for (let k = 0; k < getRealBuyer.length; k++) {
-              if (getRealBuyer[k].toLowerCase() === account.toLowerCase()) {
-                setVotePermissionList((prev) => [...prev, getRealBuyer]);
-                // const uri = await OGNFTContract.methods.tokenURI().call(); //해당 토큰 ID가
-                const a = await MarketContract.methods.OGNftList(i).call();
-                const res = await MarketContract.methods.currentPolls(i).call();
-                const changeToNum = Number(res.bestOfferPrice);
-                setBestOffer(changeToNum);
-                const uri = await OGNFTContract.methods
-                  .tokenURI(a.OGTokenId)
-                  .call();
-                // console.log(uri);
-                const uri2 = await axios.get(uri);
-                // console.log(uri2);
-                setDataURI((prev) => [...prev, uri2]);
-              }
-            }
-          }
+      for (let i = 1; i <= marketNftTokenId.length; i++) {
+        const checkPieceOwnerRes = await MarketContract.methods.CheckOutPieceOwner(i, account).call();
+        console.log(checkPieceOwnerRes);
+        if(checkPieceOwnerRes === true){
+          const getTokenUriRes = await OGNFTContract.methods.tokenURI(i).call();
+          const uri = await axios.get(getTokenUriRes);
+          const getBestOfferRes = await MarketContract.methods.currentPolls(i).call();
+          const changeToNum = Number(getBestOfferRes.bestOfferPrice);
+          console.log(changeToNum);
+          setBestOffer(changeToNum);
+          console.log(getTokenUriRes);
+          console.log(uri);
+          setDataURI((prev) => [...prev, uri]);
         }
-      }
-      console.log(tempArray);
+      };
     } catch (error) {
       console.log(error);
     }
@@ -128,20 +103,30 @@ const VoteBox = ({ account }) => {
     console.log(voteRes);
   };
 
+  // const check = async () => {
+  //   try {
+  //     const getTokenUriRes = await OGNFTContract.methods.tokenURI(1).call();
+  //     console.log(getTokenUriRes);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  
+  
   useEffect(() => {
     getMyNftTokenIds_OG();
   }, []);
-  useEffect(() => {
-    console.log(votePermissionList);
-  }, [votePermissionList]);
-  useEffect(() => {
-    console.log(dataURI);
-  }, [dataURI]);
+  // useEffect(() => {
+  //   console.log(votePermissionList);
+  // }, [votePermissionList]);
+  // useEffect(() => {
+  //   console.log(dataURI);
+  // }, [dataURI]);
 
   return (
     <Box>
-      {dataURI ? (
-        dataURI > 0 ? (
+      {/* {dataURI ? (
+        dataURI > 0 ? ( */}
           <Box className=" bg-gray-500 lg:max-w-[800px] max-w-[460px] border rounded-md p-2">
             <div>
               {dataURI?.map((v, i) => {
@@ -165,6 +150,7 @@ const VoteBox = ({ account }) => {
                         <div className="text-blue-500">{bestOffer} ETH</div>
                       </div>
                       <div className="m-2 p-1 text-center">
+                        
                         <div>Duration</div>
                         <div>0618~0619</div> // {/*기간도 설정해줘야함 */}
                       </div>
@@ -242,7 +228,7 @@ const VoteBox = ({ account }) => {
               })}
             </div>
           </Box>
-        ) : (
+        {/* ) : (
           <Box className="flex flex-col justify-center items-center">
             <LuVote size={256} className=" text-red-600" />
             <Text className="font-[Tenada] text-lg">
@@ -260,7 +246,7 @@ const VoteBox = ({ account }) => {
         >
           Loading
         </Button>
-      )}
+      )} */}
     </Box>
   );
 };
