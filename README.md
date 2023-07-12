@@ -17,7 +17,7 @@
 
 ## 화면 구성 📺
 <img width="340" src="https://github.com/8project/8ball_project/assets/113866949/8c570d9c-5dc0-4e45-94c2-c33f0d54bc8a"/>  <img width="340" src="https://github.com/8project/8ball_project/assets/113866949/3577c1f4-c047-4d9c-b27a-0cd924dc151c"/>
-
+ <img width="340" src="https://github.com/8project/8ball_project/assets/113866949/757a912e-c1ab-4b3b-b41e-21f985554391"/> <img width="340" src="https://github.com/8project/8ball_project/assets/113866949/fb44a6c3-fd77-40b7-9a0a-0a00050c7a1d"/>
 
 
 | Main Page  |  Market Page   |
