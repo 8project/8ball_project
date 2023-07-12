@@ -11,13 +11,8 @@ import {
   ModalCloseButton,
   Box,
 } from "@chakra-ui/react";
-import {
-  MarketContract,
-  MarketContractAddress,
-  OGNFTContract,
-} from "../../lib/web3.config";
+import { MarketContract, MarketContractAddress, OGNFTContract } from "../../lib/web3.config";
 import axios from "axios";
-import { LuVote } from "react-icons/lu";
 import VoteNftCard from "./voteNftCard";
 import Web3 from "web3";
 
@@ -59,20 +54,15 @@ const VoteBox = ({ account }) => {
 
   const getMyNftTokenIds_OG = async () => {
     try {
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(MarketContractAddress)
-        .call();
-      const marketNftTokenId = response.map((v) => {
-        return Number(v);
-      });
+      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+      const marketNftTokenId = response.map((v) => {return Number(v)});
       setOGTokenIds(marketNftTokenId); //[1,2,3,4,5]
       console.log(marketNftTokenId);
 
       for (let i = 1; i <= marketNftTokenId.length; i++) {
-        const checkOutPieceOwnerRes = await MarketContract.methods
-          .CheckOutPieceOwner(i, account)
-          .call();
+        const checkOutPieceOwnerRes = await MarketContract.methods.CheckOutPieceOwner(i, account).call();
         const checkOwner = checkOutPieceOwnerRes;
+
         if (checkOwner === true) {
           const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
           const getBestOffer = await MarketContract.methods.currentPolls(i).call();
@@ -81,6 +71,7 @@ const VoteBox = ({ account }) => {
           const uri = await axios.get(tokenUriData);
           console.log(uri);
           setDataURI((prev) => [...prev, uri]);
+          console.log(dataURI);
         }
       }
     } catch (error) {
@@ -120,7 +111,7 @@ const VoteBox = ({ account }) => {
         </div>
       </Box>
 
-      {/* : (
+      {/*) : (
                     <Box className="flex flex-col justify-center items-center">
                         <LuVote size={256} className=" text-red-600" />
                         <Text className="font-[Tenada] text-lg">

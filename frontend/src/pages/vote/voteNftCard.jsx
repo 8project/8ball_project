@@ -91,7 +91,7 @@ const VoteNftCard = ({
     const onSubmitVote = async (e) => {
       e.preventDefault();
       try {
-        const response = await MarketContract.methods.startVote(OGTokenId ,voted).send({ from: account });
+        const response = await MarketContract.methods.startVote(_index ,voted).send({ from: account });
         console.log(response);
       } catch (error) {
         console.log(error);
