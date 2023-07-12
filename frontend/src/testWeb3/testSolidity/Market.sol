@@ -190,6 +190,19 @@ contract Market is ERC721Enumerable {
         offerList[_index].amount.push(msg.value);
     }
 
+    // 오퍼된 금액들 중 최고가 추적
+    function trackingBestOffer(uint _index) public returns(uint) {
+        for(uint i=0; i<offerList[_index].account.length-1; i++){
+            for(uint j=i+1; j<offerList[_index].account.length; j++){
+                if(offerList[_index].amount[i] < offerList[_index].amount[j]) {
+                    (offerList[_index].account[i], offerList[_index].account[j]) = (offerList[_index].account[j], offerList[_index].account[i]);
+                    (offerList[_index].amount[i], offerList[_index].amount[j]) = (offerList[_index].amount[j], offerList[_index].amount[i]);
+                }
+            }   
+        }
+        return offerList[_index].amount[0];
+    }
+
     //최고입찰가로 제안 뽑기
     function getBestOffer(uint _index) public {
         for(uint i=0; i<offerList[_index].account.length-1; i++){
@@ -205,6 +218,15 @@ contract Market is ERC721Enumerable {
     } 
 
 
+    function userNumberOfCanVote(uint _tokenId) public view returns(uint) {
+        uint count;
+        for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
+            if(ownerOf(i) == msg.sender) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     function startVote(uint _tokenId, bool _vote) public {
         //require(오너여야함)
@@ -217,6 +239,24 @@ contract Market is ERC721Enumerable {
         } else if(_vote == false) {
             currentPolls[_tokenId].cons++;
             currentPolls[_tokenId].votedAddressList.push(msg.sender);
+        }
+    }
+
+    function startBatchVote(uint _tokenId, bool _vote, uint _number) public {
+        //require(오너여야함)
+        //pros + cons  <21
+        require(currentPolls[_tokenId].by != address(0)); // currentPoll.by 설정된 후에 시작할 수 있도록
+        currentPolls[_tokenId].votedAddressList.push(msg.sender);
+        if(_vote == true) {
+            currentPolls[_tokenId].pros = currentPolls[_tokenId].pros + _number;
+            for(uint i; i<_number ; i++) {
+                 currentPolls[_tokenId].votedAddressList.push(msg.sender);
+            }
+        } else if(_vote == false) {
+            currentPolls[_tokenId].cons = currentPolls[_tokenId].cons + _number;
+            for(uint i; i<_number ; i++) {
+            currentPolls[_tokenId].votedAddressList.push(msg.sender);
+            }
         }
     }
     
