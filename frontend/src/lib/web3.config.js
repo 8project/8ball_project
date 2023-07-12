@@ -10,7 +10,7 @@ export const OGNFTContractAddress =
 export const MarketContractAddress =
   "0x0E7c86373d392C20cdB3A04CE6749d7a0cD4D1b5";
 export const PieceMarketContractAddress =
-  "0xC0fe52d15693FBec8AD3557DfA98277C478a39ca";
+  "0xDF0dB75912C4cE5CF1D5e7DfFA0De6222ae527C0";
 
 export const OGNFTContract = new web3.eth.Contract(
   OGNftABI,
@@ -31,5 +31,5 @@ export const PieceMarketContract = new web3.eth.Contract(
 // BAYC 원본 : https://harlequin-melted-loon-875.mypinata.cloud/ipfs/QmaHB5QDmYJ3ArGH8rnuGqoxEtKStDJZyZQMWLsxymQu91
 // BAYC 조각 메타데이터 : https://harlequin-melted-loon-875.mypinata.cloud/ipfs/QmNNwfj2zZc7z3XxGWTc9Hhpx85y1PTj2TZpUdG8ohaDAa
 
-// Bored Ape Yacht Club 
+// Bored Ape Yacht Club
 // BAYC

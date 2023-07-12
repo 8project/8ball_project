@@ -12,6 +12,7 @@ contract PieceMarket is ERC721Enumerable {
     }
 
     enum pieceStatus {
+        notActive,
         Active
     }
 
