@@ -7,7 +7,7 @@ import ToTopBtn from "../../components/ToTopBtn";
 
 function Main() {
     return (
-        <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
+        <Box className="mt-[60px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
             <ToTopBtn />
             <MainSlider />
             <MainContents />

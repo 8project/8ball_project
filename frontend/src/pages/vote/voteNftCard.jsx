@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Card,
@@ -27,6 +28,25 @@ const VoteNftCard = ({
   handleConfirmation,
   isConfirmationOpen,
 }) => {
+  const [upVoted, setUpVoted] = useState(false);
+  const [downVoted, setDownVoted] = useState(false);
+
+  const handleUpVote = () => {
+    if (!isSubmitted) {
+      setUpVoted(true);
+      setDownVoted(false);
+      handleOptionClick("up");
+    }
+  };
+
+  const handleDownVote = () => {
+    if (!isSubmitted) {
+      setUpVoted(false);
+      setDownVoted(true);
+      handleOptionClick("down");
+    }
+  };
+
   return (
     <Box>
       <Card className="lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 bg-gray-200 pb-12 pl-10 pr-10">
@@ -52,20 +72,16 @@ const VoteNftCard = ({
             <Box>
               <Box className="flex items-center mt-2">
                 <Button
-                  className={`option-button ${
-                    selectedOption === "up" ? "selected" : ""
-                  }`}
-                  onClick={() => handleOptionClick("up")}
+                  className={`option-button ${upVoted ? "selected" : ""}`}
+                  onClick={handleUpVote}
                   disabled={isSubmitted}
                 ></Button>
                 <Box className="ml-2 text-sm font-bold">Up</Box>
               </Box>
               <Box className="flex items-center mt-2">
                 <Button
-                  className={`option-button ${
-                    selectedOption === "down" ? "selected" : ""
-                  }`}
-                  onClick={() => handleOptionClick("down")}
+                  className={`option-button ${downVoted ? "selected" : ""}`}
+                  onClick={handleDownVote}
                   disabled={isSubmitted}
                 ></Button>
                 <Box className="ml-2 text-sm font-bold">Down</Box>

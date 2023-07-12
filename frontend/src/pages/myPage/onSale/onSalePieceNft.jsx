@@ -4,6 +4,8 @@ import {
   OGNFTContract,
   MarketContractAddress,
   MarketContract,
+  PieceMarketContract,
+  PieceMarketContractAddress,
 } from "../../../lib/web3.config";
 import Web3 from "web3";
 import axios from "axios";
@@ -29,18 +31,18 @@ const OnSalePieceNft = ({ account }) => {
     setCancelConfirmationOpen(false);
   };
 
-  const getOnSaleNftMetadata = async () => {
+  const getOnSalePieceNftMetadata = async () => {
     try {
       const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(MarketContractAddress)
+        .getMyNftTokenId_OG(PieceMarketContractAddress)
         .call(); //nft 정보 불러오기
-      // console.log(response);
-      const marketNftListArr = response.map((v) => {
+      console.log(response);
+      const PieceMarketNftListArr = response.map((v) => {
         return Number(v);
       }); // 판매 등록된 NFT 목록을 가져옴
       // console.log(marketNftListArr);
-      for (let index = 1; index <= marketNftListArr.length; index++) {
-        const getSaleList = await MarketContract.methods
+      for (let index = 1; index <= PieceMarketNftListArr.length; index++) {
+        const getSaleList = await PieceMarketContract.methods
           .OGNftList(index)
           .call(); //등록된 nft 목록의 정보를 가져옴
 
@@ -66,19 +68,19 @@ const OnSalePieceNft = ({ account }) => {
     }
   };
 
-  const onClickWithdraw = async () => {
-    try {
-      const WithdrawRes = await MarketContract.methods
-        .FundingPriceToSeller()
-        .send({ from: account });
-      console.log(WithdrawRes);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const onClickWithdraw = async () => {
+  //   try {
+  //     const WithdrawRes = await MarketContract.methods
+  //       .FundingPriceToSeller()
+  //       .send({ from: account });
+  //     console.log(WithdrawRes);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
-    getOnSaleNftMetadata();
+    getOnSalePieceNftMetadata();
   }, []);
   useEffect(() => {
     console.log("data", dataURI);
@@ -110,13 +112,13 @@ const OnSalePieceNft = ({ account }) => {
                   >
                     Duration
                   </Button>
-                  <Button
+                  {/* <Button
                     colorScheme="blue"
                     onClick={onClickWithdraw}
                     className="justify-center mt-1 text-center w-full py-4"
                   >
                     Withdraw Fundraise
-                  </Button>
+                  </Button> */}
                 </Box>
               </Box>
             </Box>
