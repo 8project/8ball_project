@@ -82,7 +82,7 @@ const VoteBox = ({ account }) => {
             for (let i = 1; i < marketNftTokenId.length + 1; i++) {
                 const buyerList = await MarketContract.methods.OGListForSale_buyerList(i).call(); // list index로 for문
                 console.log("buyer ", buyerList);
-                if (buyerList.length !== 20) {
+                if (buyerList.length === 20) {
                     // buyerLength 가 20인 것만 추출
                     tempArray.push(buyerList); // buyerList == []
                     console.log("tempArr", tempArray);
@@ -90,7 +90,7 @@ const VoteBox = ({ account }) => {
                         const getRealBuyer = tempArray[j]; //수정할 부분
                         console.log("getRealBuyer", getRealBuyer);
                         for (let k = 0; k < getRealBuyer.length; k++) {
-                            if (getRealBuyer[k].toLowerCase() !== account.toLowerCase()) {
+                            if (getRealBuyer[k].toLowerCase() === account.toLowerCase()) {
                                 setVotePermissionList((prev) => [...prev, getRealBuyer]);
                                 // const uri = await OGNFTContract.methods.tokenURI().call(); //해당 토큰 ID가
                                 const a = await MarketContract.methods.OGNftList(i).call();
