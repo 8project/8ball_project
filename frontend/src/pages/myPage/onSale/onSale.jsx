@@ -34,7 +34,11 @@ function OnSale({ account }) {
           </Box>
         </Box>
         <Box className="mt-10">
-          {show ? <OnSaleNft account={account} /> : <OnSalePieceNft />}
+          {show ? (
+            <OnSaleNft account={account} />
+          ) : (
+            <OnSalePieceNft account={account} />
+          )}
         </Box>
       </Box>
     </Box>

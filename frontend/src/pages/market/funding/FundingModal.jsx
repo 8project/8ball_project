@@ -36,25 +36,52 @@ const FundingModal = ({
   const [buyer, setBuyer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-    const onClickBatchFunding = async (e) => {
-        e.preventDefault();
-        try {
-            const fundingPrice = web3.utils.toWei(price /*/20*/, "ether");
-            const response = await MarketContract.methods.OGBatchFunding(indexId).send({ from: account, value: fundingPrice });
-            // console.log(response);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    const onClickFunding = async (e) => {
-      e.preventDefault();
-      try {
-          const fundingPrice = web3.utils.toWei(price/20, "ether");
-          const response = await MarketContract.methods.OGFunding(indexId).send({ from: account, value: fundingPrice });
-          // console.log(response);
-      } catch (error) {
-          console.error(error);
-      }
+  const onClickBatchFunding = async (e) => {
+    e.preventDefault();
+    try {
+      const fundingPrice = web3.utils.toWei(price /*/20*/, "ether");
+      setIsLoading(true);
+      const response = await MarketContract.methods
+        .OGBatchFunding(indexId)
+        .send({ from: account, value: fundingPrice })
+        .on("transactionHash", (hash) => {
+          // 트랜잭션을 보내고 로딩 발현.
+          console.log("Transaction hash:", hash);
+        })
+        .on("confirmation", (confirmationNumber, receipt) => {
+          // Transaction confirmed, handle receipt
+          console.log("Confirmation number:", confirmationNumber);
+          console.log("Receipt:", receipt);
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  const onClickFunding = async (e) => {
+    e.preventDefault();
+    try {
+      const fundingPrice = web3.utils.toWei(price / 20, "ether");
+      setIsLoading(true);
+      const response = await MarketContract.methods
+        .OGFunding(indexId)
+        .send({ from: account, value: fundingPrice })
+        .on("transactionHash", (hash) => {
+          // 트랜잭션을 보내고 로딩 state 보여줌.
+          console.log("Transaction hash:", hash);
+        })
+        .on("confirmation", (confirmationNumber, receipt) => {
+          // 거래를 확인하고 다시 setIsLoading false.
+          console.log("Confirmation number:", confirmationNumber);
+          console.log("Receipt:", receipt);
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   const getFundingBuyerList = async () => {
