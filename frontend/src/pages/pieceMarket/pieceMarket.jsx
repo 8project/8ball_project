@@ -1,15 +1,49 @@
 import { Box, Text } from "@chakra-ui/react";
-import BAYC5895 from "./pieceNfts/BAYC5895";
-import BAYC7090 from "./pieceNfts/BAYC7090";
-import BAYC7698 from "./pieceNfts/BAYC7698";
-import BAYC8580 from "./pieceNfts/BAYC8580";
-import BAYC9315 from "./pieceNfts/BAYC9315";
 import ToTopBtn from "../../components/ToTopBtn";
+import { useEffect, useState } from "react";
+import {
+  MarketContract,
+  MarketContractAddress,
+  OGNFTContract,
+} from "../../lib/web3.config";
+import Web3 from "web3";
+import PieceMarketCard from "./pieceMarketCard";
+const web3 = new Web3(window.ethereum);
 
-function PieceMarket() {
-  const imgNum = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
+function PieceMarket({ account }) {
+  const [fundingComplete, setFundingComplete] = useState([]);
+
+  const getNftMetadata = async () => {
+    try {
+      const response = await OGNFTContract.methods
+        .getMyNftTokenId_OG(MarketContractAddress)
+        .call();
+
+      const marketTokenArray = response.map((v) => {
+        return Number(v);
+      });
+
+      for (var j = 1; j <= marketTokenArray.length; j++) {
+        const response = await MarketContract.methods
+          .OGListForSale_buyerList(j)
+          .call();
+        if (response.length === 20) {
+          setFundingComplete((prev) => [...prev, j]);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(fundingComplete);
+  }, [fundingComplete]);
+
+  useEffect(() => {
+    getNftMetadata();
+  }, []);
+
   return (
     <Box className="relative mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px] py-4">
       <ToTopBtn />
@@ -31,32 +65,9 @@ function PieceMarket() {
           </Box>
         </Box>
       </Box>
-      <Box className="mt-10 flex flex-col justify-center items-center">
-        <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
-          {imgNum.map((num) => {
-            return (
-              <Box>
-                <Box>
-                  <BAYC5895 num={num} />
-                </Box>
-              </Box>
-            );
-          })}
-        </Box>
-        <Box className="flex justify-between px-4 py-2 lg:w-[512px] w-[256px] bg-gray-100 rounded-b-md">
-          <Box>
-            <Text className="font-semibold">BAYC #5895 (#1~#20)</Text>
-            <Text className=" text-blue-500">Total Piece: 20</Text>
-            <Text className="text-blue-600">
-              per piece: <span className="font-bold">0.05 ETH</span>
-            </Text>
-          </Box>
-          <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
-            <Text className="font-semibold">Sales list</Text>
-            <Text>14/20</Text>
-          </Box>
-        </Box>
-      </Box>
+      {fundingComplete?.map((p, i) => {
+        return <PieceMarketCard key={i} baseId={p} account={account} />;
+      })}
     </Box>
   );
 }
