@@ -53,11 +53,7 @@ const VoteNftCard = ({
         <Stack direction="row" spacing={4} className="flex">
           <Box className="m-2">
             <Text>Token Name</Text>
-            <Image
-              src="img/pieceNft.png"
-              alt="pieceNft"
-              className="w-20 h-20"
-            />
+            <Image src={v.data.image} alt="pieceNft" className="w-20 h-20" />
           </Box>
           <Box className="m-2 p-1 text-center">
             <Box className="text-blue-500">Offer Price</Box>
