@@ -3,13 +3,11 @@ import MyPieceNftCard from "./myPieceNftCard";
 import { useEffect, useState } from "react";
 import {
   MarketContract,
-  PieceMarketContract,
   PieceMarketContractAddress,
 } from "../../../lib/web3.config";
 
 const MyPieceNft = ({ account }) => {
   const [pieceTokenIds, setPieceTokenIds] = useState([]);
-  const [notListTokenIds, setNotListTokenIds] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,19 +17,10 @@ const MyPieceNft = ({ account }) => {
         .getMyNftTokenId_Piece(account)
         .call();
 
-      const userPieceTokenIdArray = response.map((v) => {
+      const userPieceTokenIdArray = response?.map((v) => {
         return Number(v);
       });
       setPieceTokenIds(userPieceTokenIdArray);
-
-      for (var j = 0; j < pieceTokenIds.length; j++) {
-        const pieceStatus = await PieceMarketContract.methods
-          .PieceNftList(pieceTokenIds[j])
-          .call();
-        if (pieceStatus.status == 0) {
-          setNotListTokenIds((prev) => [...prev, pieceTokenIds[j]]);
-        }
-      }
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +85,7 @@ const MyPieceNft = ({ account }) => {
           )}
         </Box>
       </Text>
-      {notListTokenIds.map((p, i) => (
+      {pieceTokenIds.map((p, i) => (
         <MyPieceNftCard
           key={i}
           pieceId={p}

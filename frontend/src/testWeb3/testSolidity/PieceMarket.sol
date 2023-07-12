@@ -37,6 +37,8 @@ contract PieceMarket is ERC721Enumerable {
     토큰 등록 
     */
     function listPieceTokenForSale(uint _tokenId, uint _price) public {
+        address owner = Market2.ownerOf(_tokenId);
+        Market2.transferFrom(owner,address(this),_tokenId);
         PieceNftList[listingId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
         listingId++;
     }
