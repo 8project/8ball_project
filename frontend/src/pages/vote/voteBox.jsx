@@ -54,66 +54,26 @@ const VoteBox = ({ account }) => {
 
     const getMyNftTokenIds_OG = async () => {
         try {
-            /*
-      1   2   3   4  <-index
-      4   8   5   7  <-tokenid
-      39  02  a9  39 <- address [] buyerList
-      02  
-      39
-      .
-      .
-      . 
-      
-        arr = [1,2,3,4]
-      for (let index = 0; index < array.length; index++) {
-        const arr2=arr[i]
-      }
-      */
-            const response = await OGNFTContract.methods
-                .getMyNftTokenId_OG(MarketContractAddress)
-                .call();
-            const marketNftTokenId = response.map((v) => {
-                return Number(v);
-            });
-            setOGTokenIds(marketNftTokenId); //tokenId 가져옴
+            const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
+            const marketNftTokenId = response.map((v) => {return Number(v);});
+            setOGTokenIds(marketNftTokenId); //[1,2,3,4,5]
             console.log(marketNftTokenId);
 
-            const tempArray = [];
-            for (let i = 1; i < marketNftTokenId.length + 1; i++) {
-                const buyerList = await MarketContract.methods.OGListForSale_buyerList(i).call(); // list index로 for문
-                console.log("buyer ", buyerList);
-                if (buyerList.length === 20) {
-                    // buyerLength 가 20인 것만 추출
-                    tempArray.push(buyerList); // buyerList == []
-                    console.log("tempArr", tempArray);
-                    for (let j = 0; j < tempArray.length; j++) {
-                        const getRealBuyer = tempArray[j]; //수정할 부분
-                        console.log("getRealBuyer", getRealBuyer);
-                        for (let k = 0; k < getRealBuyer.length; k++) {
-                            if (getRealBuyer[k].toLowerCase() === account.toLowerCase()) {
-                                setVotePermissionList((prev) => [...prev, getRealBuyer]);
-                                // const uri = await OGNFTContract.methods.tokenURI().call(); //해당 토큰 ID가
-                                const a = await MarketContract.methods.OGNftList(i).call();
-                                const res = await MarketContract.methods.currentPolls(i).call();
-                                const changeToNum = Number(res.bestOfferPrice);
-                                setBestOffer(changeToNum);
-                                const uri = await OGNFTContract.methods
-                                    .tokenURI(a.OGTokenId)
-                                    .call();
-                                // console.log(uri);
-                                const uri2 = await axios.get(uri);
-                                // console.log(uri2);
-                                setDataURI((prev) => [...prev, uri2]);
-                            }
-                        }
-                    }
-                }
+            for (let i = 1; i <= marketNftTokenId.length; i++) {
+              const checkOutPieceOwnerRes = await MarketContract.methods.CheckOutPieceOwner(i, account).call();
+              const checkOwner = checkOutPieceOwnerRes
+              if(checkOwner === true) {
+                const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
+                const uri = await axios.get(tokenUriData);
+                console.log(uri);
+                setDataURI((prev) => [...prev, uri]);
+              }
             }
-            console.log(tempArray);
         } catch (error) {
             console.log(error);
         }
     };
+
     const voting = async (e) => {
         e.preventDefault();
         const voteRes = await MarketContract.methods.startVote().send({ from: account });
@@ -123,12 +83,7 @@ const VoteBox = ({ account }) => {
     useEffect(() => {
         getMyNftTokenIds_OG();
     }, []);
-    // useEffect(() => {
-    //     console.log(votePermissionList);
-    // }, [votePermissionList]);
-    // useEffect(() => {
-    //     console.log(dataURI);
-    // }, [dataURI]);
+   
 
     return (
         <Box>
