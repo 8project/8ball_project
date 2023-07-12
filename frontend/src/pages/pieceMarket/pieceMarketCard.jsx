@@ -1,13 +1,17 @@
 import { Box, Text } from "@chakra-ui/react";
 import BAYC5895 from "./pieceNfts/BAYC5895";
 import { useEffect, useState } from "react";
-import { MarketContract } from "../../lib/web3.config";
+import {
+  MarketContract,
+  PieceMarketContractAddress,
+} from "../../lib/web3.config";
 import axios from "axios";
 
 const PieceMarketCard = ({ baseId, account }) => {
   const [a, setA] = useState();
   const imgNum = [];
   const [pieceData, setPieceData] = useState();
+  const [pieceTokenListArray, setPieceTokenListArray] = useState();
 
   const getRange = () => {
     for (var j = 20 * baseId - 19; j <= 20 * baseId; j++) {
@@ -26,16 +30,34 @@ const PieceMarketCard = ({ baseId, account }) => {
     }
   };
 
+  const getMyNftTokenId_Pieces = async () => {
+    try {
+      const response = await MarketContract.methods
+        .getMyNftTokenId_Piece(PieceMarketContractAddress)
+        .call();
+      const pieceMarketTokenArray = response.map((v) => {
+        return Number(v);
+      });
+      setPieceTokenListArray(pieceMarketTokenArray);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getRange();
   }, []);
 
-  useEffect(() => {
-    console.log(a);
-  }, [imgNum]);
+  //   useEffect(() => {
+  //     console.log(a);
+  //   }, [imgNum]);
+  //   useEffect(() => {
+  //     console.log(pieceTokenListArray);
+  //   }, [pieceTokenListArray]);
 
   useEffect(() => {
     getPieceURI();
+    getMyNftTokenId_Pieces();
   }, []);
 
   return (

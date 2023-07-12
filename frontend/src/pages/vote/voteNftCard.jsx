@@ -1,51 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Box,
-  Card,
-  Stack,
-  CardBody,
-  Heading,
-  Button,
-  Image,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
+    Box,
+    Card,
+    Stack,
+    CardBody,
+    Heading,
+    Button,
+    Image,
+    Text,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    HStack,
+    Radio,
+    FormHelperText,
 } from "@chakra-ui/react";
 
 const VoteNftCard = ({
-  v,
-  i,
-  bestOffer,
-  selectedOption,
-  isSubmitted,
-  handleOptionClick,
-  handleSubmit,
-  handleConfirmation,
-  isConfirmationOpen,
+    v,
+    i,
+    bestOffer,
+    selectedOption,
+    isSubmitted,
+    handleOptionClick,
+    handleSubmit,
+    handleConfirmation,
+    isConfirmationOpen,
 }) => {
-  const [upVoted, setUpVoted] = useState(false);
-  const [downVoted, setDownVoted] = useState(false);
+    const [voted, setVoted] = useState();
+    console.log(voted);
+    // const [downVoted, setDownVoted] = useState(false);
+    /*
+  const [bools, setBools] =useState(true);
 
-  const handleUpVote = () => {
-    if (!isSubmitted) {
-      setUpVoted(true);
-      setDownVoted(false);
-      handleOptionClick("up");
-    }
-  };
+  const onClickButton = () => {
+    setBools(true);
+  }
+  const onClickButton2 = () => {
+    setBools(false);
+  }
 
-  const handleDownVote = () => {
-    if (!isSubmitted) {
-      setUpVoted(false);
-      setDownVoted(true);
-      handleOptionClick("down");
-    }
-  };
+   <form onSubmit={onSubmitStartVote}>
+          <div className="flex bg-purple-300">
+            <div>true</div>
+            <div className="ml-2 ">false</div>
+          </div>
 
   return (
     <Box>
