@@ -9,10 +9,11 @@ import axios from "axios";
 
 const PieceMarketCard = ({ baseId, account }) => {
   const [a, setA] = useState();
-  const imgNum = [];
   const [pieceData, setPieceData] = useState();
   const [pieceTokenListArray, setPieceTokenListArray] = useState();
+  const [rangePiece, setRangePiece] = useState();
 
+  const imgNum = [];
   const getRange = () => {
     for (var j = 20 * baseId - 19; j <= 20 * baseId; j++) {
       imgNum.push(j);
@@ -44,6 +45,18 @@ const PieceMarketCard = ({ baseId, account }) => {
     }
   };
 
+  const listPieceNum = [];
+  const checkOutListPieceTokenId = () => {
+    var A = 20 * baseId - 19;
+    var Z = 20 * baseId;
+    for (var k = 0; k < pieceTokenListArray?.length; k++) {
+      if (A <= pieceTokenListArray[k] && pieceTokenListArray[k] <= Z) {
+        listPieceNum.push(pieceTokenListArray[k]);
+      }
+    }
+    setRangePiece(listPieceNum);
+  };
+
   useEffect(() => {
     getRange();
   }, []);
@@ -51,19 +64,24 @@ const PieceMarketCard = ({ baseId, account }) => {
   //   useEffect(() => {
   //     console.log(a);
   //   }, [imgNum]);
-  //   useEffect(() => {
-  //     console.log(pieceTokenListArray);
-  //   }, [pieceTokenListArray]);
+  useEffect(() => {
+    console.log(pieceTokenListArray);
+  }, [pieceTokenListArray]);
 
   useEffect(() => {
     getPieceURI();
     getMyNftTokenId_Pieces();
+    checkOutListPieceTokenId();
   }, []);
+
+  useEffect(() => {
+    console.log(rangePiece);
+  }, [rangePiece]);
 
   return (
     <Box className="mt-10 flex flex-col justify-center items-center">
       <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
-        {a?.map((v) => {
+        {listPieceNum?.map((v) => {
           return (
             <Box>
               <Box>
@@ -82,7 +100,7 @@ const PieceMarketCard = ({ baseId, account }) => {
         </Box>
         <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
           <Text className="font-semibold">Sales list</Text>
-          <Text>14/20</Text>
+          <Text>{rangePiece?.length}/20</Text>
         </Box>
       </Box>
     </Box>
