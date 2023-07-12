@@ -1,15 +1,29 @@
 import { Box, Text } from "@chakra-ui/react";
 import BAYC5895 from "./pieceNfts/BAYC5895";
 import { useEffect, useState } from "react";
+import { MarketContract } from "../../lib/web3.config";
+import axios from "axios";
 
 const PieceMarketCard = ({ baseId, account }) => {
   const [a, setA] = useState();
   const imgNum = [];
+  const [pieceData, setPieceData] = useState();
+
   const getRange = () => {
     for (var j = 20 * baseId - 19; j <= 20 * baseId; j++) {
       imgNum.push(j);
     }
     setA(imgNum);
+  };
+
+  const getPieceURI = async () => {
+    try {
+      const response = await MarketContract.methods.tokenURI(baseId).call();
+      const pieceMetadata = await axios.get(response);
+      setPieceData(pieceMetadata.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -20,10 +34,14 @@ const PieceMarketCard = ({ baseId, account }) => {
     console.log(a);
   }, [imgNum]);
 
+  useEffect(() => {
+    getPieceURI();
+  }, []);
+
   return (
     <Box className="mt-10 flex flex-col justify-center items-center">
       <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
-        {a.map((v) => {
+        {a?.map((v) => {
           return (
             <Box>
               <Box>
@@ -35,7 +53,9 @@ const PieceMarketCard = ({ baseId, account }) => {
       </Box>
       <Box className="flex justify-between px-4 py-2 lg:w-[512px] w-[256px] bg-gray-100 rounded-b-md">
         <Box>
-          <Text className="font-semibold">BAYC #5895 (#1~#20)</Text>
+          <Text className="font-semibold">
+            {pieceData?.name} #{a?.[0]}~#{a?.[19]}
+          </Text>
           <Text className=" text-blue-500">Total Piece: 20</Text>
         </Box>
         <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">

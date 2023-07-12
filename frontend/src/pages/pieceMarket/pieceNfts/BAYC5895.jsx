@@ -18,37 +18,37 @@ import axios from "axios";
 
 const BAYC5895 = ({ num }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [pieceData, setPieceData] = useState();
+  const [pieceDatas, setPieceDatas] = useState();
 
-  const getPieceURI = async () => {
+  const getPieceURIs = async () => {
     try {
       const response = await MarketContract.methods.tokenURI(num).call();
       const pieceMetadata = await axios.get(response);
-      setPieceData(pieceMetadata.data);
+      setPieceDatas(pieceMetadata.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getPieceURI();
+    getPieceURIs();
   }, []);
 
   return (
     <Box>
       <Box className="cursor-pointer ">
-        <Image onClick={onOpen} src={pieceData?.image} />
+        <Image onClick={onOpen} src={pieceDatas?.image} />
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader className="flex justify-center bg-gray-100 rounded-t-md">
-            <Image className="w-[256px] rounded-md" src={pieceData?.image} />
+            <Image className="w-[256px] rounded-md" src={pieceDatas?.image} />
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text className="font-semibold">
-              {pieceData?.name} #{num}
+              {pieceDatas?.name} #{num}
             </Text>
             <Text className="text-blue-400 text-sm mt-1">
               Piece Number: {num}
