@@ -81,7 +81,7 @@ const PieceMarketCard = ({ baseId, account }) => {
   return (
     <Box className="mt-10 flex flex-col justify-center items-center">
       <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
-        {a?.map((v) => {
+        {listPieceNum?.map((v) => {
           return (
             <Box>
               <Box>
@@ -100,7 +100,7 @@ const PieceMarketCard = ({ baseId, account }) => {
         </Box>
         <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
           <Text className="font-semibold">Sales list</Text>
-          <Text>{rangePiece.length}/20</Text>
+          <Text>{rangePiece?.length}/20</Text>
         </Box>
       </Box>
     </Box>
