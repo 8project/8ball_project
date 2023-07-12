@@ -36,9 +36,9 @@ function PieceMarket({ account }) {
     }
   };
 
-  useEffect(() => {
-    console.log(fundingComplete);
-  }, [fundingComplete]);
+  // useEffect(() => {
+  //   console.log(fundingComplete);
+  // }, [fundingComplete]);
 
   useEffect(() => {
     getNftMetadata();
