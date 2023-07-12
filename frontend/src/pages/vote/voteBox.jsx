@@ -19,13 +19,14 @@ import {
 import axios from "axios";
 import { LuVote } from "react-icons/lu";
 import VoteNftCard from "./voteNftCard";
+import Web3 from "web3";
 
+const web3 = new Web3(window.ethereum);
 const VoteBox = ({ account }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [OGTokenId, setOGTokenIds] = useState([]);
-  const [votePermissionList, setVotePermissionList] = useState([]);
   const [dataID, setDataID] = useState([]); // TOKEN ID
   const [dataURI, setDataURI] = useState([]); // URI
   const [bestOffer, setBestOffer] = useState();
@@ -74,6 +75,9 @@ const VoteBox = ({ account }) => {
         const checkOwner = checkOutPieceOwnerRes;
         if (checkOwner === true) {
           const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
+          const getBestOffer = await MarketContract.methods.currentPolls(i).call();
+          const toEther = web3.utils.fromWei(getBestOffer.bestOfferPrice ,"ether");
+          setBestOffer(toEther);
           const uri = await axios.get(tokenUriData);
           console.log(uri);
           setDataURI((prev) => [...prev, uri]);
@@ -84,13 +88,7 @@ const VoteBox = ({ account }) => {
     }
   };
 
-  const voting = async (e) => {
-    e.preventDefault();
-    const voteRes = await MarketContract.methods
-      .startVote()
-      .send({ from: account });
-    console.log(voteRes);
-  };
+  
 
   useEffect(() => {
     getMyNftTokenIds_OG();
@@ -114,6 +112,8 @@ const VoteBox = ({ account }) => {
                 handleOptionClick={handleOptionClick}
                 isConfirmationOpen={isConfirmationOpen}
                 handleConfirmation={handleConfirmation}
+                account = {account}
+                OGTokenId ={OGTokenId}
               />
             );
           })}
