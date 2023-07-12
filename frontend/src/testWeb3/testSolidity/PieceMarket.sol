@@ -56,8 +56,8 @@ contract PieceMarket is ERC721Enumerable {
         Market2.transferFrom(PieceNftList[_index].seller, msg.sender, PieceNftList[_index].tokenId);
         //3. 돈 주기
         payable(PieceNftList[_index].seller).transfer(PieceNftList[_index].price); 
-     
-        // PieceNftList[_index].status == pieceStatus.Sold;
+
+        PieceNftList[_index].status == pieceStatus.notActive;
         // emit MoneyReceived(msg.sender, msg.value);
     }
     
