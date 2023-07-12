@@ -3,11 +3,13 @@ import MyPieceNftCard from "./myPieceNftCard";
 import { useEffect, useState } from "react";
 import {
   MarketContract,
-  MarketContractAddress,
+  PieceMarketContract,
+  PieceMarketContractAddress,
 } from "../../../lib/web3.config";
 
 const MyPieceNft = ({ account }) => {
   const [pieceTokenIds, setPieceTokenIds] = useState([]);
+  const [notListTokenIds, setNotListTokenIds] = useState([]);
   const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +23,15 @@ const MyPieceNft = ({ account }) => {
         return Number(v);
       });
       setPieceTokenIds(userPieceTokenIdArray);
+
+      for (var j = 0; j < pieceTokenIds.length; j++) {
+        const pieceStatus = await PieceMarketContract.methods
+          .PieceNftList(pieceTokenIds[j])
+          .call();
+        if (pieceStatus.status == 0) {
+          setNotListTokenIds((prev) => [...prev, pieceTokenIds[j]]);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +40,7 @@ const MyPieceNft = ({ account }) => {
   const checkApprovalStatus = async () => {
     try {
       const checkApproved = await MarketContract.methods
-        .isApprovedForAll(account, MarketContractAddress)
+        .isApprovedForAll(account, PieceMarketContractAddress)
         .call({ from: account });
       setIsApproved(checkApproved);
     } catch (error) {
@@ -44,7 +55,7 @@ const MyPieceNft = ({ account }) => {
       setIsLoading(true);
 
       const response = await MarketContract.methods
-        .setApprovalForAll(MarketContractAddress, true)
+        .setApprovalForAll(PieceMarketContractAddress, true)
         .send({ from: account });
 
       if (response.status) {
@@ -85,7 +96,7 @@ const MyPieceNft = ({ account }) => {
           )}
         </Box>
       </Text>
-      {pieceTokenIds.map((p, i) => (
+      {notListTokenIds.map((p, i) => (
         <MyPieceNftCard
           key={i}
           pieceId={p}

@@ -14,6 +14,7 @@ import {
   InputRightAddon,
   Input,
   FormControl,
+  Spinner,
 } from "@chakra-ui/react";
 import Web3 from "web3";
 import { PieceMarketContract } from "../../../lib/web3.config";
@@ -28,17 +29,21 @@ const MyPieceNftModal = ({
   account,
 }) => {
   const [inputPrice, setInputPrice] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onClickPieceListForSell = async (e) => {
     e.preventDefault();
     try {
       const saleAmount = Number(web3.utils.toWei(inputPrice, "ether"));
+      setIsLoading(true);
       const response = await PieceMarketContract.methods
         .listPieceTokenForSale(pieceId, saleAmount)
         .send({ from: account });
       console.log(response);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,6 +79,9 @@ const MyPieceNftModal = ({
                 mr={2}
                 ml={2}
                 onClick={onClickPieceListForSell}
+                isLoading={isLoading}
+                loadingText="Selling.."
+                spinner={<Spinner size="sm" />}
               >
                 Sell
               </Button>
