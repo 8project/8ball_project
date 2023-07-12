@@ -10,7 +10,7 @@ export const OGNFTContractAddress =
 export const MarketContractAddress =
   "0x0E7c86373d392C20cdB3A04CE6749d7a0cD4D1b5";
 export const PieceMarketContractAddress =
-  "0xDF0dB75912C4cE5CF1D5e7DfFA0De6222ae527C0";
+  "0x470AEf367085315b0d42bCd3c40b37dd94B12aF9";
 
 export const OGNFTContract = new web3.eth.Contract(
   OGNftABI,
