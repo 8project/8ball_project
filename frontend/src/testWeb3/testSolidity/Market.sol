@@ -75,8 +75,7 @@ contract Market is ERC721Enumerable {
          OGNftList[_index].buyer.push(msg.sender); 
 
          if (OGNftList[_index].buyer.length == 20) {
-            uint tokenId = OGNftList[_index].OGTokenId;
-            distributePiece(tokenId);
+            distributePiece(_index);
             FundingPriceToSeller(_index);
 
         }
@@ -90,8 +89,7 @@ contract Market is ERC721Enumerable {
         }
 
        if (OGNftList[_index].buyer.length == 20) {
-        uint tokenId = OGNftList[_index].OGTokenId;
-            distributePiece(tokenId);
+            distributePiece(_index);
             FundingPriceToSeller(_index);
         
         }
@@ -202,39 +200,39 @@ contract Market is ERC721Enumerable {
                 }
             }   
         }
-        (currentPolls[_index].by, currentPolls[_index].bestOfferPrice) = (offerList[_index].account[0], offerList[_index].amount[0]);
+        uint _tokenId = OGNftList[_index].OGTokenId;
+        (currentPolls[_tokenId].by, currentPolls[_tokenId].bestOfferPrice) = (offerList[_index].account[0], offerList[_index].amount[0]);
     } 
 
 
 
-    function startVote(uint _index, bool _vote) public {
+    function startVote(uint _tokenId, bool _vote) public {
         //require(오너여야함)
         //pros + cons  <21
-        require(currentPolls[_index].by != address(0)); // currentPoll.by 설정된 후에 시작할 수 있도록
-        currentPolls[_index].votedAddressList.push(msg.sender);
+        require(currentPolls[_tokenId].by != address(0)); // currentPoll.by 설정된 후에 시작할 수 있도록
+        currentPolls[_tokenId].votedAddressList.push(msg.sender);
         if(_vote == true) {
-            currentPolls[_index].pros++;
-           currentPolls[_index].votedAddressList.push(msg.sender);
+            currentPolls[_tokenId].pros++;
+           currentPolls[_tokenId].votedAddressList.push(msg.sender);
         } else if(_vote == false) {
-            currentPolls[_index].cons++;
-            currentPolls[_index].votedAddressList.push(msg.sender);
+            currentPolls[_tokenId].cons++;
+            currentPolls[_tokenId].votedAddressList.push(msg.sender);
         }
     }
     
-    function voteResult(uint _index) public {
+    function voteResult(uint _tokenId) public {
         //찬성되면 nft는 currentpoll의 by에게 전달되고 돈은 홀더들에게 전달
-        uint _tokenId = OGNftList[_index].OGTokenId;
-        if(currentPolls[_index].pros > 10) {
-            OG.safeTransferFrom(address(this), currentPolls[_index].by, _tokenId);
+        if(currentPolls[_tokenId].pros > 10) {
+            OG.safeTransferFrom(address(this), currentPolls[_tokenId].by, _tokenId);
             //홀더들에게 나눠주기 
         } else {
             //_by에게 돈은 돌려주기 
-            payable(currentPolls[_index].by).transfer(currentPolls[_index].bestOfferPrice);
+            payable(currentPolls[_tokenId].by).transfer(currentPolls[_tokenId].bestOfferPrice);
         }
     }
 
-    function changePieceToEth(uint _index, uint _tokenId) public {
-        payable(ownerOf(_tokenId)).transfer((currentPolls[_index].bestOfferPrice)/20); 
+    function changePieceToEth(uint _tokenId) public {
+        payable(ownerOf(_tokenId)).transfer((currentPolls[_tokenId].bestOfferPrice)/20); 
         _burn(_tokenId);
     }
     function TESTburnNFT(uint _tokenId) public {

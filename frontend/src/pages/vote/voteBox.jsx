@@ -11,7 +11,11 @@ import {
   ModalCloseButton,
   Box,
 } from "@chakra-ui/react";
-import { MarketContract, MarketContractAddress, OGNFTContract } from "../../lib/web3.config";
+import {
+  MarketContract,
+  MarketContractAddress,
+  OGNFTContract,
+} from "../../lib/web3.config";
 import axios from "axios";
 import VoteNftCard from "./voteNftCard";
 import Web3 from "web3";
@@ -54,19 +58,30 @@ const VoteBox = ({ account }) => {
 
   const getMyNftTokenIds_OG = async () => {
     try {
-      const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
-      const marketNftTokenId = response.map((v) => {return Number(v)});
+      const response = await OGNFTContract.methods
+        .getMyNftTokenId_OG(MarketContractAddress)
+        .call();
+      const marketNftTokenId = response.map((v) => {
+        return Number(v);
+      });
       setOGTokenIds(marketNftTokenId); //[1,2,3,4,5]
       console.log(marketNftTokenId);
 
       for (let i = 1; i <= marketNftTokenId.length; i++) {
-        const checkOutPieceOwnerRes = await MarketContract.methods.CheckOutPieceOwner(i, account).call();
+        const checkOutPieceOwnerRes = await MarketContract.methods
+          .CheckOutPieceOwner(i, account)
+          .call();
         const checkOwner = checkOutPieceOwnerRes;
 
         if (checkOwner === true) {
           const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
-          const getBestOffer = await MarketContract.methods.currentPolls(i).call();
-          const toEther = web3.utils.fromWei(getBestOffer.bestOfferPrice ,"ether");
+          const getBestOffer = await MarketContract.methods
+            .currentPolls(i)
+            .call();
+          const toEther = web3.utils.fromWei(
+            getBestOffer.bestOfferPrice,
+            "ether"
+          );
           setBestOffer(toEther);
           const uri = await axios.get(tokenUriData);
           console.log(uri);
@@ -78,8 +93,6 @@ const VoteBox = ({ account }) => {
       console.log(error);
     }
   };
-
-  
 
   useEffect(() => {
     getMyNftTokenIds_OG();
@@ -94,8 +107,8 @@ const VoteBox = ({ account }) => {
           {dataURI?.map((v, i) => {
             return (
               <VoteNftCard
-                v={v}
-                i={v}
+                key={i}
+                value={v}
                 bestOffer={bestOffer}
                 selectedOption={selectedOption}
                 isSubmitted={isSubmitted}
@@ -103,8 +116,8 @@ const VoteBox = ({ account }) => {
                 handleOptionClick={handleOptionClick}
                 isConfirmationOpen={isConfirmationOpen}
                 handleConfirmation={handleConfirmation}
-                account = {account}
-                OGTokenId ={OGTokenId}
+                account={account}
+                OGTokenId={OGTokenId}
               />
             );
           })}
