@@ -22,8 +22,8 @@
 
 | Main Page  |  Market Page   |
 | :-------------------------------------------: | :------------: |
-|  <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/a705fd9b-e513-4b3b-9fdd-2a250d795b40"/> |  <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/10de524a-c163-4886-b9d2-cd4223a5842b"/>|  
-| PieceMarket Page   |  Vote Page   |  
-| <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/fb2a966f-9c26-448f-8fb2-0368202adfed"/>   |  <img width="329" src=""/>     |
+|  <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/09d779f7-96fc-4478-942d-fc14c97588f5"/> |  <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/d1eac55b-d531-4267-9ff0-27f944d66f29"/>|  
+| PieceMarket Page   |  MyPage   |  
+| <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/c07e350a-bfd5-4273-8027-f5e9102d40eb"/>   |  <img width="329" src="https://github.com/8project/8ball_project/assets/113866949/13167592-30bb-4830-8f38-8fde3febab1d"/>     |
 
 ---
