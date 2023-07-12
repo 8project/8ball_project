@@ -22,6 +22,7 @@ import {
     Radio,
     FormHelperText,
 } from "@chakra-ui/react";
+import { MarketContract } from "../../lib/web3.config";
 
 const VoteNftCard = ({
     v,
@@ -33,9 +34,13 @@ const VoteNftCard = ({
     handleSubmit,
     handleConfirmation,
     isConfirmationOpen,
+    account,
+    OGTokenId
 }) => {
     const [voted, setVoted] = useState();
+    const [inputValue, setInputValue] = useState();
     console.log(voted);
+    
     // const [downVoted, setDownVoted] = useState(false);
     /*
   const [bools, setBools] =useState(true);
@@ -83,21 +88,28 @@ const VoteNftCard = ({
     // };
     console.log(voted);
 
-    const onSubmitVote = (e) => {
-        e.preventDefault();
-        console.log("hi");
+    const onSubmitVote = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await MarketContract.methods.startVote(OGTokenId ,voted).send({ from: account });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     };
+      
     return (
         <Box>
             <Card className="lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 bg-gray-200 pb-12 pl-10 pr-10">
                 <Stack direction="row" spacing={4} className="flex">
                     <Box className="m-2">
-                        <Text>Token Name</Text>
-                        <Image src="img/pieceNft.png" alt="pieceNft" className="w-20 h-20" />
+                        <Text>{v.data.name}</Text>
+                        <Image src={v.data.image} alt="pieceNft" className="w-20 h-20" />
+                        <div> Avalival Ticket : </div>
                     </Box>
                     <Box className="m-2 p-1 text-center">
                         <Box className="text-blue-500">Offer Price</Box>
-                        <Box className="text-xl font-bold">1.2 ETH</Box>
+                        <Box className="text-xl font-bold">{bestOffer} ETH</Box>
                     </Box>
                     <Box className="m-2 p-1 text-center">
                         <Box className="text-blue-500">Duration</Box>
@@ -121,7 +133,7 @@ const VoteNftCard = ({
                                         type="checkbox"
                                         value={voted}
                                         onClick={() => {
-                                            setVoted("up");
+                                            setVoted(true);
                                         }}
                                         disabled={isSubmitted}
                                     ></input>
@@ -132,7 +144,7 @@ const VoteNftCard = ({
                                         type="checkbox"
                                         value={voted}
                                         onClick={() => {
-                                            setVoted("down");
+                                            setVoted(false);
                                         }}
                                         disabled={isSubmitted}
                                     ></input>
@@ -142,6 +154,7 @@ const VoteNftCard = ({
                                 <Box className="self-end ">
                                     <Button
                                         type="submit"
+                                        onSubmit={onSubmitVote}
                                         className={`text-white m-1 p-1 rounded-md ${
                                             isSubmitted ? "disabled" : "bg-blue-500"
                                         }`}
