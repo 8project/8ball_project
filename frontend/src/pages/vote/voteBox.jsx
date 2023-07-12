@@ -52,33 +52,21 @@ const VoteBox = ({ account }) => {
 
     const getMyNftTokenIds_OG = async () => {
         try {
-            /*
-      1   2   3   4  <-index
-      4   8   5   7  <-tokenid
-      39  02  a9  39 <- address [] buyerList
-      02  
-      39
-      .
-      .
-      . 
-      
-        arr = [1,2,3,4]
-      for (let index = 0; index < array.length; index++) {
-        const arr2=arr[i]
-      }
-      */
       const response = await OGNFTContract.methods.getMyNftTokenId_OG(MarketContractAddress).call();
       const marketNftTokenId = response.map((v) => {return Number(v);});
-      setOGTokenIds(marketNftTokenId); //tokenId 가져옴
+      setOGTokenIds(marketNftTokenId); 
       console.log(marketNftTokenId);
+
       for (let i = 1; i <= marketNftTokenId.length; i++) {
         const checkPieceOwnerRes = await MarketContract.methods.CheckOutPieceOwner(i, account).call();
         console.log(checkPieceOwnerRes);
+
         if(checkPieceOwnerRes === true){
           const getTokenUriRes = await OGNFTContract.methods.tokenURI(i).call();
           const uri = await axios.get(getTokenUriRes);
           const getBestOfferRes = await MarketContract.methods.currentPolls(i).call();
           const changeToNum = Number(getBestOfferRes.bestOfferPrice);
+          //투표가능한 티겟수를 구해줘야하네 
           console.log(changeToNum);
           setBestOffer(changeToNum);
           console.log(getTokenUriRes);
