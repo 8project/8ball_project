@@ -33,8 +33,8 @@ const OnSalePieceNft = ({ account }) => {
 
   const getOnSalePieceNftMetadata = async () => {
     try {
-      const response = await OGNFTContract.methods
-        .getMyNftTokenId_OG(PieceMarketContractAddress)
+      const response = await MarketContract.methods
+        .getMyNftTokenId_Piece(PieceMarketContractAddress)
         .call(); //nft 정보 불러오기
       console.log(response);
       const PieceMarketNftListArr = response.map((v) => {
@@ -43,7 +43,7 @@ const OnSalePieceNft = ({ account }) => {
       // console.log(marketNftListArr);
       for (let index = 1; index <= PieceMarketNftListArr.length; index++) {
         const getSaleList = await PieceMarketContract.methods
-          .OGNftList(index)
+          .PieceNftList(index)
           .call(); //등록된 nft 목록의 정보를 가져옴
 
         // console.log( 'index' , index );
@@ -56,8 +56,8 @@ const OnSalePieceNft = ({ account }) => {
           //해야될거 가져온 배열의 address들중에서 account와 같은 것만 추출.
           // console.log( 'push!' ) ;
           setDataID((prev) => [...prev, getSaleList.OGTokenId]);
-          const uri = await OGNFTContract.methods
-            .tokenURI(getSaleList.OGTokenId)
+          const uri = await MarketContract.methods
+            .tokenURI(getSaleList.tokenId)
             .call();
           const uri2 = await axios.get(uri);
           setDataURI((prev) => [...prev, uri2]);
