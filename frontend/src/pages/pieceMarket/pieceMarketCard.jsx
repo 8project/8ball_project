@@ -54,6 +54,7 @@ const PieceMarketCard = ({ baseId, account }) => {
             }
         }
         setRangePiece(listPieceNum);
+        console.log(rangePiece);
     };
 
     useEffect(() => {
