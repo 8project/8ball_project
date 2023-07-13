@@ -54,7 +54,6 @@ const PieceMarketCard = ({ baseId, account }) => {
             }
         }
         setRangePiece(listPieceNum);
-        console.log(rangePiece);
     };
 
     useEffect(() => {
@@ -75,8 +74,11 @@ const PieceMarketCard = ({ baseId, account }) => {
     useEffect(() => {
         getPieceURI();
         getMyNftTokenId_Pieces();
-        checkOutListPieceTokenId();
     }, []);
+
+    useEffect(() => {
+        checkOutListPieceTokenId();
+    }, [pieceTokenListArray]);
 
     return (
         <Box>
