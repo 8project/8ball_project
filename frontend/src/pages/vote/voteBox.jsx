@@ -94,41 +94,34 @@ const VoteBox = ({ account }) => {
     return (
         <Box>
             {dataURI ? (
-                dataURI > 0 ? (
-                    <Box className=" bg-gray-500 lg:max-w-[800px] max-w-[460px] border rounded-md p-2">
-                        <div>
-                            {dataURI?.map((v, i) => {
-                                return (
-                                    <VoteNftCard
-                                        key={i}
-                                        value={v}
-                                        bestOffer={bestOffer}
-                                        selectedOption={selectedOption}
-                                        isSubmitted={isSubmitted}
-                                        handleSubmit={handleSubmit}
-                                        handleOptionClick={handleOptionClick}
-                                        isConfirmationOpen={isConfirmationOpen}
-                                        handleConfirmation={handleConfirmation}
-                                        account={account}
-                                        OGTokenId={OGTokenId}
-                                    />
-                                );
-                            })}
-                        </div>
-                    </Box>
-                ) : (
-                    <Box className="flex flex-col justify-center items-center">
-                        <LuVote size={200} className=" text-red-600" />
-                        <Text className="font-[Tenada] text-lg">
-                            현재 진행중인 <sapn className="text-xl text-red-500">투표</sapn>가
-                            없습니다.
-                        </Text>
-                    </Box>
-                )
+                <Box className=" bg-gray-500 lg:max-w-[800px] max-w-[460px] border rounded-md p-2">
+                    <div>
+                        {dataURI?.map((v, i) => {
+                            return (
+                                <VoteNftCard
+                                    key={i}
+                                    value={v}
+                                    bestOffer={bestOffer}
+                                    selectedOption={selectedOption}
+                                    isSubmitted={isSubmitted}
+                                    handleSubmit={handleSubmit}
+                                    handleOptionClick={handleOptionClick}
+                                    isConfirmationOpen={isConfirmationOpen}
+                                    handleConfirmation={handleConfirmation}
+                                    account={account}
+                                    OGTokenId={OGTokenId}
+                                />
+                            );
+                        })}
+                    </div>
+                </Box>
             ) : (
-                <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
-                    Loading
-                </Button>
+                <Box className="flex flex-col justify-center items-center">
+                    <LuVote size={200} className=" text-red-600" />
+                    <Text className="font-[Tenada] text-lg">
+                        현재 진행중인 <sapn className="text-xl text-red-500">투표</sapn>가 없습니다.
+                    </Text>
+                </Box>
             )}
         </Box>
     );
