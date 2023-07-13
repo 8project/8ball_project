@@ -19,7 +19,7 @@ import Web3 from "web3";
 
 const web3 = new Web3(window.ethereum);
 
-const BAYC5895 = ({ num, pieceTokenListArray, account, rangePiece }) => {
+const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pieceDatas, setPieceDatas] = useState();
 
@@ -33,12 +33,12 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, rangePiece }) => {
     }
   };
 
-  const onClickBuyPieceToken = async () => {
+  const onClickBuyPieceToken = async (e) => {
+    e.preventDefault();
     try {
-      console.log();
       const response = await PieceMarketContract.methods
         .buyPieceToken(pieceDatas?.edition)
-        .send({ from: account, value: web3.utils.toWei("0.000055", "ether") });
+        .send({ from: account, value: web3.utils.toWei(price, "ether") });
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -91,7 +91,7 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, rangePiece }) => {
               Piece Number: {num}
             </Text>
             <Text className="text-blue-500 font-semibold mt-1">
-              Price: 0.05 ETH
+              Price: {price} ETH
             </Text>
           </ModalBody>
 
