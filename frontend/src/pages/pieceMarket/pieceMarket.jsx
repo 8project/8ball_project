@@ -13,6 +13,7 @@ const web3 = new Web3(window.ethereum);
 function PieceMarket({ account }) {
   const [fundingComplete, setFundingComplete] = useState([]);
 
+  const P = [];
   const getNftMetadata = async () => {
     try {
       const response = await OGNFTContract.methods
@@ -29,9 +30,10 @@ function PieceMarket({ account }) {
           .call();
 
         if (response.length === 20) {
-          setFundingComplete((prev) => [...prev, j]);
+          P.push(j);
         }
       }
+      setFundingComplete(P);
     } catch (error) {
       console.error(error);
     }
