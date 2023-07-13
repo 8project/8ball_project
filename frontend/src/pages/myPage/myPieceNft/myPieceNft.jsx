@@ -62,9 +62,10 @@ const MyPieceNft = ({ account }) => {
             <Text className="text-center mt-10 font-[Tenada]  lg:text-xl text-md">
                 My Piece NFT
             </Text>
-            <Box className="mt-6 flex flex-col justify-center items-center">
-                <Box className="flex items-center border rounded-lg px-4 py-2">
-                    <Text className="font-[Tenada] mr-2">Sell Status</Text>
+            <Box className="mt-6 flex flex-col justify-center items-center  border rounded-lg px-4 py-2">
+                <Text className="font-[Tenada]"></Text>
+                <Box className="flex items-center">
+                    <Text className="font-[Tenada] mr-2 mt-1">Sell Status : </Text>
                     {isApproved ? (
                         <Button colorScheme="green" size="sm" variant="outline">
                             Possible
@@ -81,6 +82,10 @@ const MyPieceNft = ({ account }) => {
                         </Button>
                     )}
                 </Box>
+                <Text className="font-[Tenada] mt-4">
+                    소유한 조각 NFT를 <span className="text-blue-600">Piece Market</span>에 판매 할
+                    수 있습니다.
+                </Text>
             </Box>
             <Box className="mt-4 grid lg:grid-cols-2 gap-14">
                 {pieceTokenIds.map((p, i) => (
