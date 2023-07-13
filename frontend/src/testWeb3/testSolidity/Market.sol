@@ -184,7 +184,8 @@ contract Market is ERC721Enumerable {
 
     //가격 제안 
     function offering(uint _index) public payable {
-        offerList[_index].OGNft_tokenId = currentPolls[_index].OGNft_tokenId;
+        uint _tokenId = OGNftList[_index].OGTokenId;
+        offerList[_index].OGNft_tokenId = currentPolls[_tokenId].OGNft_tokenId;
         offerList[_index].account.push(msg.sender);
         offerList[_index].amount.push(msg.value);
     }
@@ -239,6 +240,10 @@ contract Market is ERC721Enumerable {
             currentPolls[_tokenId].cons++;
             currentPolls[_tokenId].votedAddressList.push(msg.sender);
         }
+
+        if(currentPolls[_tokenId].pros + currentPolls[_tokenId].cons == 20) {
+            voteResult(_tokenId);
+        }
     }
 
     function startBatchVote(uint _tokenId, bool _vote, uint _number) public {
@@ -257,6 +262,10 @@ contract Market is ERC721Enumerable {
             currentPolls[_tokenId].votedAddressList.push(msg.sender);
             }
         }
+
+        if(currentPolls[_tokenId].pros + currentPolls[_tokenId].cons == 20) {
+            voteResult(_tokenId);
+        }
     }
     
     function voteResult(uint _tokenId) public {
@@ -264,16 +273,22 @@ contract Market is ERC721Enumerable {
         if(currentPolls[_tokenId].pros > 10) {
             OG.safeTransferFrom(address(this), currentPolls[_tokenId].by, _tokenId);
             //홀더들에게 나눠주기 
+            changePieceToEth(_tokenId);
         } else {
             //_by에게 돈은 돌려주기 
             payable(currentPolls[_tokenId].by).transfer(currentPolls[_tokenId].bestOfferPrice);
+
+    
         }
     }
 
     function changePieceToEth(uint _tokenId) public {
-        payable(ownerOf(_tokenId)).transfer((currentPolls[_tokenId].bestOfferPrice)/20); 
-        _burn(_tokenId);
+        for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
+            payable(ownerOf(i)).transfer((currentPolls[_tokenId].bestOfferPrice)/20);
+            _burn(i);
+        }
     }
+
     function TESTburnNFT(uint _tokenId) public {
         require(msg.sender == ownerOf(_tokenId), "Caller is not token owner.");
 
