@@ -19,9 +19,10 @@ import Web3 from "web3";
 
 const web3 = new Web3(window.ethereum);
 
-const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
+const PieceNftModal = ({ num, pieceTokenListArray, account, rangePiece }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pieceDatas, setPieceDatas] = useState();
+  const [picecPrice, setPiecePrice] = useState();
 
   const getPieceURIs = async () => {
     try {
@@ -33,12 +34,24 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
     }
   };
 
+  const getPieceTokenPrice = async () => {
+    try {
+      const priceResponse = await PieceMarketContract.methods
+        .PieceNftList(pieceDatas?.edition)
+        .call();
+      console.log("priceResponse:", priceResponse);
+      setPiecePrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onClickBuyPieceToken = async (e) => {
     e.preventDefault();
     try {
       const response = await PieceMarketContract.methods
         .buyPieceToken(pieceDatas?.edition)
-        .send({ from: account, value: web3.utils.toWei(price, "ether") });
+        .send({ from: account, value: web3.utils.toWei(picecPrice, "ether") });
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -47,6 +60,7 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
 
   useEffect(() => {
     getPieceURIs();
+    getPieceTokenPrice();
   }, []);
 
   // console.log(pieceDatas.edition);
@@ -91,7 +105,7 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
               Piece Number: {num}
             </Text>
             <Text className="text-blue-500 font-semibold mt-1">
-              Price: {price} ETH
+              Price: {/*{price}*/} ETH
             </Text>
           </ModalBody>
 
@@ -109,4 +123,4 @@ const BAYC5895 = ({ num, pieceTokenListArray, account, price }) => {
   );
 };
 
-export default BAYC5895;
+export default PieceNftModal;

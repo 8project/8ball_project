@@ -69,7 +69,7 @@ function PieceMarket({ account }) {
         </Box>
       </Box>
       {fundingComplete?.map((p, i) => {
-        return <PieceMarketCard baseId={p} indexId={i + 1} account={account} />;
+        return <PieceMarketCard baseId={p} key={i} account={account} />;
       })}
     </Box>
   );
