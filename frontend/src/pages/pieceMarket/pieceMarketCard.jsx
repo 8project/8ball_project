@@ -4,14 +4,19 @@ import { useEffect, useState } from "react";
 import {
   MarketContract,
   PieceMarketContractAddress,
+  PieceMarketContract,
 } from "../../lib/web3.config";
 import axios from "axios";
+import Web3 from "web3";
 
-const PieceMarketCard = ({ baseId, account }) => {
+const web3 = new Web3(window.ethereum);
+
+const PieceMarketCard = ({ baseId, account, indexId }) => {
   const [a, setA] = useState();
   const [pieceData, setPieceData] = useState();
   const [pieceTokenListArray, setPieceTokenListArray] = useState();
   const [rangePiece, setRangePiece] = useState([]);
+  const [price, setPrice] = useState(0);
 
   const imgNum = [];
   const getRange = () => {
@@ -24,10 +29,22 @@ const PieceMarketCard = ({ baseId, account }) => {
   const getPieceURI = async () => {
     try {
       const response = await MarketContract.methods.tokenURI(baseId).call();
+
       const pieceMetadata = await axios.get(response);
       setPieceData(pieceMetadata.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+  const getPieceTokenURI = async () => {
+    try {
+      const priceResponse = await PieceMarketContract.methods
+        .PieceNftList(indexId)
+        .call();
+      console.log("priceResponse:", priceResponse);
+      setPrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -36,6 +53,7 @@ const PieceMarketCard = ({ baseId, account }) => {
       const response = await MarketContract.methods
         .getMyNftTokenId_Piece(PieceMarketContractAddress)
         .call();
+
       const pieceMarketTokenArray = response.map((v) => {
         return Number(v);
       });
@@ -61,17 +79,19 @@ const PieceMarketCard = ({ baseId, account }) => {
 
   useEffect(() => {
     getRange();
+    getPieceTokenURI();
+    console.log("price", price);
   }, []);
 
   useEffect(() => {
-    console.log(rangePiece);
+    console.log("rangePiece,", rangePiece);
   }, [rangePiece]);
 
   //   useEffect(() => {
   //     console.log(a);
   //   }, [imgNum]);
   useEffect(() => {
-    console.log(pieceTokenListArray);
+    console.log("pieceTokenListArray,", pieceTokenListArray);
   }, [pieceTokenListArray]);
 
   useEffect(() => {
@@ -96,7 +116,7 @@ const PieceMarketCard = ({ baseId, account }) => {
                       num={num}
                       pieceTokenListArray={pieceTokenListArray}
                       account={account}
-                      rangePiece={rangePiece}
+                      price={price}
                     />
                   </Box>
                 </Box>
