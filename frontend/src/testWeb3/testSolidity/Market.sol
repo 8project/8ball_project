@@ -76,8 +76,6 @@ contract Market is ERC721Enumerable {
 
          if (OGNftList[_index].buyer.length == 20) {
             distributePiece(_index);
-            FundingPriceToSeller(_index);
-
         }
     }
 
@@ -90,8 +88,6 @@ contract Market is ERC721Enumerable {
 
        if (OGNftList[_index].buyer.length == 20) {
             distributePiece(_index);
-            FundingPriceToSeller(_index);
-        
         }
     }
    
@@ -273,7 +269,6 @@ contract Market is ERC721Enumerable {
         if(currentPolls[_tokenId].pros > 10) {
             OG.safeTransferFrom(address(this), currentPolls[_tokenId].by, _tokenId);
             //홀더들에게 나눠주기 
-            changePieceToEth(_tokenId);
         } else {
             //_by에게 돈은 돌려주기 
             payable(currentPolls[_tokenId].by).transfer(currentPolls[_tokenId].bestOfferPrice);
@@ -283,10 +278,8 @@ contract Market is ERC721Enumerable {
     }
 
     function changePieceToEth(uint _tokenId) public {
-        for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
-            payable(ownerOf(i)).transfer((currentPolls[_tokenId].bestOfferPrice)/20);
-            _burn(i);
-        }
+            payable(ownerOf(_tokenId)).transfer((currentPolls[_tokenId].bestOfferPrice)/20);
+            _burn(_tokenId);
     }
 
     function TESTburnNFT(uint _tokenId) public {

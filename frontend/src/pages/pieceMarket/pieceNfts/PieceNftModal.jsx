@@ -108,7 +108,7 @@ const PieceNftModal = ({ num, pieceTokenListArray, account }) => {
               Piece Number: {num}
             </Text>
             <Text className="text-blue-500 font-semibold mt-1">
-              Price: {/*{price}*/} ETH
+              Price: {piecePrice} ETH
             </Text>
           </ModalBody>
 

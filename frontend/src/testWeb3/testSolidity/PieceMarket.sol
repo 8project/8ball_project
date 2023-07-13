@@ -50,11 +50,12 @@ contract PieceMarket is ERC721Enumerable {
         //1. 돈받기
         msg.value;
         //2. nft주기
-        Market2.transferFrom(PieceNftList[_tokenId].seller, msg.sender, PieceNftList[_tokenId].tokenId);
+        Market2.transferFrom(address(this), msg.sender, PieceNftList[_tokenId].tokenId);
         //3. 돈 주기
         payable(PieceNftList[_tokenId].seller).transfer(PieceNftList[_tokenId].price); 
 
         PieceNftList[_tokenId].status == pieceStatus.notActive;
+        delete PieceNftList[_tokenId];
         // emit MoneyReceived(msg.sender, msg.value);
     }
     
@@ -66,10 +67,9 @@ contract PieceMarket is ERC721Enumerable {
     function cancelSale(uint _tokenId) public {
         require(PieceNftList[_tokenId].seller == msg.sender, "Only seller can cancel list");
         require(PieceNftList[_tokenId].status == pieceStatus.Active, "This Piece NFT is not on sale");
-        
+        Market2.transferFrom(address(this), msg.sender, PieceNftList[_tokenId].tokenId);
         delete PieceNftList[_tokenId];
         // emit CancelSale(msg.sender, PieceNftList[_listingNum].tokenId);
     }
-
-    
+ 
 }
