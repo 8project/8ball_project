@@ -19,10 +19,10 @@ import Web3 from "web3";
 
 const web3 = new Web3(window.ethereum);
 
-const PieceNftModal = ({ num, pieceTokenListArray, account, rangePiece }) => {
+const PieceNftModal = ({ num, pieceTokenListArray, account }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pieceDatas, setPieceDatas] = useState();
-  const [picecPrice, setPiecePrice] = useState();
+  const [piecePrice, setPiecePrice] = useState();
 
   const getPieceURIs = async () => {
     try {
@@ -39,7 +39,6 @@ const PieceNftModal = ({ num, pieceTokenListArray, account, rangePiece }) => {
       const priceResponse = await PieceMarketContract.methods
         .PieceNftList(pieceDatas?.edition)
         .call();
-      console.log("priceResponse:", priceResponse);
       setPiecePrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
     } catch (error) {
       console.error(error);
@@ -51,7 +50,7 @@ const PieceNftModal = ({ num, pieceTokenListArray, account, rangePiece }) => {
     try {
       const response = await PieceMarketContract.methods
         .buyPieceToken(pieceDatas?.edition)
-        .send({ from: account, value: web3.utils.toWei(picecPrice, "ether") });
+        .send({ from: account, value: web3.utils.toWei(piecePrice, "ether") });
       console.log(response);
     } catch (error) {
       console.error(error);
