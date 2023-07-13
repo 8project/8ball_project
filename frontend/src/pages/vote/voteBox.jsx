@@ -18,7 +18,7 @@ import Web3 from "web3";
 import { LuVote } from "react-icons/lu";
 
 const web3 = new Web3(window.ethereum);
-const VoteBox = ({ account }) => {
+const VoteBox = ({ account, tokenId }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -56,31 +56,19 @@ const VoteBox = ({ account }) => {
 
     const getMyNftTokenIds_OG = async () => {
         try {
-            const response = await OGNFTContract.methods
-                .getMyNftTokenId_OG(MarketContractAddress)
+            const checkOutPieceOwnerRes = await MarketContract.methods
+                .CheckOutPieceOwner(tokenId, account)
                 .call();
-            const marketNftTokenId = response.map((v) => {
-                return Number(v);
-            });
-            setOGTokenIds(marketNftTokenId); //[1,2,3,4,5]
-            console.log(marketNftTokenId);
-
-            for (let i = 1; i <= marketNftTokenId.length; i++) {
-                const checkOutPieceOwnerRes = await MarketContract.methods
-                    .CheckOutPieceOwner(i, account)
-                    .call();
-                const checkOwner = checkOutPieceOwnerRes;
-
-                if (checkOwner === true) {
-                    const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
-                    const getBestOffer = await MarketContract.methods.currentPolls(i).call();
-                    const toEther = web3.utils.fromWei(getBestOffer.bestOfferPrice, "ether");
-                    setBestOffer(toEther);
-                    const uri = await axios.get(tokenUriData);
-                    console.log(uri);
-                    setDataURI((prev) => [...prev, uri]);
-                    console.log(dataURI);
-                }
+            const checkOwner = checkOutPieceOwnerRes;
+            if (checkOwner === true) {
+                const tokenUriData = await OGNFTContract.methods.tokenURI(tokenId).call();
+                const getBestOffer = await MarketContract.methods.currentPolls(tokenId).call();
+                const toEther = web3.utils.fromWei(getBestOffer.bestOfferPrice, "ether");
+                setBestOffer(toEther);
+                const uri = await axios.get(tokenUriData);
+                console.log(uri);
+                setDataURI((prev) => [...prev, uri]);
+                console.log(dataURI);
             }
         } catch (error) {
             console.log(error);
@@ -93,33 +81,36 @@ const VoteBox = ({ account }) => {
 
     return (
         <Box>
-            {dataURI ? (
+            {bestOffer > 0 ? (
                 <Box className=" bg-gray-500 lg:max-w-[800px] max-w-[460px] border rounded-md p-2">
                     <div>
                         {dataURI?.map((v, i) => {
                             return (
-                                <VoteNftCard
-                                    key={i}
-                                    value={v}
-                                    bestOffer={bestOffer}
-                                    selectedOption={selectedOption}
-                                    isSubmitted={isSubmitted}
-                                    handleSubmit={handleSubmit}
-                                    handleOptionClick={handleOptionClick}
-                                    isConfirmationOpen={isConfirmationOpen}
-                                    handleConfirmation={handleConfirmation}
-                                    account={account}
-                                    OGTokenId={OGTokenId}
-                                />
+                                <Box>
+                                    <VoteNftCard
+                                        key={i}
+                                        value={v}
+                                        bestOffer={bestOffer}
+                                        selectedOption={selectedOption}
+                                        isSubmitted={isSubmitted}
+                                        handleSubmit={handleSubmit}
+                                        handleOptionClick={handleOptionClick}
+                                        isConfirmationOpen={isConfirmationOpen}
+                                        handleConfirmation={handleConfirmation}
+                                        account={account}
+                                        OGTokenId={OGTokenId}
+                                    />
+                                </Box>
                             );
                         })}
                     </div>
                 </Box>
             ) : (
-                <Box className="flex flex-col justify-center items-center">
-                    <LuVote size={200} className=" text-red-600" />
+                <Box className="flex flex-col justify-center items-center border-4 rounded-md mt-4 mb-4 px-4">
+                    <LuVote size={180} className=" text-red-600" />
                     <Text className="font-[Tenada] text-lg">
-                        현재 진행중인 <sapn className="text-xl text-red-500">투표</sapn>가 없습니다.
+                        해당 상품의 <sapn className="text-xl text-red-500">투표</sapn>가 열리지
+                        않았습니다.
                     </Text>
                 </Box>
             )}

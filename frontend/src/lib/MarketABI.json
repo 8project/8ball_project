@@ -475,7 +475,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_index",
+        "name": "_tokenId",
         "type": "uint256"
       },
       {
