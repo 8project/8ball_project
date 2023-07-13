@@ -1,12 +1,5 @@
 [
   {
-    "inputs": [],
-    "name": "aaa",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "string",
@@ -73,50 +66,6 @@
     "type": "event"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "approve",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "changePieceToEth",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "distributePiece",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -136,6 +85,55 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "name": "CheckOutPieceOwner",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -149,52 +147,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "OG",
+    "outputs": [
       {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getBestOffer",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_OGContractAddress",
+        "internalType": "contract ERC721",
+        "name": "",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_OGTokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_price",
-        "type": "uint256"
       }
     ],
-    "name": "listForSale",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "offering",
-    "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -231,9 +193,448 @@
         "type": "uint256"
       }
     ],
+    "name": "OGListForSale_buyerList",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "OGNftList",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "OGContractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "OGTokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "TESTMint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "TESTburnNFT",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "URI",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "aaa",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "changePieceToEth",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "currentPolls",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "OGNft_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "by",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "bestOfferPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pros",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "cons",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "distributePiece",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getApproved",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getBestOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "getMyNftTokenId_Piece",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOGNftList_price",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOfferAccount",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOfferAmount",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getVotedAddressList",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "isApprovedForAll",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_OGContractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_OGTokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_price",
+        "type": "uint256"
+      }
+    ],
+    "name": "listForSale",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "offerList",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "OGNft_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "offering",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
     "name": "overDuration",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownerOf",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -349,449 +750,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "TESTburnNFT",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "TESTMint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "trackingBestOffer",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "Transfer",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "transferFrom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "voteResult",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      }
-    ],
-    "name": "CheckOutPieceOwner",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "currentPolls",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "OGNft_tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "by",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "bestOfferPrice",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "pros",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "cons",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getApproved",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_user",
-        "type": "address"
-      }
-    ],
-    "name": "getMyNftTokenId_Piece",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getOfferAccount",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getOfferAmount",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getOGNftList_price",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "getVotedAddressList",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "operator",
-        "type": "address"
-      }
-    ],
-    "name": "isApprovedForAll",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "name",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "offerList",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "OGNft_tokenId",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "OG",
-    "outputs": [
-      {
-        "internalType": "contract ERC721",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_index",
-        "type": "uint256"
-      }
-    ],
-    "name": "OGListForSale_buyerList",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "OGNftList",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "seller",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "OGContractAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "OGTokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "ownerOf",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "bytes4",
         "name": "interfaceId",
         "type": "bytes4"
@@ -897,16 +855,45 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "URI",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
+        "internalType": "uint256",
+        "name": "_index",
+        "type": "uint256"
       }
     ],
-    "stateMutability": "view",
+    "name": "trackingBestOffer",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -926,6 +913,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "voteResult",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]
