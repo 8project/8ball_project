@@ -17,7 +17,6 @@ import {
   OGNFTContract,
 } from "../../lib/web3.config";
 import axios from "axios";
-import { LuVote } from "react-icons/lu";
 import VoteNftCard from "./voteNftCard";
 import Web3 from "web3";
 
@@ -73,22 +72,27 @@ const VoteBox = ({ account }) => {
           .CheckOutPieceOwner(i, account)
           .call();
         const checkOwner = checkOutPieceOwnerRes;
+
         if (checkOwner === true) {
           const tokenUriData = await OGNFTContract.methods.tokenURI(i).call();
-          const getBestOffer = await MarketContract.methods.currentPolls(i).call();
-          const toEther = web3.utils.fromWei(getBestOffer.bestOfferPrice ,"ether");
+          const getBestOffer = await MarketContract.methods
+            .currentPolls(i)
+            .call();
+          const toEther = web3.utils.fromWei(
+            getBestOffer.bestOfferPrice,
+            "ether"
+          );
           setBestOffer(toEther);
           const uri = await axios.get(tokenUriData);
           console.log(uri);
           setDataURI((prev) => [...prev, uri]);
+          console.log(dataURI);
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-  
 
   useEffect(() => {
     getMyNftTokenIds_OG();
@@ -103,8 +107,8 @@ const VoteBox = ({ account }) => {
           {dataURI?.map((v, i) => {
             return (
               <VoteNftCard
-                v={v}
-                i={v}
+                key={i}
+                value={v}
                 bestOffer={bestOffer}
                 selectedOption={selectedOption}
                 isSubmitted={isSubmitted}
@@ -112,15 +116,15 @@ const VoteBox = ({ account }) => {
                 handleOptionClick={handleOptionClick}
                 isConfirmationOpen={isConfirmationOpen}
                 handleConfirmation={handleConfirmation}
-                account = {account}
-                OGTokenId ={OGTokenId}
+                account={account}
+                OGTokenId={OGTokenId}
               />
             );
           })}
         </div>
       </Box>
 
-      {/* : (
+      {/*) : (
                     <Box className="flex flex-col justify-center items-center">
                         <LuVote size={256} className=" text-red-600" />
                         <Text className="font-[Tenada] text-lg">

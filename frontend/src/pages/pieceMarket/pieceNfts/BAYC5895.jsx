@@ -38,9 +38,9 @@ const BAYC5895 = ({ num, pieceTokenListArray }) => {
     // useEffect(() => {
     //     console.log(pieceTokenListArray[0]);
     // }, pieceTokenListArray);
-    useEffect(() => {
-        console.log(pieceTokenListArray?.includes(pieceDatas?.edition));
-    }, [pieceTokenListArray]);
+    // useEffect(() => {
+    //     console.log(pieceTokenListArray?.includes(pieceDatas?.edition));
+    // }, [pieceTokenListArray]);
 
     return (
         <Box>
@@ -56,7 +56,7 @@ const BAYC5895 = ({ num, pieceTokenListArray }) => {
                     src={pieceDatas?.image}
                     className={`${
                         pieceTokenListArray?.includes(pieceDatas?.edition) === true
-                            ? "cursor-pointer hover:scale-110"
+                            ? "cursor-pointer hover:scale-110 hover:rounded-md"
                             : "opacity-20 "
                     }`}
                 />

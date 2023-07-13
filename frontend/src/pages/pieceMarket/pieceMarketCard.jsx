@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Button } from "@chakra-ui/react";
 import BAYC5895 from "./pieceNfts/BAYC5895";
 import { useEffect, useState } from "react";
 import { MarketContract, PieceMarketContractAddress } from "../../lib/web3.config";
@@ -7,8 +7,8 @@ import axios from "axios";
 const PieceMarketCard = ({ baseId, account }) => {
     const [a, setA] = useState();
     const [pieceData, setPieceData] = useState();
-    const [pieceTokenListArray, setPieceTokenListArray] = useState([]);
-    const [rangePiece, setRangePiece] = useState();
+    const [pieceTokenListArray, setPieceTokenListArray] = useState();
+    const [rangePiece, setRangePiece] = useState([]);
 
     const imgNum = [];
     const getRange = () => {
@@ -37,6 +37,8 @@ const PieceMarketCard = ({ baseId, account }) => {
                 return Number(v);
             });
             setPieceTokenListArray(pieceMarketTokenArray);
+
+            for (let i = 0; i < pieceMarketTokenArray.length; i++) {}
         } catch (error) {
             console.log(error);
         }
@@ -58,6 +60,10 @@ const PieceMarketCard = ({ baseId, account }) => {
         getRange();
     }, []);
 
+    useEffect(() => {
+        console.log(rangePiece);
+    }, [rangePiece]);
+
     //   useEffect(() => {
     //     console.log(a);
     //   }, [imgNum]);
@@ -68,38 +74,50 @@ const PieceMarketCard = ({ baseId, account }) => {
     useEffect(() => {
         getPieceURI();
         getMyNftTokenId_Pieces();
-        checkOutListPieceTokenId();
     }, []);
 
     useEffect(() => {
-        console.log(rangePiece);
-    }, [rangePiece]);
+        checkOutListPieceTokenId();
+    }, [pieceTokenListArray]);
 
     return (
-        <Box className="mt-10 flex flex-col justify-center items-center">
-            <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
-                {a?.map((num) => {
-                    return (
+        <Box>
+            {a ? (
+                <Box className="mt-10 flex flex-col justify-center items-center">
+                    <Box className="grid grid-cols-5 gap-1 lg:w-[512px] w-[256px] border">
+                        {a?.map((num) => {
+                            return (
+                                <Box>
+                                    <Box>
+                                        <BAYC5895
+                                            num={num}
+                                            pieceTokenListArray={pieceTokenListArray}
+                                        />
+                                    </Box>
+                                </Box>
+                            );
+                        })}
+                    </Box>
+                    <Box className="flex justify-between px-4 py-2 lg:w-[512px] w-[256px] bg-gray-100 rounded-b-md">
                         <Box>
-                            <Box>
-                                <BAYC5895 num={num} pieceTokenListArray={pieceTokenListArray} />
-                            </Box>
+                            <Text className="font-semibold">
+                                {pieceData?.name} #{a?.[0]}~#{a?.[19]}
+                            </Text>
+                            <Text className=" text-blue-500">Total Piece: 20</Text>
                         </Box>
-                    );
-                })}
-            </Box>
-            <Box className="flex justify-between px-4 py-2 lg:w-[512px] w-[256px] bg-gray-100 rounded-b-md">
+                        <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
+                            <Text className="font-semibold">Sales list</Text>
+                            <Text>{rangePiece?.length}/20</Text>
+                        </Box>
+                    </Box>
+                </Box>
+            ) : (
                 <Box>
-                    <Text className="font-semibold">
-                        {pieceData?.name} #{a?.[0]}~#{a?.[19]}
-                    </Text>
-                    <Text className=" text-blue-500">Total Piece: 20</Text>
+                    <Button isLoading loadingText="Loading" colorScheme="blue" variant="outline">
+                        Loading
+                    </Button>
                 </Box>
-                <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
-                    <Text className="font-semibold">Sales list</Text>
-                    <Text>{rangePiece?.length}/20</Text>
-                </Box>
-            </Box>
+            )}
         </Box>
     );
 };

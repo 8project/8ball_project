@@ -6,11 +6,11 @@ import Web3 from "web3";
 const web3 = new Web3(window.ethereum);
 
 export const OGNFTContractAddress =
-  "0x86e2406337aae18Dc3B9F63CcfABf1E64F2b06bC";
+  "0x3F206801963c396508CaF50D04EEe724d5fB2183";
 export const MarketContractAddress =
-  "0x0E7c86373d392C20cdB3A04CE6749d7a0cD4D1b5";
+  "0xCadd9175D5d9b3997619f8206dd847729AC6Faa3";
 export const PieceMarketContractAddress =
-  "0x470AEf367085315b0d42bCd3c40b37dd94B12aF9";
+  "0xd861f1914ECDb8fEFA2CadFaE9dE722171EbCEe7";
 
 export const OGNFTContract = new web3.eth.Contract(
   OGNftABI,
