@@ -47,6 +47,7 @@ const VoteBox = ({ account }) => {
         }
     };
 
+    console.log(dataURI);
     //===================================================================================
 
     //Funding이 완료된 index의 ogTokenId를 불러오기
