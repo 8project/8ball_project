@@ -76,10 +76,14 @@ const PieceNftModal = ({ num, pieceTokenListArray, account, rangePiece }) => {
       <Box>
         <Image
           onClick={
-            pieceTokenListArray?.includes(pieceDatas?.edition) === true
-              ? onOpen
-              : (e) => {
-                  e.preventDefault();
+            account
+              ? pieceTokenListArray?.includes(pieceDatas?.edition) === true
+                ? onOpen
+                : (e) => {
+                    e.preventDefault();
+                  }
+              : () => {
+                  alert("Need to Connect Metamask");
                 }
           }
           src={pieceDatas?.image}
