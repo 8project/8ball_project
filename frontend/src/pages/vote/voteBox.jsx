@@ -118,8 +118,8 @@ const VoteBox = ({ account, tokenId }) => {
         <Box className="flex flex-col justify-center items-center">
           <LuVote size={200} className=" text-red-600" />
           <Text className="font-[Tenada] text-lg">
-            현재 진행중인 <sapn className="text-xl text-red-500">투표</sapn>가
-            없습니다.
+            해당 상품의 <sapn className="text-xl text-red-500">투표</sapn>가
+            열리지 않았습니다.
           </Text>
         </Box>
       )}
