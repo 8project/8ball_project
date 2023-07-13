@@ -78,89 +78,101 @@ const InProgress = ({ account }) => {
     console.log(dataURI);
 
     return (
-        <Box className="mt-[82px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
-            {dataURI.length > 0 ? (
-                <Box>
-                    {dataURI?.map((v, i) => {
-                        return (
-                            <Box key={i}>
-                                <Box>
-                                    <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
-                                        <Image src={v.data.image} alt="NFT" w={"256px"} />
-                                        <Box className="bg-gray-100 w-full px-4 py-2">
-                                            <Box className="flex flex-col justify-center items-center">
-                                                <Box className="flex flex-col items-start text-start">
-                                                    <Text>{v.data.name}</Text>
-                                                </Box>
-                                                <Accordion allowMultiple>
-                                                    <AccordionItem>
-                                                        <h2>
-                                                            <AccordionButton>
-                                                                <Box
-                                                                    as="span"
-                                                                    flex="1"
-                                                                    textAlign="left"
-                                                                >
-                                                                    <Box className="flex">
-                                                                        <BiDetail className="mt-1 mr-1" />
-                                                                        Details
+        <Box className="mt-[60px] mb-[72px] lg:max-w-[800px] max-w-[460px]">
+            <Text className="text-center mt-10 font-[Tenada]  lg:text-xl text-md">
+                My Piece NFT
+            </Text>
+            <Box className="mt-4 flex flex-cols justify-center items-center border rounded-md px-4 py-2">
+                <Text className="font-[Tenada]">
+                    현재 진행중인 <span className="text-blue-600">Funding</span>내역 입니다.
+                </Text>
+            </Box>
+            <Box className="mt-4">
+                {dataURI.length > 0 ? (
+                    <Box className="grid lg:grid-cols-2 gap-14">
+                        {dataURI?.map((v, i) => {
+                            return (
+                                <Box key={i}>
+                                    <Box>
+                                        <Box className="flex flex-col justify-center items-center border rounded-md mb-10 ">
+                                            <Image src={v.data.image} alt="NFT" w={"256px"} />
+                                            <Box className="bg-gray-100 w-full px-4 py-2">
+                                                <Box className="flex flex-col justify-center items-center">
+                                                    <Box className="flex flex-col items-start text-start">
+                                                        <Text>{v.data.name}</Text>
+                                                    </Box>
+                                                    <Accordion allowMultiple>
+                                                        <AccordionItem>
+                                                            <h2>
+                                                                <AccordionButton>
+                                                                    <Box
+                                                                        as="span"
+                                                                        flex="1"
+                                                                        textAlign="left"
+                                                                    >
+                                                                        <Box className="flex">
+                                                                            <BiDetail className="mt-1 mr-1" />
+                                                                            Details
+                                                                        </Box>
+                                                                    </Box>
+                                                                    <AccordionIcon />
+                                                                </AccordionButton>
+                                                            </h2>
+                                                            <AccordionPanel pb={4}>
+                                                                <Box className="text-xs" key={i}>
+                                                                    <Box className="font-bold">
+                                                                        {v.data.description} #
+                                                                        {v.data.edition}:{" "}
+                                                                    </Box>
+                                                                    <Box>
+                                                                        {v.data?.attributes.map(
+                                                                            (val, i) => (
+                                                                                <Flex
+                                                                                    key={i}
+                                                                                    alignItems="center"
+                                                                                    mt={1}
+                                                                                >
+                                                                                    <Text
+                                                                                        fontWeight="bold"
+                                                                                        mr={2}
+                                                                                    >
+                                                                                        {
+                                                                                            val.trait_type
+                                                                                        }
+                                                                                        :
+                                                                                    </Text>
+                                                                                    <Badge
+                                                                                        colorScheme="blue"
+                                                                                        fontSize="xs"
+                                                                                    >
+                                                                                        {val.value}
+                                                                                    </Badge>
+                                                                                </Flex>
+                                                                            )
+                                                                        )}
                                                                     </Box>
                                                                 </Box>
-                                                                <AccordionIcon />
-                                                            </AccordionButton>
-                                                        </h2>
-                                                        <AccordionPanel pb={4}>
-                                                            <Box className="text-xs" key={i}>
-                                                                <Box className="font-bold">
-                                                                    {v.data.description} #
-                                                                    {v.data.edition}:{" "}
-                                                                </Box>
-                                                                <Box>
-                                                                    {v.data?.attributes.map(
-                                                                        (val, i) => (
-                                                                            <Flex
-                                                                                key={i}
-                                                                                alignItems="center"
-                                                                                mt={1}
-                                                                            >
-                                                                                <Text
-                                                                                    fontWeight="bold"
-                                                                                    mr={2}
-                                                                                >
-                                                                                    {val.trait_type}
-                                                                                    :
-                                                                                </Text>
-                                                                                <Badge
-                                                                                    colorScheme="blue"
-                                                                                    fontSize="xs"
-                                                                                >
-                                                                                    {val.value}
-                                                                                </Badge>
-                                                                            </Flex>
-                                                                        )
-                                                                    )}
-                                                                </Box>
-                                                            </Box>
-                                                        </AccordionPanel>
-                                                    </AccordionItem>
-                                                </Accordion>
-                                                <Button colorScheme="blue" className="mt-2">
-                                                    minted
-                                                </Button>
+                                                            </AccordionPanel>
+                                                        </AccordionItem>
+                                                    </Accordion>
+                                                    <Button colorScheme="blue" className="mt-2">
+                                                        minted
+                                                    </Button>
+                                                </Box>
                                             </Box>
                                         </Box>
                                     </Box>
                                 </Box>
-                            </Box>
-                        );
-                    })}
-                </Box>
-            ) : (
-                <Box className="flex justify-center items-center text-center mt-60">
-                    <CgPlayListRemove size={100} className="text-red-500 mt-1" />
-                    <Text className="text-xl font-[Tenada] ">진행중인 Funding이 없습니다.</Text>
-                </Box>
-            )}
+                            );
+                        })}
+                    </Box>
+                ) : (
+                    <Box className="flex justify-center items-center text-center mt-40">
+                        <CgPlayListRemove size={100} className="text-red-500 mt-1" />
+                        <Text className="text-xl font-[Tenada] ">진행중인 Funding이 없습니다.</Text>
+                    </Box>
+                )}
+            </Box>
         </Box>
     );
 };
