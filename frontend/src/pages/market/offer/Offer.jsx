@@ -12,6 +12,7 @@ const web3 = new Web3(window.ethereum);
 const Offer = ({ account }) => {
   const [fundingComplete, setFundingComplete] = useState([]);
 
+  var A = [];
   const getNftMetadata = async () => {
     try {
       const response = await OGNFTContract.methods
@@ -27,9 +28,10 @@ const Offer = ({ account }) => {
           .OGListForSale_buyerList(j)
           .call();
         if (response.length == 20) {
-          setFundingComplete((prev) => [...prev, j]);
+          A.push(j);
         }
       }
+      setFundingComplete(A);
     } catch (error) {
       console.error(error);
     }
