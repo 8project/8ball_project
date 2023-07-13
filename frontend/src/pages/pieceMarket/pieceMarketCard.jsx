@@ -8,7 +8,7 @@ const PieceMarketCard = ({ baseId, account }) => {
     const [a, setA] = useState();
     const [pieceData, setPieceData] = useState();
     const [pieceTokenListArray, setPieceTokenListArray] = useState();
-    const rangePiece = [];
+    const [rangePiece, setRangePiece] = useState([]);
 
     const imgNum = [];
     const getRange = () => {
@@ -37,6 +37,8 @@ const PieceMarketCard = ({ baseId, account }) => {
                 return Number(v);
             });
             setPieceTokenListArray(pieceMarketTokenArray);
+
+            for (let i = 0; i < pieceMarketTokenArray.length; i++) {}
         } catch (error) {
             console.log(error);
         }
@@ -51,13 +53,16 @@ const PieceMarketCard = ({ baseId, account }) => {
                 listPieceNum.push(pieceTokenListArray[k]);
             }
         }
-        rangePiece.push(listPieceNum);
-        console.log(listPieceNum);
+        setRangePiece(listPieceNum);
     };
 
     useEffect(() => {
         getRange();
     }, []);
+
+    useEffect(() => {
+        console.log(rangePiece);
+    }, [rangePiece]);
 
     //   useEffect(() => {
     //     console.log(a);
@@ -99,7 +104,7 @@ const PieceMarketCard = ({ baseId, account }) => {
                         </Box>
                         <Box className="flex flex-col justify-end items-end lg:text-sm text-xs">
                             <Text className="font-semibold">Sales list</Text>
-                            <Text>{pieceTokenListArray?.length}/20</Text>
+                            <Text>{rangePiece?.length}/20</Text>
                         </Box>
                     </Box>
                 </Box>
