@@ -38,6 +38,7 @@ const VoteNftCard = ({
 }) => {
   const [voted, setVoted] = useState();
   const [inputValue, setInputValue] = useState();
+  const [tiket, setTiket] = useState();
   console.log(voted);
 
   // const [downVoted, setDownVoted] = useState(false);
@@ -99,6 +100,30 @@ const VoteNftCard = ({
     }
   };
 
+  const getTiketAmount = async () => {
+    try {
+      const response = await MarketContract.methods
+        .userNumberOfCanVote(value.data.edition)
+        .call({ from: account });
+      setTiket(Number(response));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTiketAmount();
+  }, []);
+
+  // const onClickStartBatchVote = async () => {
+  //   try {
+  //     const response = await MarketContract.methods.startBatchVote(value.data.edition,voted,/* 사용하고 싶은 tiket수 */ ).send({from: account})
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   return (
     <Box>
       <Card className="lg:max-w-[800px] max-w-[460px] flex justify-center items-center mb-4 bg-gray-200 pb-12 pl-10 pr-10">
@@ -110,7 +135,7 @@ const VoteNftCard = ({
               alt="pieceNft"
               className="w-20 h-20"
             />
-            <div> Avalival Ticket : </div>
+            <div> Avalival Ticket : {tiket}</div>
           </Box>
           <Box className="m-2 p-1 text-center">
             <Box className="text-blue-500">Offer Price</Box>
