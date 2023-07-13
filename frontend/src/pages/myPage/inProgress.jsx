@@ -158,7 +158,7 @@ const InProgress = ({ account }) => {
             ) : (
                 <Box className="flex justify-center items-center text-center mt-60">
                     <CgPlayListRemove size={100} className="text-red-500 mt-1" />
-                    <Text className="text-xl font-[Tenada] ">현재 진행중인 내용이 없습니다.</Text>
+                    <Text className="text-xl font-[Tenada] ">진행중인 Funding이 없습니다.</Text>
                 </Box>
             )}
         </Box>
