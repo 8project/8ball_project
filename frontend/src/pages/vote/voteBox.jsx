@@ -106,7 +106,7 @@ const VoteBox = ({ account, tokenId }) => {
                     </div>
                 </Box>
             ) : (
-                <Box className="flex flex-col justify-center items-center border-4 rounded-md mt-4 mb-4">
+                <Box className="flex flex-col justify-center items-center border-4 rounded-md mt-4 mb-4 px-4">
                     <LuVote size={180} className=" text-red-600" />
                     <Text className="font-[Tenada] text-lg">
                         해당 상품의 <sapn className="text-xl text-red-500">투표</sapn>가 열리지
