@@ -172,8 +172,7 @@ contract Market is ERC721Enumerable {
     */
      mapping(uint => offer) public offerList;
 
-    function CheckOutPieceOwner(uint _index, address _owner) public view returns(bool) {
-        uint _tokenId = OGNftList[_index].OGTokenId;
+    function CheckOutPieceOwner(uint _tokenId, address _owner) public view returns(bool) {
         for (uint i=20*_tokenId-19; i<=20*_tokenId; i++) {
             if(ownerOf(i) == _owner) {
                 return true;
