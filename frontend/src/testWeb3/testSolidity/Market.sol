@@ -81,7 +81,7 @@ contract Market is ERC721Enumerable {
 
     function OGBatchFunding(uint _index) public payable { 
          require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-         require(msg.value >= OGNftList[_index].price - 1);
+         require(msg.value >= OGNftList[_index].price);
         for(uint i=0; i<19; i++){
             OGNftList[_index].buyer.push(msg.sender); 
         }
