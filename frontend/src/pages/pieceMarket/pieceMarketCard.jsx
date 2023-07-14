@@ -1,10 +1,10 @@
 import { Box, Text, Button } from "@chakra-ui/react";
-import BAYC5895 from "./pieceNfts/BAYC5895";
+import PieceNftModal from "./pieceNfts/PieceNftModal";
 import { useEffect, useState } from "react";
 import {
   MarketContract,
   PieceMarketContractAddress,
-  PieceMarketContract,
+  OGNFTContract,
 } from "../../lib/web3.config";
 import axios from "axios";
 import Web3 from "web3";
@@ -16,7 +16,6 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
   const [pieceData, setPieceData] = useState();
   const [pieceTokenListArray, setPieceTokenListArray] = useState();
   const [rangePiece, setRangePiece] = useState([]);
-  const [price, setPrice] = useState(0);
 
   const imgNum = [];
   const getRange = () => {
@@ -26,25 +25,14 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
     setA(imgNum);
   };
 
-  const getPieceURI = async () => {
+  const getOGtokenURI = async () => {
     try {
-      const response = await MarketContract.methods.tokenURI(baseId).call();
+      const response = await OGNFTContract.methods.tokenURI(baseId).call();
 
       const pieceMetadata = await axios.get(response);
       setPieceData(pieceMetadata.data);
     } catch (error) {
       console.log(error);
-    }
-  };
-  const getPieceTokenURI = async () => {
-    try {
-      const priceResponse = await PieceMarketContract.methods
-        .PieceNftList(indexId)
-        .call();
-      console.log("priceResponse:", priceResponse);
-      setPrice(web3.utils.fromWei(Number(priceResponse.price), "ether"));
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -58,8 +46,6 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
         return Number(v);
       });
       setPieceTokenListArray(pieceMarketTokenArray);
-
-      for (let i = 0; i < pieceMarketTokenArray.length; i++) {}
     } catch (error) {
       console.log(error);
     }
@@ -79,8 +65,6 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
 
   useEffect(() => {
     getRange();
-    getPieceTokenURI();
-    console.log("price", price);
   }, []);
 
   useEffect(() => {
@@ -95,7 +79,7 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
   }, [pieceTokenListArray]);
 
   useEffect(() => {
-    getPieceURI();
+    getOGtokenURI();
     getMyNftTokenId_Pieces();
   }, []);
 
@@ -112,11 +96,11 @@ const PieceMarketCard = ({ baseId, account, indexId }) => {
               return (
                 <Box>
                   <Box>
-                    <BAYC5895
+                    <PieceNftModal
                       num={num}
                       pieceTokenListArray={pieceTokenListArray}
                       account={account}
-                      price={price}
+                      rangePiece={rangePiece}
                     />
                   </Box>
                 </Box>

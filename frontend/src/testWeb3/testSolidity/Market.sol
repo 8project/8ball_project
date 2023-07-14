@@ -76,22 +76,18 @@ contract Market is ERC721Enumerable {
 
          if (OGNftList[_index].buyer.length == 20) {
             distributePiece(_index);
-            FundingPriceToSeller(_index);
-
         }
     }
 
     function OGBatchFunding(uint _index) public payable { 
          require(OGNftList[_index].buyer.length < 20, "Financing is complete."); 
-         require(msg.value >= OGNftList[_index].price - 1);
+         require(msg.value >= OGNftList[_index].price);
         for(uint i=0; i<19; i++){
             OGNftList[_index].buyer.push(msg.sender); 
         }
 
        if (OGNftList[_index].buyer.length == 20) {
             distributePiece(_index);
-            FundingPriceToSeller(_index);
-        
         }
     }
    
@@ -184,7 +180,8 @@ contract Market is ERC721Enumerable {
 
     //가격 제안 
     function offering(uint _index) public payable {
-        offerList[_index].OGNft_tokenId = currentPolls[_index].OGNft_tokenId;
+        uint _tokenId = OGNftList[_index].OGTokenId;
+        offerList[_index].OGNft_tokenId = currentPolls[_tokenId].OGNft_tokenId;
         offerList[_index].account.push(msg.sender);
         offerList[_index].amount.push(msg.value);
     }
@@ -239,6 +236,10 @@ contract Market is ERC721Enumerable {
             currentPolls[_tokenId].cons++;
             currentPolls[_tokenId].votedAddressList.push(msg.sender);
         }
+
+        if(currentPolls[_tokenId].pros + currentPolls[_tokenId].cons == 20) {
+            voteResult(_tokenId);
+        }
     }
 
     function startBatchVote(uint _tokenId, bool _vote, uint _number) public {
@@ -257,6 +258,10 @@ contract Market is ERC721Enumerable {
             currentPolls[_tokenId].votedAddressList.push(msg.sender);
             }
         }
+
+        if(currentPolls[_tokenId].pros + currentPolls[_tokenId].cons == 20) {
+            voteResult(_tokenId);
+        }
     }
     
     function voteResult(uint _tokenId) public {
@@ -267,13 +272,16 @@ contract Market is ERC721Enumerable {
         } else {
             //_by에게 돈은 돌려주기 
             payable(currentPolls[_tokenId].by).transfer(currentPolls[_tokenId].bestOfferPrice);
+
+    
         }
     }
 
     function changePieceToEth(uint _tokenId) public {
-        payable(ownerOf(_tokenId)).transfer((currentPolls[_tokenId].bestOfferPrice)/20); 
-        _burn(_tokenId);
+            payable(ownerOf(_tokenId)).transfer((currentPolls[_tokenId].bestOfferPrice)/20);
+            _burn(_tokenId);
     }
+
     function TESTburnNFT(uint _tokenId) public {
         require(msg.sender == ownerOf(_tokenId), "Caller is not token owner.");
 

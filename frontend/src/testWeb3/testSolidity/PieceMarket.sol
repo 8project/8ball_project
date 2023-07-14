@@ -30,8 +30,6 @@ contract PieceMarket is ERC721Enumerable {
     event CancelSale(address sender, uint tokenId);
 
     mapping(uint => listPiece) public PieceNftList; 
-
-    uint private listingId = 1; 
     
     /*
     토큰 등록 
@@ -39,25 +37,25 @@ contract PieceMarket is ERC721Enumerable {
     function listPieceTokenForSale(uint _tokenId, uint _price) public {
         address owner = Market2.ownerOf(_tokenId);
         Market2.transferFrom(owner,address(this),_tokenId);
-        PieceNftList[listingId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
-        listingId++;
+        PieceNftList[_tokenId] = listPiece(pieceStatus.Active, msg.sender, _tokenId, _price);
     }
 
     /*
     토큰구매
     */
-    function buyPieceToken(uint _index) public payable {
+    function buyPieceToken(uint _tokenId) public payable {
         // require(PieceNftList[ _listingNum].status == pieceStatus.Active, "This NFT is not available");
         // require(msg.sender != PieceNftList[ _listingNum].seller, "Seller cannot buy");
         // require(msg.value >= PieceNftList[ _listingNum].price,"Insufficient payment");    
         //1. 돈받기
         msg.value;
         //2. nft주기
-        Market2.transferFrom(PieceNftList[_index].seller, msg.sender, PieceNftList[_index].tokenId);
+        Market2.transferFrom(address(this), msg.sender, PieceNftList[_tokenId].tokenId);
         //3. 돈 주기
-        payable(PieceNftList[_index].seller).transfer(PieceNftList[_index].price); 
+        payable(PieceNftList[_tokenId].seller).transfer(PieceNftList[_tokenId].price); 
 
-        PieceNftList[_index].status == pieceStatus.notActive;
+        PieceNftList[_tokenId].status == pieceStatus.notActive;
+        delete PieceNftList[_tokenId];
         // emit MoneyReceived(msg.sender, msg.value);
     }
     
@@ -66,13 +64,12 @@ contract PieceMarket is ERC721Enumerable {
     /*
     nft 판매 취소 
     */
-    function cancelSale(uint _index) public {
-        require(PieceNftList[_index].seller == msg.sender, "Only seller can cancel list");
-        require(PieceNftList[_index].status == pieceStatus.Active, "This Piece NFT is not on sale");
-        
-        delete PieceNftList[_index];
+    function cancelSale(uint _tokenId) public {
+        require(PieceNftList[_tokenId].seller == msg.sender, "Only seller can cancel list");
+        require(PieceNftList[_tokenId].status == pieceStatus.Active, "This Piece NFT is not on sale");
+        Market2.transferFrom(address(this), msg.sender, PieceNftList[_tokenId].tokenId);
+        delete PieceNftList[_tokenId];
         // emit CancelSale(msg.sender, PieceNftList[_listingNum].tokenId);
     }
-
-    
+ 
 }

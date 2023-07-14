@@ -32,7 +32,9 @@ const MyNftModal = ({ isOpen, onClose, tokenData, account, tokenId }) => {
     console.log(priceInWei);
     try {
       setProcessing(true);
-      const response = await MarketContract.methods.listForSale(OGNFTContractAddress, tokenId, priceInWei).send({ from: account });
+      const response = await MarketContract.methods
+        .listForSale(OGNFTContractAddress, tokenId, priceInWei)
+        .send({ from: account });
       console.log(response);
       onClose();
     } catch (error) {
@@ -87,7 +89,7 @@ const MyNftModal = ({ isOpen, onClose, tokenData, account, tokenId }) => {
             isDisabled={isProcessing}
             spinner={<Spinner size="sm" />}
           >
-            Offer
+            Sell
           </Button>
           <Button
             colorScheme="teal"

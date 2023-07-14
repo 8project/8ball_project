@@ -39,60 +39,45 @@ const VoteNftCard = ({
   const [voted, setVoted] = useState();
   const [inputValue, setInputValue] = useState();
   const [tiket, setTiket] = useState();
+  const [ticketCount, setTicketCount] = useState(0);
+
   console.log(voted);
 
-  // const [downVoted, setDownVoted] = useState(false);
-  /*
-  const [bools, setBools] =useState(true);
-
-  const onClickButton = () => {
-    setBools(true);
-  }
-  const onClickButton2 = () => {
-    setBools(false);
-  }
-
-   <form onSubmit={onSubmitStartVote}>
-          <div className="flex bg-purple-300">
-            <div>true</div>
-            <div className="ml-2 ">false</div>
-          </div>
-
-          <div className="bg-purple-300">
-            <input type="text" value={voteIndex} onChange={(e) => setVoteIndex(e.target.value)}></input>
-
-            <input onClick={onClickButton} type="checkbox"></input>
-            <input onClick={onClickButton2} type="checkbox"></input>
-            <button>  : 투표하기</button>
-          </div>
-        </form>
-
-        
-  */
-  // const handleUpVote = () => {
-  //   if (!isSubmitted) {
-  //     setVoted(true);
-  //     setDownVoted(false);
-  //     handleOptionClick("up");
-  //     console.log(upVoted);
-  //   }
-  // };
-
-  // const handleDownVote = () => {
-  //   if (!isSubmitted) {
-  //     setUpVoted(false);
-  //     setDownVoted(true);
-  //     handleOptionClick("down");
-  //     console.log(downVoted);
-  //   }
-  // };
   console.log(voted);
+
+  const handleMinus = () => {
+    if (ticketCount > 0) {
+      setTicketCount((prevCount) => prevCount - 1);
+    }
+  };
+
+  const handlePlus = () => {
+    setTicketCount((prevCount) => prevCount + 1);
+  };
 
   const onSubmitVote = async (e) => {
     e.preventDefault();
     try {
       const response = await MarketContract.methods
         .startVote(value.data.edition, voted)
+        .send({ from: account });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("ticketCount", ticketCount);
+  console.log("ticketCount", typeof ticketCount);
+
+  const onClickStartBatchVote = async () => {
+    try {
+      const response = await MarketContract.methods
+        .startBatchVote(
+          value.data.edition,
+          voted,
+          ticketCount
+          /* 사용하고 싶은 tiket수 */
+        )
         .send({ from: account });
       console.log(response);
     } catch (error) {
@@ -114,15 +99,6 @@ const VoteNftCard = ({
   useEffect(() => {
     getTiketAmount();
   }, []);
-
-  // const onClickStartBatchVote = async () => {
-  //   try {
-  //     const response = await MarketContract.methods.startBatchVote(value.data.edition,voted,/* 사용하고 싶은 tiket수 */ ).send({from: account})
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   return (
     <Box>
@@ -149,15 +125,14 @@ const VoteNftCard = ({
             <Box className="text-blue-500">Vote</Box>
             <Box>
               <form
-                onSubmit={
-                  onSubmitVote
-                  //   voted === "up" || voted === "down"
-                  //     ? onSubmitVote
-                  //     : (e) => {
-                  //         e.preventDefault();
-                  //         alert("check vote");
-                  //       }
-                }
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (voted === undefined) {
+                    alert("Please select an option");
+                  } else {
+                    onSubmitVote(e);
+                  }
+                }}
               >
                 <Box className="flex items-center mt-2">
                   <input
@@ -193,6 +168,33 @@ const VoteNftCard = ({
                   >
                     Submit
                   </Button>
+                  <Box className="flex items-center justify-center mt-4">
+                    <Button
+                      variant="outline"
+                      onClick={handleMinus}
+                      disabled={isSubmitted}
+                    >
+                      -
+                    </Button>
+                    <Text className="mx-2">{ticketCount}</Text>
+                    <Button
+                      variant="outline"
+                      onClick={handlePlus}
+                      disabled={isSubmitted}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      type="submit"
+                      onSubmit={onClickStartBatchVote}
+                      className={`text-white m-1 p-1 rounded-md ${
+                        isSubmitted ? "disabled" : "bg-blue-500"
+                      }`}
+                      disabled={isSubmitted}
+                    >
+                      Batch Submit
+                    </Button>
+                  </Box>
                 </Box>
               </form>
             </Box>
